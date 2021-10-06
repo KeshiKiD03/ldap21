@@ -1,0 +1,59 @@
+# Para borrar
+dn: cn=Anna Pou,ou=usuaris,dc=edt,dc=org
+objectclass: posixAccount
+objectclass: inetOrgPerson
+cn: Anna Pou
+cn: Anita Pou
+sn: Pou
+homephone: 555-222-2222
+mail: anna@edt.org
+description: Watch out for this girl
+ou: Alumnes
+uid: anna
+uidNumber: 5002
+gidNumber: 600
+homeDirectory: /tmp/home/anna
+userPassword: {SSHA}Bm4B3Bu/fuH6Bby9lgxfFAwLYrK0RbOq
+
+dn: ou=usuaris,dc=edt,dc=org
+ou: usuaris
+description: Container per usuaris del sistema linux
+objectclass: organizationalunit
+
+dn: cn=Pau Pou,ou=usuaris,dc=edt,dc=org
+objectclass: posixAccount
+objectclass: inetOrgPerson
+cn: Pau Pou
+cn: Pauet Pou
+sn: Pou
+homephone: 555-222-2220
+mail: pau@edt.org
+description: Watch out for this guy
+ou: Profes
+uid: pau
+uidNumber: 5000
+gidNumber: 100
+homeDirectory: /tmp/home/pau
+userPassword: {SSHA}NDkipesNQqTFDgGJfyraLz/csZAIlk2/
+
+dn: ou=usuaris,dc=edt,dc=org
+ou: usuaris
+description: Container per usuaris del sistema linux
+objectclass: organizationalunit
+
+dn: cn=Koman Al-Carrer,ou=usuaris,dc=edt,dc=org
+objectclass: posixAccount
+objectclass: inetOrgPerson
+cn: Kuman Al-Carrer
+cn: Koem
+sn: Kuman
+homephone: 505-222-2220
+mail: koman@edt.org
+description: Watch out for this guy
+ou: Profes
+uid: koman
+uidNumber: 7777
+gidNumber: 7777
+homeDirectory: /tmp/home/koeman
+
+

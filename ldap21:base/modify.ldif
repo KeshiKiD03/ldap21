@@ -1,0 +1,4 @@
+# Exemple de modificacions
+
+dc: cn=Pau Pou,ou=usuaris,dc=edt,dc=org
+changetype: 
