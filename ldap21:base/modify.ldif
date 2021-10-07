@@ -1,4 +1,30 @@
 # Exemple de modificacions
 
-dc: cn=Pau Pou,ou=usuaris,dc=edt,dc=org
-changetype: 
+dn: cn=Pau Pou,ou=usuaris,dc=edt,dc=org
+changetype: modify
+add: homephone
+homephone: 555-888-123
+-
+replace: mail
+mail: paupou@edt.org
+-
+delete: description
+
+dn: cn=Anna Pou,ou=usuaris,dc=edt,dc=org
+changetype: delete
+
+dn: cn=Pere Pou,ou=usuaris,dc=edt,dc=org
+changetype: modify
+replace: sn
+sn: perico
+-
+delete: homephone
+-
+add: description
+description: els per
+
+dn: cn=Perico Pou,ou=usuaris,dc=edt,dc=org
+changetype: modrdn
+newrdn: cn=Pererico Pou
+deleteoldrdn: 1
+
