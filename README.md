@@ -1,3 +1,9 @@
+# LDAP server
+## @edt ASIX M06-ASO Curs 2021-2022
+
+### Ldap servers:
+
+ * **edtasixm06/ldap21:base** Server bàsic ldap, amb base de dades edt.org.
 # LDAP Server
 ## @edt ASIX M06-ASO 2021-2022
 ### Servidor LDAP (Debian 11)
@@ -100,4 +106,3 @@ propagar port= vincular port de container amb port de la maquina real/servidor
 
 0.0.0.0:389 totes les maquines de l'orinador tindran obert port 389
 ```
-
