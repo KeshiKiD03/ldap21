@@ -19,7 +19,7 @@ S'ha fet el següent:
 * Configurar el password de Manager que sigui 'secret' pero encriptat (posar-hi) un comentari per indicar quien es de cara a estudiar).
 * Afegir el fitxer de configuració client.
 * Propagar el port amb -p -P
-* editar els dos READMY, en el general afegir que tenim una nova imagetge. En el de la imatge ldap21:editat descriure els canvis i les ordres per posar-lo en marxa.
+* Editar els dos README, en el general afegir que tenim una nova imagetge. En el de la imatge ldap21:editat descriure els canvis i les ordres per posar-lo en marxa.
 
 
 
