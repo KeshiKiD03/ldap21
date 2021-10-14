@@ -1,4 +1,4 @@
-# Exemple de modificar per passwd
+# Exemple de modificar passwd
 
 dn: cn=Anna Pou,ou=usuaris,dc=edt,dc=org
 changetype: add
@@ -15,5 +15,6 @@ uid: anna
 uidNumber: 5002
 gidNumber: 600
 homeDirectory: /tmp/home/anna
-userPassword: {SSHA}B7ro4gAEDoW0WI6NtbQDuvQmQG5aUNKr
+userPassword: {SSHA}vJ/n/LtC0ffsz3hMe8u1ojqwSJH44rfD
+
 

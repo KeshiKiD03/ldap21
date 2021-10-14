@@ -1,3 +1,9 @@
+# LDAP server
+## @edt ASIX M06-ASO Curs 2021-2022
+
+### Ldap servers:
+
+ * **edtasixm06/ldap21:base** Server bàsic ldap, amb base de dades edt.org.
 # LDAP Server
 ## @edt ASIX M06-ASO 2021-2022
 ### Servidor LDAP (Debian 11)
@@ -10,6 +16,8 @@ ASIX M06-ASO Escola del treball de barcelona
 
 
  * **edtasixm06/ldap21:base** Servidor LDAP base inicial amb la base de dades edt.org
+ 
+ * **edtasixm06/ldap21:editat** Imatge base amb modificacions: dn amb uid.
 
 Crear una xarxa
 ```

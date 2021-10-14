@@ -1,4 +1,7 @@
-# Para borrar
+# exemple de dades a afegir
+# ldapadd -x -c  -h 172.17.0.2 -D "cn=Manager,dc=edt,dc=org" -w secret -f afegir.ldif
+# 
+
 dn: cn=Anna Pou,ou=usuaris,dc=edt,dc=org
 objectclass: posixAccount
 objectclass: inetOrgPerson
@@ -14,11 +17,6 @@ uidNumber: 5002
 gidNumber: 600
 homeDirectory: /tmp/home/anna
 userPassword: {SSHA}Bm4B3Bu/fuH6Bby9lgxfFAwLYrK0RbOq
-
-dn: ou=usuaris,dc=edt,dc=org
-ou: usuaris
-description: Container per usuaris del sistema linux
-objectclass: organizationalunit
 
 dn: cn=Pau Pou,ou=usuaris,dc=edt,dc=org
 objectclass: posixAccount
@@ -36,24 +34,15 @@ gidNumber: 100
 homeDirectory: /tmp/home/pau
 userPassword: {SSHA}NDkipesNQqTFDgGJfyraLz/csZAIlk2/
 
-dn: ou=usuaris,dc=edt,dc=org
-ou: usuaris
-description: Container per usuaris del sistema linux
-objectclass: organizationalunit
 
-dn: cn=Koman Al-Carrer,ou=usuaris,dc=edt,dc=org
+dn: cn=koman al-carrer,ou=usuaris,dc=edt,dc=org
 objectclass: posixAccount
 objectclass: inetOrgPerson
-cn: Kuman Al-Carrer
-cn: Koem
-sn: Kuman
-homephone: 505-222-2220
-mail: koman@edt.org
-description: Watch out for this guy
-ou: Profes
+cn: koamn al-carrer
+sn: koman
 uid: koman
-uidNumber: 7777
-gidNumber: 7777
+uidNumber: 777777
+gidNumber: 777777
 homeDirectory: /tmp/home/koeman
 
 

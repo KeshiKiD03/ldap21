@@ -1,5 +1,3 @@
-# Modificación 2 de Jordi Mas
-
 dn: cn=Jordi Mas,ou=usuaris,dc=edt,dc=org
 changetype: modify
 add: mail
@@ -8,4 +6,4 @@ mail: patim@edt.org
 dn: cn=Marta Mas,ou=usuaris,dc=edt,dc=org
 changetype: modify
 add: homephone
-homephone: 555-798-465
+homephone: 555-123-123
