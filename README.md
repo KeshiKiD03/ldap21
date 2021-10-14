@@ -29,7 +29,7 @@ Crear un docker per un Dockerfile
 docker build -t edtasixm06/ldap21:base .
 ```
 
-Fer correr un container amb una network
+Executar un container amb una network
 ```
 docker run --rm --name ldap.edt.org -h ldap.edt.org --net hisx2 -d edtasixm06/ldap21:base
 ```
