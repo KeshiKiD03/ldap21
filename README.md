@@ -15,29 +15,83 @@ Podeu trobar la documentació del mòdul a [ASIX-M06](https://sites.google.com/s
 ASIX M06-ASO Escola del treball de barcelona
 
 
- * **edtasixm06/ldap21:base** Servidor LDAP base inicial amb la base de dades edt.org
+ * **keshikid03/ldap21:base** Servidor LDAP base inicial amb la base de dades edt.org
  
- * **edtasixm06/ldap21:editat** Imatge base amb modificacions: dn amb uid.
+ * **keshikid03/ldap21:editat** Imatge base amb modificacions: dn amb uid.
 
-Crear una xarxa
+ * **keshikid03/ldap21:schema** Imatge base amb modificacions de Schemes i Objectes Estructurals
+
+
+**DOCKER**
+
+Crear una imatge de Docker DEBIAN:LATEST en mode Interactiu
 ```
-docker network create hisx2
+docker run --rm --name debianKeshi -h debianKeshi -it debian:latest /bin/bash
+```
+
+Crear una imatge Docker DEBIAN:LATEST en mode Detach (Background)
+```
+docker run --rm --name debianKeshi -h debianKeshi -d debian:latest /bin/bash
+```
+
+Mostrar les imatges de Docker
+```
+docker images
+```
+
+Mostrar els containers de Docker (All)
+```
+docker container ls -la
+```
+
+Mostrar els processos actius de Docker
+```
+docker ps
+```
+
+Creear una xarxa
+```
+docker network create 2hisx
+```
+
+Inspeccionar una xarxa de Docker
+```
+docker network inspect 2hisx
+```
+
+Mostrar una xarxa de Docker
+```
+docker network ls 
+```
+
+Borrar una xarxa de Docker
+```
+docker network rm 2hisx
+```
+
+Mostrar els containers de Docker (All)
+```
+docker container ls -la
+```
+
+Mostrar els processos actius de Docker
+```
+docker ps
 ```
 
 Crear un docker per un Dockerfile
 ```
-docker build -t edtasixm06/ldap21:base .
+docker build -t keshikid03/ldap21:base .
 ```
 
 Executar un container amb una network
 ```
-docker run --rm --name ldap.edt.org -h ldap.edt.org --net hisx2 -d edtasixm06/ldap21:base
+docker run --rm --name ldap.edt.org -h ldap.edt.org --net hisx2 -d keshikid03/ldap21:base
 ```
 
-Veure containers actius
-```
-docker ps
-```
+
+**LDAP**
+
 
 Fer una recerca de totes les dades de la database edt org
 ```

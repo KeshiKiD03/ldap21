@@ -1,4 +1,4 @@
-dn: cn=dembele,ou=usuaris,dc=edt,dc=org
+dn: ou=usuaris,dc=edt,dc=org
 objectClass: x-futbolista
 cn: dembele
 sn: lo crack
