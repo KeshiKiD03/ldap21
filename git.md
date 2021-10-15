@@ -36,3 +36,5 @@ git remote -v
 # Des de la mateixa sessió on s'ha fet el eval per carregar ssh-agent
 git add .; git commit -m "prova" ; git push
 ```
+# REVISAR
+# https://platzi.com/tutoriales/1557-git-github/4067-configurar-llaves-ssh-en-git-y-github/?utm_source=google&utm_medium=paid&utm_campaign=14603491644&utm_adgroup=&utm_content=&gclid=CjwKCAjwzaSLBhBJEiwAJSRokirE230iPB7NILfvDGZuy2XNR5zgoZen3HpucP526DtilxVdNP_HLhoCsjEQAvD_BwE&gclsrc=aw.ds
