@@ -1,0 +1,36 @@
+# idol.schema
+#
+# x-esIdol
+# x-Grup
+# x-dataDebut
+# 
+# under construction
+#
+# ---------------------------------------------------------
+
+attributetype (1.1.2.1.1 NAME 'x-esIdol'
+  DESC 'Saber si es Idol o no'
+  SYNTAX 1.3.6.1.4.1.1466.115.121.1.7)
+
+attributetype (1.1.2.1.2 NAME 'x-Grup'
+  DESC 'Grup de l'Idol'
+  EQUALITY caseIgnoreMatch
+  SUBSTR caseIgnoreSubstringsMatch
+  SYNTAX 1.3.6.1.4.1.1466.115.121.1.15
+  SINGLE-VALUE )
+
+attributetype (1.1.2.1.3 NAME 'x-dataDebut'
+  DESC 'Data Debut'
+  EQUALITY caseIgnoreMatch
+  SUBSTR caseIgnoreSubstringsMatch
+  SYNTAX 1.3.6.1.4.1.1466.115.121.1.15
+  SINGLE-VALUE ) 
+
+
+objectclass (1.1.2.2.2 NAME 'x-Idol'
+   DESC 'Idol'
+   SUP  x-Persona
+   AUXILIARY
+   MUST x-esIdol
+   )
+
