@@ -22,26 +22,25 @@ Es vol saber:
    * Si son **idols** en quin **grup** pertanyen.
 
    * Si son **treballadors** en quina companyia de TV.
-
-   * Cada **grup** fa una actuació a l'escenari.
-
-   * Un cop finalitzar, es mostra la **puntuació** que tindrá cada **grup**. 
    
    * Es vol tenir constancia de la **pàgina web** del programa, pot contenir més d'una **pàgina web**.
 
    * Es demana també una foto de cada **usuari**.  
 
-**keshikid03/ldap21:practica** S'afegeix un diversos ObjectClass i atributs definis per diferents schemes.
+**keshikid03/ldap21:practica** S'afegeix un diversos ObjectClass i atributs definis per un sistema schema: kpop.schema.
 
 ### objectClass
 
    * *x-Person*: Com a Structural, derivat de InetOrgPerson.
-   * *x-Idol*: Com a Auxiliar.
-   * *x-Worker*: Com a Auxiliar
+   * *x-Idol*: Com a Structural.
+   * *x-Worker*: Com a Structural.
+   * *x-TV*: Com a Auxiliar
 
 ### attributeTypes
 
 Exemples d'atributs que te el kpop.schema:
+
+# EN EDICIÓN
 
    * *IdolKpop*: Atribut que indica que si l'usuari es un idol o un treballador, (un boleà).
 
@@ -64,6 +63,5 @@ $ docker run --rm --name ldap.edt.org -h ldap.edt.org --net 2hsix -p 389:389 -it
 
 $ docker run --rm --name phpldapadmin.edt.org -h phpldapadmin.edt.org --net 2hisx -p 80:80 -d edtasixm06/phpldapadmin:20
 ```
-
 
 
