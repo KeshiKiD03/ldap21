@@ -1,0 +1,301 @@
+## KPOP
+
+dn: ou=kpop,dc=edt,dc=org
+changetype: add
+ou: kpop
+description: Container per a Kpop
+objectclass: organizationalunit
+
+## BLACKPINK
+
+dn: uid=jennie,ou=kpop,dc=edt,dc=org
+changetype: add
+objectclass: inetOrgPerson
+objectclass: posixAccount
+objectclass: x-Persona
+objectClass: x-Idol
+description: Kpop Jennie Kim
+uid: jennie
+cn: Jennie
+sn: Kim
+uidNumber: 8001
+gidNumber: 800
+homeDirectory: /tmp/home/jennie
+userPassword: {SSHA}8+nYiLnVlVUhveYvXcw50sBxrTGsnWF/
+x-esIdol: TRUE
+x-nomGrup: Blackpink
+x-dataDebut: 08-08-2016
+x-DNI: 36645765J
+x-Web: https://kpop.fandom.com/es/wiki/Jennie
+x-Photo:< file:///opt/docker/users-masters/blackpink/jennie.jpg
+x-Documents:< file:///opt/docker/users-masters/blackpink/jennie.pdf
+
+dn: uid=lisa,ou=kpop,dc=edt,dc=org
+changetype: add
+objectclass: inetOrgPerson
+objectclass: posixAccount
+objectclass: x-Persona
+objectClass: x-Idol
+description: Kpop Lalisa Manoban
+uid: lisa
+cn: Lisa
+sn: Manoban
+uidNumber: 8002
+gidNumber: 800
+homeDirectory: /tmp/home/lisa
+userPassword: {SSHA}BgRIN/aPHClfYljT91steNTluzWNJ5HW
+x-esIdol: TRUE
+x-nomGrup: Blackpink
+x-dataDebut: 08-08-2016
+x-DNI: 36645665L
+x-Web: https://drama.fandom.com/es/wiki/Lisa_(1997)
+x-Photo:< file:///opt/docker/users-masters/blackpink/lisa.jpg
+x-Documents:< file:///opt/docker/users-masters/blackpink/lisa.pdf
+
+dn: uid=rose,ou=kpop,dc=edt,dc=org
+changetype: add
+objectclass: inetOrgPerson
+objectclass: posixAccount
+objectclass: x-Persona
+objectClass: x-Idol
+description: Kpop Rose
+uid: rose
+cn: Rose
+sn: Park
+uidNumber: 8003
+gidNumber: 800
+homeDirectory: /tmp/home/rose
+userPassword: {SSHA}6K4LH9OhdRagqzrANImV12WVyRMiEWOf
+x-esIdol: TRUE
+x-nomGrup: Blackpink
+x-dataDebut: 08-08-2016
+x-DNI: 34754379R
+x-Web: https://drama.fandom.com/es/wiki/Ros%C3%A9
+x-Photo:< file:///opt/docker/users-masters/blackpink/rose.jpg
+x-Documents:< file:///opt/docker/users-masters/blackpink/rose.pdf
+
+dn: uid=jisoo,ou=kpop,dc=edt,dc=org
+changetype: add
+objectclass: inetOrgPerson
+objectclass: posixAccount
+objectclass: x-Persona
+objectClass: x-Idol
+description: Kpop Jisoo
+uid: jisoo
+cn: Jisoo
+sn: Kim
+uidNumber: 8004
+gidNumber: 800
+homeDirectory: /tmp/home/jisoo
+userPassword: {SSHA}1b26P6GohMh39yoQ5QlX5g2C3AE4ic1N
+x-esIdol: TRUE
+x-nomGrup: Blackpink
+x-dataDebut: 08-08-2016
+x-DNI: 35765427J
+x-Web: https://drama.fandom.com/es/wiki/Kim_Ji_Soo_(1995)
+x-Photo:< file:///opt/docker/users-masters/blackpink/jisoo.jpg
+x-Documents:< file:///opt/docker/users-masters/blackpink/jisoo.pdf
+
+# ----
+
+## AESPA
+
+dn: uid=karina,ou=kpop,dc=edt,dc=org
+changetype: add
+objectclass: inetOrgPerson
+objectclass: posixAccount
+objectclass: x-Persona
+objectClass: x-Idol
+description: Kpop Karina
+uid: karina
+cn: Karina
+sn: Ji Min
+uidNumber: 8005
+gidNumber: 801
+homeDirectory: /tmp/home/karina
+userPassword: {SSHA}DWZBVAvk+KyIpht4f0zZ2SNL7JoPFGN5
+x-esIdol: TRUE
+x-nomGrup: Aespa
+x-dataDebut: 17-11-2020
+x-DNI: 34788654K
+x-Web: https://drama.fandom.com/es/wiki/KARINA
+x-Photo:< file:///opt/docker/users-masters/aespa/karina.jpg
+x-Documents:< file:///opt/docker/users-masters/aespa/karina.pdf
+
+dn: uid=winter,ou=kpop,dc=edt,dc=org
+changetype: add
+objectclass: inetOrgPerson
+objectclass: posixAccount
+objectclass: x-Persona
+objectClass: x-Idol
+description: Kpop Winter
+uid: winter
+cn: Winter
+sn: Jeong
+uidNumber: 8006
+gidNumber: 801
+homeDirectory: /tmp/home/winter
+userPassword: {SSHA}pLKS7qCQxwqH6ZIsrnq35YzYZ6hr0frc
+x-esIdol: TRUE
+x-nomGrup: Aespa
+x-dataDebut: 17-11-2020
+x-DNI: 35787643W
+x-Web: https://drama.fandom.com/es/wiki/Winter
+x-Photo:< file:///opt/docker/users-masters/aespa/winter.jpg
+x-Documents:< file:///opt/docker/users-masters/aespa/winter.pdf
+
+dn: uid=ningning,ou=kpop,dc=edt,dc=org
+changetype: add
+objectclass: inetOrgPerson
+objectclass: posixAccount
+objectclass: x-Persona
+objectClass: x-Idol
+description: Kpop Ningning
+uid: ningning
+cn: Ningning
+sn: Yi Zhuo
+uidNumber: 8007
+gidNumber: 801
+homeDirectory: /tmp/home/ningning
+userPassword: {SSHA}CECVnQqU3bzyOb7z8OW+rRbxElTumegH
+x-esIdol: TRUE
+x-nomGrup: Aespa
+x-dataDebut: 17-11-2020
+x-DNI: 36543567N
+x-Web: https://drama.fandom.com/es/wiki/Ning_Ning
+x-Photo:< file:///opt/docker/users-masters/aespa/ningning.jpg
+x-Documents:< file:///opt/docker/users-masters/aespa/ningning.pdf
+
+dn: uid=giselle,ou=kpop,dc=edt,dc=org
+changetype: add
+objectclass: inetOrgPerson
+objectclass: posixAccount
+objectclass: x-Persona
+objectClass: x-Idol
+description: Kpop Giselle
+uid: giselle
+cn: Giselle
+sn: Eri
+uidNumber: 8008
+gidNumber: 801
+homeDirectory: /tmp/home/giselle
+userPassword: {SSHA}+T+phtAYdcqmj+KfuSOdIfCRfQcuP18N
+x-esIdol: TRUE
+x-nomGrup: Aespa
+x-dataDebut: 17-11-2020
+x-DNI: 34654357G
+x-Web: https://drama.fandom.com/es/wiki/Giselle
+x-Photo:< file:///opt/docker/users-masters/aespa/giselle.jpg
+x-Documents:< file:///opt/docker/users-masters/aespa/giselle.pdf
+
+
+## CADENA DE TV
+
+dn: uid=mnet,ou=kpop,dc=edt,dc=org
+changetype: add
+objectclass: x-TV
+x-codiTV: 65435678Y
+x-nomTV: Mnet
+x-Adreca: 66, Sangamsan-ro, Sangam-dong, Mapo-gu, Seul
+x-Telefon: 56765434
+
+dn: uid=sbsinkigayo,ou=kpop,dc=edt,dc=org
+changetype: add
+objectclass: x-TV
+x-codiTV: 45654368Y
+x-nomTV: SBS Inkigayo
+x-Adreca: 161, Mokdongseo-ro, Mok 1-dong, Yangcheon-gu, Seul
+x-Telefon: 568656754
+
+## WORKERS
+
+dn: uid=keshi,ou=kpop,dc=edt,dc=org
+changetype: add
+objectclass: inetOrgPerson
+objectclass: posixAccount
+objectclass: x-Persona
+objectClass: x-Worker
+description: Worker Keshi
+uid: keshi
+cn: Keshi
+sn: Kid
+uidNumber: 8009
+gidNumber: 802
+homeDirectory: /tmp/home/keshi
+userPassword: {SSHA}qOhIybjY+X+5GZx6nB2b6UOIUuYyV53t
+x-esIdol: FALSE
+x-DNI: 34653278G
+x-tipo: Camara
+x-Sou: 3000
+x-cadenaTV: SBS Inkigayo
+x-Web: https://www.instagram.com/keshikid03/
+x-Photo:< file:///opt/docker/users-masters/workers/keshi.jpg
+x-CVpdf:< file:///opt/docker/users-masters/workers/keshi.pdf
+
+dn: uid=maryori,ou=kpop,dc=edt,dc=org
+changetype: add
+objectclass: inetOrgPerson
+objectclass: posixAccount
+objectclass: x-Persona
+objectClass: x-Worker
+description: Worker Maryori
+uid: maryori
+cn: Maryori
+sn: Moran
+uidNumber: 8010
+gidNumber: 803
+homeDirectory: /tmp/home/maryori
+userPassword: {SSHA}8coJEPXnWVAHvf7Y/wY7YsZUATnC16JC
+x-esIdol: FALSE
+x-DNI: 45765436G
+x-tipo: Estilista
+x-Sou: 3000
+x-cadenaTV: Mnet
+x-Web: https://www.instagram.com/_maryorimoran/
+x-Photo:< file:///opt/docker/users-masters/workers/maryori.jpg
+x-CVpdf:< file:///opt/docker/users-masters/workers/maryori.pdf
+
+
+
+
+## GRUPS
+
+dn: cn=Blackpink,ou=grups,dc=edt,dc=org
+changetype: add
+objectclass: posixGroup
+cn: Blackpink
+gidNumber: 800
+description: Grup de kpop Blackpink
+memberUid: jennie
+memberUid: lisa
+memberUid: rose
+memberUid: jisoo
+
+
+dn: cn=Aespa,ou=grups,dc=edt,dc=org
+changetype: add
+objectclass: posixGroup
+cn: Aespa
+gidNumber: 801
+description: Grup de kpop Aespa
+memberUid: karina
+memberUid: winter
+memberUid: ningning
+memberUid: giselle
+
+dn: cn=SBS Inkigayo,ou=grups,dc=edt,dc=org
+changetype: add
+objectclass: posixGroup
+cn: SBS Inkigayo
+gidNumber: 802
+description: Cadena de TV de SBS Inkigayo
+memberUid: keshi
+
+
+dn: cn=Mnet,ou=grups,dc=edt,dc=org
+changetype: add
+objectclass: posixGroup
+cn: Mnet
+gidNumber: 803
+description: Cadena de TV de Mney
+memberUid: maryori

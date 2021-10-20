@@ -6,47 +6,41 @@
 # x-Nom
 # x-Cognom
 # x-Photo
-#
-#
+# x-esIdol
+# x-Web
+# x-Documents
 
 
-attributetype (1.1.2.1.1 NAME 'x-DNI'
-  DESC 'DNI de la persona'
-  EQUALITY caseIgnoreMatch
-  SUBSTR caseIgnoreSubstringsMatch
-  SYNTAX 1.3.6.1.4.1.1466.115.121.1.15
-  SINGLE-VALUE )
+attributetype (1.1.2.1.1 
+	NAME 'x-DNI'
+	DESC 'DNI de la persona'
+ 	EQUALITY caseIgnoreMatch
+  	SUBSTR caseIgnoreSubstringsMatch
+  	SYNTAX 1.3.6.1.4.1.1466.115.121.1.15{9}
+  	SINGLE-VALUE )
   
-attributetype (1.1.2.1.2 NAME 'x-Nom'
-  DESC 'Nom de la persona'
-  EQUALITY caseIgnoreMatch
-  SUBSTR caseIgnoreSubstringsMatch
-  SYNTAX 1.3.6.1.4.1.1466.115.121.1.15
-  SINGLE-VALUE )
-
-attributetype (1.1.2.1.3 NAME 'x-Cognom'
-  DESC 'Cognom de la persona'
-  EQUALITY caseIgnoreMatch
-  SUBSTR caseIgnoreSubstringsMatch
-  SYNTAX 1.3.6.1.4.1.1466.115.121.1.15
-  SINGLE-VALUE )
-
-attributetype (1.1.2.1.4 NAME 'x-Photo'
-   DESC 'Fotografia  de la persona'
-   SYNTAX 1.3.6.1.4.1.1466.115.121.1.28)
+attributetype (1.1.2.1.2 
+	NAME 'x-Photo'
+   	DESC 'Fotografia  de la persona'
+   	SYNTAX 1.3.6.1.4.1.1466.115.121.1.28 )
       
-attributetype (1.1.2.1.5 NAME 'x-esIdol'
-  DESC 'Saber si es Idol o no'
-  SYNTAX 1.3.6.1.4.1.1466.115.121.1.7)
+attributetype (1.1.2.1.3 
+	NAME 'x-esIdol'
+  	DESC 'Saber si es Idol o no'
+  	SYNTAX 1.3.6.1.4.1.1466.115.121.1.7 )
+  
+attributetype ( 1.1.2.1.4 
+	NAME 'x-Web'
+ 	DESC 'Pagina(s) web de la Persona'
+  	SYNTAX 1.3.6.1.4.1.1466.115.121.1.26 )
 
-
-objectclass (1.1.2.2.1 NAME 'x-Persona'
-   DESC 'Persones'
-   SUP  inetOrgPerson
-   STRUCTURAL
-   MUST ( x-DNI $ x-esIdol )
-   MAY  x-Photo
-   )
+objectclass (1.1.2.2.1
+	NAME 'x-Persona'
+	DESC 'Persones'
+   	SUP  TOP
+   	AUXILIARY
+   	MUST ( x-DNI $ x-esIdol )
+   	MAY  ( x-Photo $ x-Web ) )
 
 
 
@@ -56,31 +50,37 @@ objectclass (1.1.2.2.1 NAME 'x-Persona'
 # 
 # x-nomGrup
 # x-dataDebut
-# 
+# x-Documents
 #
 # ---------------------------------------------------------
 
-attributetype (1.1.2.2.1 NAME 'x-nomGrup'
-  DESC 'Grup de lIdol'
-  EQUALITY caseIgnoreMatch
-  SUBSTR caseIgnoreSubstringsMatch
-  SYNTAX 1.3.6.1.4.1.1466.115.121.1.15
-  SINGLE-VALUE )
+attributetype (1.1.2.2.1 
+	NAME 'x-nomGrup'
+	DESC 'Grup de lIdol'
+	EQUALITY caseIgnoreMatch
+  	SUBSTR caseIgnoreSubstringsMatch
+  	SYNTAX 1.3.6.1.4.1.1466.115.121.1.15 )
 
-attributetype (1.1.2.2.2 NAME 'x-dataDebut'
-  DESC 'Data Debut'
-  EQUALITY caseIgnoreMatch
-  SUBSTR caseIgnoreSubstringsMatch
-  SYNTAX 1.3.6.1.4.1.1466.115.121.1.15
-  SINGLE-VALUE ) 
+attributetype (1.1.2.2.2 
+	NAME 'x-dataDebut'
+  	DESC 'Data Debut'
+  	EQUALITY caseIgnoreMatch
+  	SUBSTR caseIgnoreSubstringsMatch
+  	SYNTAX 1.3.6.1.4.1.1466.115.121.1.15{10} )
+  	
+attributetype ( 1.1.2.2.3
+	NAME 'x-Documents'
+	DESC 'Documents del Idol'
+  	SYNTAX 1.3.6.1.4.1.1466.115.121.1.5 )
 
 
-objectclass (1.1.2.2.2 NAME 'x-Idol'
-   DESC 'Idol'
-   SUP  x-Persona
-   STRUCTURAL
-   MUST x-nomGrup
-   )
+objectclass (1.1.2.2.2
+	NAME 'x-Idol'
+   	DESC 'Idol'
+   	SUP  x-Persona
+   	AUXILIARY
+   	MUST x-nomGrup 
+   	MAY ( x-dataDebut $ x-Documents ) )
 
 
 
@@ -95,70 +95,84 @@ objectclass (1.1.2.2.2 NAME 'x-Idol'
 # ---------------------------------------------------------
 
 
-attributetype (1.1.2.3.1 NAME 'x-tipo'
-  DESC 'Tipus de treballador'
-  EQUALITY caseIgnoreMatch
-  SUBSTR caseIgnoreSubstringsMatch
-  SYNTAX 1.3.6.1.4.1.1466.115.121.1.15
-  SINGLE-VALUE )
+attributetype (1.1.2.3.1
+	NAME 'x-tipo'
+	DESC 'Tipus de treballador'
+  	EQUALITY caseIgnoreMatch
+  	SUBSTR caseIgnoreSubstringsMatch
+  	SYNTAX 1.3.6.1.4.1.1466.115.121.1.15
+  	SINGLE-VALUE )
 
-attributetype (1.1.2.3.2 NAME 'x-CVpdf'
-   DESC 'CV format binary'
-   SYNTAX 1.3.6.1.4.1.1466.115.121.1.15)
+attributetype (1.1.2.3.2 
+	NAME 'x-CVpdf'
+   	DESC 'CV format binary'
+   	SYNTAX 1.3.6.1.4.1.1466.115.121.1.15)
 
-attributetype (1.1.2.3.4 NAME 'x-cadenaTV'
-  DESC 'Cadena de TV perteneix'
-  EQUALITY caseIgnoreMatch
-  SUBSTR caseIgnoreSubstringsMatch
-  SYNTAX 1.3.6.1.4.1.1466.115.121.1.15
-  SINGLE-VALUE )
+attributetype (1.1.2.3.3 
+	NAME 'x-cadenaTV'
+  	DESC 'Cadena de TV perteneix'
+  	EQUALITY caseIgnoreMatch
+  	SUBSTR caseIgnoreSubstringsMatch
+  	SYNTAX 1.3.6.1.4.1.1466.115.121.1.15
+  	SINGLE-VALUE )
    
-attributetype (1.1.2.3.5 NAME 'x-Sou'
-   DESC 'Sou'
-   SYNTAX 1.3.6.1.4.1.1466.115.121.1.27
-   SINGLE-VALUE)   
+attributetype (1.1.2.3.4
+	NAME 'x-Sou'
+   	DESC 'Sou'
+   	SYNTAX 1.3.6.1.4.1.1466.115.121.1.27
+   	SINGLE-VALUE )   
    
-objectclass (1.1.2.2.3 NAME 'x-Worker'
-   DESC 'Worker'
-   SUP  x-Persona
-   STRUCTURAL
-   MUST ( x-CVpdf $ x-cadenaTV)
-   MAY ( x-tipo $ x-sou )
-   )
+objectclass (1.1.2.2.3 
+	NAME 'x-Worker'
+   	DESC 'Worker'
+   	SUP  x-Persona
+   	AUXILIARY
+   	MUST ( x-CVpdf $ x-cadenaTV)
+   	MAY ( x-tipo $ x-sou ) )
 
 
 ### x-TV
+# x-codiTV
+# x-NomTV
+# x-Adreca
+# x-Telefon
+# -------------------------------- 
 
-attributetype (1.1.2.4.1 NAME 'x-codiTV'
-  DESC 'CIF TV'
-  EQUALITY caseIgnoreMatch
-  SUBSTR caseIgnoreSubstringsMatch
-  SYNTAX 1.3.6.1.4.1.1466.115.121.1.15
-  SINGLE-VALUE )
+attributetype (1.1.2.4.1 
+	NAME 'x-codiTV'
+	DESC 'CIF TV'
+ 	EQUALITY caseIgnoreMatch
+  	SUBSTR caseIgnoreSubstringsMatch
+  	SYNTAX 1.3.6.1.4.1.1466.115.121.1.15{9}
+  	SINGLE-VALUE )
 
-attributetype (1.1.2.4.2 NAME 'x-NomTV'
-  DESC 'Nom de la TV'
-  EQUALITY caseIgnoreMatch
-  SUBSTR caseIgnoreSubstringsMatch
-  SYNTAX 1.3.6.1.4.1.1466.115.121.1.15
-  SINGLE-VALUE )
+attributetype (1.1.2.4.2 
+	NAME 'x-NomTV'
+  	DESC 'Nom de la TV'
+  	EQUALITY caseIgnoreMatch
+  	SUBSTR caseIgnoreSubstringsMatch
+  	SYNTAX 1.3.6.1.4.1.1466.115.121.1.15
+  	SINGLE-VALUE )
   
-attributetype (1.1.2.4.3 NAME 'x-Direccio'
-  DESC 'Direccio de TV'
-  EQUALITY caseIgnoreMatch
-  SUBSTR caseIgnoreSubstringsMatch
-  SYNTAX 1.3.6.1.4.1.1466.115.121.1.15
-  SINGLE-VALUE )
+attributetype (1.1.2.4.3 
+	NAME 'x-Adreca'
+  	DESC 'Adreca de TV'
+  	EQUALITY caseIgnoreMatch
+  	SUBSTR caseIgnoreSubstringsMatch
+  	SYNTAX 1.3.6.1.4.1.1466.115.121.1.15 )
   
-attributetype (1.1.2.4.4 NAME 'x-Telefon'
-  DESC 'Telefon de TV'
-  SYNTAX 1.3.6.1.4.1.1466.115.121.1.27
-  SINGLE-VALUE ) 
+attributetype (1.1.2.4.4 
+	NAME 'x-Telefon'
+  	DESC 'Telefon de TV'
+  	SYNTAX 1.3.6.1.4.1.1466.115.121.1.27
+  	SINGLE-VALUE ) 
 
 
-objectclass (1.1.2.2.4 NAME 'x-TV'
-   DESC 'Cadena de TV'
-   SUP  TOP
-   AUXILIARY
-   MUST x-codiTV
-   )
+objectclass (1.1.2.2.4 
+	NAME 'x-TV'
+   	DESC 'Cadena de TV'
+   	SUP  TOP
+   	AUXILIARY
+   	MUST ( x-codiTV $ x-nomTV ) 
+   	MAY ( x-Adreca $ x-Telefon ) )
+
