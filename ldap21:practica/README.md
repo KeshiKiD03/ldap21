@@ -302,18 +302,26 @@ $ ldapmodify -x -D 'cn=Manager,dc=edt,dc=org' -w secret -f add-kpop-idols.ldif
 
 **Afegir els workers creats en el fitxer add-kpop-workers.ldif predefinits segons el kpop.schema**
 ```
-$ ldapmodify -x -D 'cn=Manager,dc=edt,dc=org' -w secret -f add-kpop-idols.ldif
+$ ldapmodify -x -D 'cn=Manager,dc=edt,dc=org' -w secret -f add-kpop-workers.ldif
 ```
 
 **Afegir els grups creats en el fitxer add-kpop-grups.ldif predefinits segons el kpop.schema**
 ```
-$ ldapmodify -x -D 'cn=Manager,dc=edt,dc=org' -w secret -f add-kpop-idols.ldif
+$ ldapmodify -x -D 'cn=Manager,dc=edt,dc=org' -w secret -f add-kpop-grups.ldif
 ```
 
 **Afegir la TV creats en el fitxer add-kpop-tv.ldif predefinits segons el kpop.schema**
 ```
-$ ldapmodify -x -D 'cn=Manager,dc=edt,dc=org' -w secret -f add-kpop-idols.ldif
+$ ldapmodify -x -D 'cn=Manager,dc=edt,dc=org' -w secret -f add-kpop-tv.ldif
 ```
+
+**Podem fer-ho més automatitzat inserint usuaris amb un script**
+```
+```
+
+
+
+**Ara ens baixarem el PHPLDAPADMIN per a veure els resultats de la nostra creació**
 
 **Baixar-nos el PHPLDAPADMIN per a una gestió grafica i veure els resultats**
 ```

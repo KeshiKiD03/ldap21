@@ -19,7 +19,9 @@ ASIX M06-ASO Escola del treball de barcelona
  
  * **keshikid03/ldap21:editat** Imatge base amb modificacions: dn amb uid.
 
- * **keshikid03/ldap21:schema** Imatge base amb modificacions de Schemes i Objectes Estructurals
+ * **keshikid03/ldap21:schema** Imatge editat amb modificacions de Schemes i Objectes Estructurals
+ 
+ * **keshikid03/ldap21:practica** Imatge schema amb modificacions de Schemes i Objectes Estructurals i Personalitzats.
 
 
 **DOCKER**
@@ -74,12 +76,7 @@ Mostrar els containers de Docker (All)
 docker container ls -la
 ```
 
-Mostrar els processos actius de Docker
-```
-docker ps
-```
-
-Crear un docker per un Dockerfile
+Crear una imatge per mitjà d'un Dockerfile
 ```
 docker build -t keshikid03/ldap21:base .
 ```

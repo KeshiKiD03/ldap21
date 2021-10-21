@@ -17,10 +17,10 @@ chown -R openldap.openldap /etc/ldap/slapd.d /var/lib/ldap
 cp /opt/docker/ldap.conf /etc/ldap/ldap.conf
 
 # Para mode Detach
-/usr/sbin/slapd -d0
+#/usr/sbin/slapd -d0
 
 # Para mode IT
-#/usr/sbin/slapd
+/usr/sbin/slapd
 
 # Pendent:
 # configuració client
