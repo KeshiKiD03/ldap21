@@ -3,12 +3,8 @@
 
 ## x-Persona
 # x-DNI
-# x-Nom
-# x-Cognom
 # x-Photo
-# x-esIdol
 # x-Web
-# x-Documents
 
 
 attributetype (1.1.2.1.1 
@@ -106,7 +102,7 @@ attributetype (1.1.2.3.1
 attributetype (1.1.2.3.2 
 	NAME 'x-CVpdf'
    	DESC 'CV format binary'
-   	SYNTAX 1.3.6.1.4.1.1466.115.121.1.15)
+   	SYNTAX 1.3.6.1.4.1.1466.115.121.1.5)
 
 attributetype (1.1.2.3.3 
 	NAME 'x-cadenaTV'
@@ -171,8 +167,8 @@ attributetype (1.1.2.4.4
 objectclass (1.1.2.2.4 
 	NAME 'x-TV'
    	DESC 'Cadena de TV'
-   	SUP  TOP
-   	AUXILIARY
+   	SUP  posixGroup
+   	STRUCTURAL
    	MUST ( x-codiTV $ x-nomTV ) 
    	MAY ( x-Adreca $ x-Telefon ) )
 

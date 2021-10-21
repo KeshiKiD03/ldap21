@@ -23,7 +23,7 @@ Es vol saber:
 
    * Si son **treballadors** en quina companyia de TV.
    
-   * Es vol tenir constancia de la **pàgina web** de les persones que hi participen, pot contenir més d'una **pàgina web**.
+   * Es vol tenir constancia de la **pàgina web** de les persones que hi participen, pot contenir més d'una **pàgina web** o cap.
 
    * Es demana també una foto de cada **persona**.  
 
@@ -31,10 +31,10 @@ Es vol saber:
 
 ### objectClass
 
-   * *x-Person*: Com a Auxiliary, derivat de TOP (Arrel).
-   * *x-Idol*: Com a Structural, derivat de x-Person.
-   * *x-Worker*: Com a Structural, derivat de x-Person.
-   * *x-TV*: Com a Auxiliar, derivat de TOP (Arrel).
+   * *x-Person*: Com a Structural, derivat de inetOrgPerson (Internet Org Person).
+   * *x-Idol*: Com a Auxiliary, derivat de TOP.
+   * *x-Worker*: Com a Auxiliary, derivat de TOP.
+   * *x-TV*: Com a Structural, derivat de posixGroup (Grup de Unix).
 
 ### attributeTypes
 
@@ -43,15 +43,14 @@ Exemples d'atributs que te el kpop.schema:
 # x-Persona
 
    * *x-DNI*: Dni de la persona. Syntax .15 limitat a 9 caràcters.
-
-   * *x-Nom*: Nom de la persona. Syntax .15 .
-
-   * *x-Cognom*: Cognom de la persona. Syntax .15 .
+   
+   * *x-Photo*: Foto JPG de l'usuari. Pot ser muti-value. Syntax .28 .
 
    * *x-esIdol*: Atribut que indica que si l'usuari es un idol o un treballador, (un boleà). Syntax .7 .
-
-   * *x-Photo*: Foto JPG de l'usuari. Pot ser muti-value. Syntax .28 .
    
+   * *x-Web*: Pàgina web de la persona. Pot contenir més 1. Syntax .26 .
+
+
 # x-Idol
 
 
@@ -85,6 +84,15 @@ Exemples d'atributs que te el kpop.schema:
 
 ```
 
+# kpop.schema
+# ----------------
+
+## x-Persona
+# x-DNI
+# x-Photo
+# x-Web
+
+
 attributetype (1.1.2.1.1 
 	NAME 'x-DNI'
 	DESC 'DNI de la persona'
@@ -94,30 +102,16 @@ attributetype (1.1.2.1.1
   	SINGLE-VALUE )
   
 attributetype (1.1.2.1.2 
-	NAME 'x-Nom'
- 	DESC 'Nom de la persona'
-	EQUALITY caseIgnoreMatch
-	SUBSTR caseIgnoreSubstringsMatch
-  	SYNTAX 1.3.6.1.4.1.1466.115.121.1.15 )
-
-attributetype (1.1.2.1.3 
-	NAME 'x-Cognom'
-  	DESC 'Cognom de la persona'
-  	EQUALITY caseIgnoreMatch
-  	SUBSTR caseIgnoreSubstringsMatch
-  	SYNTAX 1.3.6.1.4.1.1466.115.121.1.15 )
-
-attributetype (1.1.2.1.4 
 	NAME 'x-Photo'
    	DESC 'Fotografia  de la persona'
    	SYNTAX 1.3.6.1.4.1.1466.115.121.1.28 )
       
-attributetype (1.1.2.1.5 
+attributetype (1.1.2.1.3 
 	NAME 'x-esIdol'
   	DESC 'Saber si es Idol o no'
   	SYNTAX 1.3.6.1.4.1.1466.115.121.1.7 )
   
-attributetype ( 1.1.2.1.6 
+attributetype ( 1.1.2.1.4 
 	NAME 'x-Web'
  	DESC 'Pagina(s) web de la Persona'
   	SYNTAX 1.3.6.1.4.1.1466.115.121.1.26 )
@@ -125,11 +119,22 @@ attributetype ( 1.1.2.1.6
 objectclass (1.1.2.2.1
 	NAME 'x-Persona'
 	DESC 'Persones'
-   	SUP  TOP
-   	AUXILIARY
-   	MUST ( x-DNI $ x-esIdol $ x-Nom )
-   	MAY  ( x-Photo $ x-Web $ x-Cognom) )
+   	SUP  inetOrgPerson
+   	STRUCTURAL
+   	MUST ( x-DNI $ x-esIdol )
+   	MAY  ( x-Photo $ x-Web ) )
 
+
+
+
+### x-Idol
+#
+# 
+# x-nomGrup
+# x-dataDebut
+# x-Documents
+#
+# ---------------------------------------------------------
 
 attributetype (1.1.2.2.1 
 	NAME 'x-nomGrup'
@@ -154,10 +159,22 @@ attributetype ( 1.1.2.2.3
 objectclass (1.1.2.2.2
 	NAME 'x-Idol'
    	DESC 'Idol'
-   	SUP  x-Persona
+   	SUP  TOP
    	AUXILIARY
    	MUST x-nomGrup 
    	MAY ( x-dataDebut $ x-Documents ) )
+
+
+
+# x-Worker
+#
+# 
+# x-tipo
+# x-CVpdf
+# x-Sou
+# x-cadenaTV
+#
+# ---------------------------------------------------------
 
 
 attributetype (1.1.2.3.1
@@ -171,7 +188,7 @@ attributetype (1.1.2.3.1
 attributetype (1.1.2.3.2 
 	NAME 'x-CVpdf'
    	DESC 'CV format binary'
-   	SYNTAX 1.3.6.1.4.1.1466.115.121.1.15)
+   	SYNTAX 1.3.6.1.4.1.1466.115.121.1.5)
 
 attributetype (1.1.2.3.3 
 	NAME 'x-cadenaTV'
@@ -190,11 +207,18 @@ attributetype (1.1.2.3.4
 objectclass (1.1.2.2.3 
 	NAME 'x-Worker'
    	DESC 'Worker'
-   	SUP  x-Persona
+   	SUP  TOP
    	AUXILIARY
    	MUST ( x-CVpdf $ x-cadenaTV)
    	MAY ( x-tipo $ x-sou ) )
 
+
+### x-TV
+# x-codiTV
+# x-NomTV
+# x-Adreca
+# x-Telefon
+# -------------------------------- 
 
 attributetype (1.1.2.4.1 
 	NAME 'x-codiTV'
@@ -229,14 +253,15 @@ attributetype (1.1.2.4.4
 objectclass (1.1.2.2.4 
 	NAME 'x-TV'
    	DESC 'Cadena de TV'
-   	SUP  TOP
-   	AUXILIARY
+   	SUP  posixGroup
+   	STRUCTURAL
    	MUST ( x-codiTV $ x-nomTV ) 
    	MAY ( x-Adreca $ x-Telefon ) )
 
 
-
 ```
+
+**En una carpeta a part posem tots els fitxers i fotos**
 
 **Modificar el slapd.conf (include kpop.schema)**
 
@@ -250,35 +275,53 @@ $ vim ./slapd.conf
 $ docker build -t keshikid03/ldap21:practica .
 ```
 
-**Executar docker en Mode Detach**
+**Executar docker en Mode Detach (Ha d'esta el -d0 en /usr/sbin/slapd)**
 
 ```
 $ docker run --rm --name ldap.edt.org -h ldap.edt.org --net 2hisx -p 389:389 -d keshikid03/ldap21:practica
 ```
 
-**Executar docker en Mode Interactiu**
+**Executar docker en Mode Interactiu (No cal el -d0 en /usr/sbin/slapd)**
 
 ```
 $ docker run --rm --name ldap.edt.org -h ldap.edt.org --net 2hisx -p 389:389 -d keshikid03/ldap21:practica
 ```
 
-**Executar el startup.sh**
+
+**Executar el startup.sh (Si accedim en mode Interactiu no executa dimoni)**
 
 ```
 
 $ bash startup.sh
 ```
 
+**Afegir els usuaris creats en el fitxer add-kpop-idols.ldif predefinits segons el kpop.schema**
+```
+$ ldapmodify -x -D 'cn=Manager,dc=edt,dc=org' -w secret -f add-kpop-idols.ldif
+```
 
-**Baixar-nos el PHPLDAPADMIN per a una gestió grafica**
+**Afegir els workers creats en el fitxer add-kpop-workers.ldif predefinits segons el kpop.schema**
+```
+$ ldapmodify -x -D 'cn=Manager,dc=edt,dc=org' -w secret -f add-kpop-idols.ldif
+```
+
+**Afegir els grups creats en el fitxer add-kpop-grups.ldif predefinits segons el kpop.schema**
+```
+$ ldapmodify -x -D 'cn=Manager,dc=edt,dc=org' -w secret -f add-kpop-idols.ldif
+```
+
+**Afegir la TV creats en el fitxer add-kpop-tv.ldif predefinits segons el kpop.schema**
+```
+$ ldapmodify -x -D 'cn=Manager,dc=edt,dc=org' -w secret -f add-kpop-idols.ldif
+```
+
+**Baixar-nos el PHPLDAPADMIN per a una gestió grafica i veure els resultats**
 ```
 $ docker run --rm --name phpldapadmin.edt.org -h phpldapadmin.edt.org --net 2hisx -p 80:80 -d edtasixm06/phpldapadmin:20
 ```
 
+**Iniciem per exemple amb les credencials de Jennie: uid=jennie,ou=kpop,dc=edt,dc=org**
 
-**Afegir els usuaris creats en el fitxer add-usuaris-kpop.ldif predefinits segons el kpop.schem>
-```
-$ ldapmodify -x -D 'cn=Manager,dc=edt,dc=org' -w secret -f add-usuaris-kpop.ldif
-```
+
 
 

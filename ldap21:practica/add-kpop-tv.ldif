@@ -1,16 +1,20 @@
 ## CADENA DE TV
 
-dn: uid=mnet,ou=kpop,dc=edt,dc=org
+dn: cn=mnet,ou=kpop,dc=edt,dc=org
 changetype: add
 objectclass: x-TV
+cn: SBS Inkigay
+gidNumber: 802
 x-codiTV: 65435678Y
 x-nomTV: Mnet
 x-Adreca: 66, Sangamsan-ro, Sangam-dong, Mapo-gu, Seul
 x-Telefon: 56765434
 
-dn: uid=sbsinkigayo,ou=kpop,dc=edt,dc=org
+dn: cn=sbsinkigayo,ou=kpop,dc=edt,dc=org
 changetype: add
 objectclass: x-TV
+cn: SBS Inkigayo
+gidNumber: 803
 x-codiTV: 45654368Y
 x-nomTV: SBS Inkigayo
 x-Adreca: 161, Mokdongseo-ro, Mok 1-dong, Yangcheon-gu, Seul

@@ -37,5 +37,5 @@ changetype: add
 objectclass: posixGroup
 cn: Mnet
 gidNumber: 803
-description: Cadena de TV de Mney
+description: Cadena de TV de Mnet
 memberUid: maryori
