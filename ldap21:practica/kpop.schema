@@ -37,8 +37,8 @@ attributetype ( 1.1.2.1.4
 objectclass (1.1.2.2.1
 	NAME 'x-Persona'
 	DESC 'Persones'
-   	SUP  TOP
-   	AUXILIARY
+   	SUP  inetOrgPerson
+   	STRUCTURAL
    	MUST ( x-DNI $ x-esIdol )
    	MAY  ( x-Photo $ x-Web ) )
 
@@ -77,7 +77,7 @@ attributetype ( 1.1.2.2.3
 objectclass (1.1.2.2.2
 	NAME 'x-Idol'
    	DESC 'Idol'
-   	SUP  x-Persona
+   	SUP  TOP
    	AUXILIARY
    	MUST x-nomGrup 
    	MAY ( x-dataDebut $ x-Documents ) )
@@ -125,7 +125,7 @@ attributetype (1.1.2.3.4
 objectclass (1.1.2.2.3 
 	NAME 'x-Worker'
    	DESC 'Worker'
-   	SUP  x-Persona
+   	SUP  TOP
    	AUXILIARY
    	MUST ( x-CVpdf $ x-cadenaTV)
    	MAY ( x-tipo $ x-sou ) )

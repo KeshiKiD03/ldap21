@@ -1,0 +1,47 @@
+## WORKERS
+
+dn: uid=keshi,ou=kpop,dc=edt,dc=org
+changetype: add
+objectclass: inetOrgPerson
+objectclass: posixAccount
+objectclass: x-Persona
+objectClass: x-Worker
+description: Worker Keshi
+uid: keshi
+cn: Keshi
+sn: Kid
+uidNumber: 8009
+gidNumber: 802
+homeDirectory: /tmp/home/keshi
+userPassword: {SSHA}qOhIybjY+X+5GZx6nB2b6UOIUuYyV53t
+x-esIdol: FALSE
+x-DNI: 34653278G
+x-tipo: Camara
+x-Sou: 3000
+x-cadenaTV: SBS Inkigayo
+x-Web: https://www.instagram.com/keshikid03/
+x-Photo:< file:///opt/docker/users-masters/workers/keshi.jpg
+x-CVpdf:< file:///opt/docker/users-masters/workers/keshi.pdf
+
+dn: uid=maryori,ou=kpop,dc=edt,dc=org
+changetype: add
+objectclass: inetOrgPerson
+objectclass: posixAccount
+objectclass: x-Persona
+objectClass: x-Worker
+description: Worker Maryori
+uid: maryori
+cn: Maryori
+sn: Moran
+uidNumber: 8010
+gidNumber: 803
+homeDirectory: /tmp/home/maryori
+userPassword: {SSHA}8coJEPXnWVAHvf7Y/wY7YsZUATnC16JC
+x-esIdol: FALSE
+x-DNI: 45765436G
+x-tipo: Estilista
+x-Sou: 3000
+x-cadenaTV: Mnet
+x-Web: https://www.instagram.com/_maryorimoran/
+x-Photo:< file:///opt/docker/users-masters/workers/maryori.jpg
+x-CVpdf:< file:///opt/docker/users-masters/workers/maryori.pdf

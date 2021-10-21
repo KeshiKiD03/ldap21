@@ -1,0 +1,41 @@
+## GRUPS
+
+dn: cn=Blackpink,ou=grups,dc=edt,dc=org
+changetype: add
+objectclass: posixGroup
+cn: Blackpink
+gidNumber: 800
+description: Grup de kpop Blackpink
+memberUid: jennie
+memberUid: lisa
+memberUid: rose
+memberUid: jisoo
+
+
+dn: cn=Aespa,ou=grups,dc=edt,dc=org
+changetype: add
+objectclass: posixGroup
+cn: Aespa
+gidNumber: 801
+description: Grup de kpop Aespa
+memberUid: karina
+memberUid: winter
+memberUid: ningning
+memberUid: giselle
+
+dn: cn=SBS Inkigayo,ou=grups,dc=edt,dc=org
+changetype: add
+objectclass: posixGroup
+cn: SBS Inkigayo
+gidNumber: 802
+description: Cadena de TV de SBS Inkigayo
+memberUid: keshi
+
+
+dn: cn=Mnet,ou=grups,dc=edt,dc=org
+changetype: add
+objectclass: posixGroup
+cn: Mnet
+gidNumber: 803
+description: Cadena de TV de Mney
+memberUid: maryori
