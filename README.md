@@ -10,6 +10,7 @@ ASIX M06-ASO Escola del Treball de Barcelona.
 
 ### Ldap servers:
 
+<img src="https://phoneky.co.uk/thumbs/screensavers/down/original/linux_3rj131p8.gif" width="40" height="40" />
 
  * **keshikid03/ldap21:base** Servidor LDAP base inicial amb la base de dades edt.org. Els elements bàsics de configuració i els usuaris bàsics.
  
