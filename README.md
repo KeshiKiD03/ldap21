@@ -61,15 +61,16 @@ docker run --rm --name ldap.edt.org -h ldap.edt.org --net 2hisx -p 389:389 -it k
 docker run --rm --name ldap.edt.org -h ldap.edt.org --net 2hisx -p 389:389 -d keshikid03/ldap21:acl
 ```
 
-
-| *NOTA: docker run fa docker create i docker start* 
- * **--rm**: Borra el container al sortir, la deixa verge.
- * **--name**: Nom del container.
- * **-h**: Nom del host del container.
- * **-it**: La imatge que volem executar i en mode Interactiu (Foreground)
- * **-d**: Mode Detach (Background).
- * **--net**: Network creada.
- * **-p**: Propagació del port. |
+| NOTA        | 
+| ------------- |
+| *docker run fa docker create i docker start* |
+| * **--rm**: Borra el container al sortir, la deixa verge. |
+| * **--name**: Nom del container. |
+| * **-h**: Nom del host del container. |
+| * **-it**: La imatge que volem executar i en mode Interactiu (Foreground). |
+| * **-d**: Mode Detach (Background). |
+| * **--net**: Network creada. |
+| * **-p**: Propagació del port. |
 
 
 **ATTACH (Adherirse a un container engegat amb procesos oberts)**
@@ -86,8 +87,9 @@ docker run --rm --name ldap.edt.org -h ldap.edt.org --net 2hisx -p 389:389 -d ke
 ```
 docker exet -it ldap.edt.org /bin/bash
 ```
-
-| *NOTA: docker attach sol fallar* |
+| NOTA        | 
+| ------------- |
+| *docker attach sol fallar* |
 
 **Execució de comandes en mode detach**
 
@@ -100,8 +102,10 @@ Mostrem la IP de DOCKER
 ```
 docker exet ldap.edt.org ip a
 ```
+| NOTA        | 
+| ------------- |
+| *Podem executar milers de comandes*    |
 
-| *NOTA: Podem executar milers de comandes* |
 
 **Enllistar**
 
@@ -150,8 +154,9 @@ Atura el container actiu de DOCKER
 docker stop [CONTAINER]
 ```
 
-
-| *NOTA: Per esborrar primer s'ha d'aturar amb un docker stop (container) / CTRL-P + CTRL+Q: Surt d'un container sense parar-ho, es pot tornar amb un attach o amb exec -it (container) /bin/bash* |
+| NOTA        | 
+| ------------- |
+| *Per esborrar primer s'ha d'aturar amb un docker stop (container) / CTRL-P + CTRL+Q: Surt d'un container sense parar-ho, es pot tornar amb un attach o amb exec -it (container) /bin/bash* |
 
 **Esborrar**
 
@@ -164,8 +169,10 @@ Esborrar containers de DOCKER
 ```
 docker rm [CONTAINER]
 ```
+| NOTA        | 
+| ------------- |
+| *Per esborrar primer s'ha d'aturar amb un docker stop [container]* |
 
-*NOTA: Per esborrar primer s'ha d'aturar amb un docker stop [container]*
 
 
 **Renombrar**
@@ -255,7 +262,7 @@ Colons can be used to align columns.
 
 | NOTA        | 
 | ------------- |
-| Exemple de Dockerfile     |
+| *Exemple de Dockerfile*     |
 
 
 
@@ -277,17 +284,19 @@ EXPOSE 389
 ```
 
 
-| *NOTA: DOCKERFILE* |
- * **FROM**: De quina imatge partim copiarem les dades.
- * **LABEL version**: Versió del Dockerfile.
- * **LABEL author**: Author del Dockerfile.
- * **LABEL subject**: Nom del Dockerfile.
- * **RUN**: Executa comandes durant el docker build, per input.
- * **ARG DEBIAN_FRONTEND**: Per poder executar comandes com per exemple en segon pla. Per defecte posem noninteractive.
- * **COPY**: Copia l'origen en aquest cas * (ALL) a un directori /opt/docker
- * **WORKDIR**: Directori de treball un cop iniciat docker.
- * **CMD**: Executa scripts.
- * **EXPOSE**: Propagació del port.
+| NOTA        | 
+| ------------- |
+| *Seeing inside DOCKERFILE*     |
+| * **FROM**: De quina imatge partim copiarem les dades. |
+| * **LABEL version**: Versió del Dockerfile. |
+| * **LABEL author**: Author del Dockerfile. |
+| * **LABEL subject**: Nom del Dockerfile. |
+| * **RUN**: Executa comandes durant el docker build, per input. |
+| * **ARG DEBIAN_FRONTEND**: Per poder executar comandes com per exemple en segon pla. Per defecte posem noninteractive. |
+| * **COPY**: Copia l'origen en aquest cas * (ALL) a un directori /opt/docker |
+| * **WORKDIR**: Directori de treball un cop iniciat docker. |
+| * **CMD**: Executa scripts. |
+| * **EXPOSE**: Propagació del port. |
 
 **COMMIT**
 
@@ -342,7 +351,9 @@ apt-get -y install procps iproute2 vim tree nmap less
 apt-get -y install slapd ldap-utils
 ```
 
-| *NOTA:* |
+| NOTA        | 
+| ------------- |
+| *Seeing inside DOCKERFILE*     |
 
 6. 
 ```
