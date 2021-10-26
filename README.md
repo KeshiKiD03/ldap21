@@ -251,7 +251,8 @@ Crear una imatge per mitjà d'un Dockerfile
 docker build -t keshikid03/ldap21:base .
 ```
 
-| *Exemple de DOCKERFILE* |
+| Exemple de DOCKERFILE |
+| : ---		 |
 ```
 # ldapserver
 FROM debian:latest
