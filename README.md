@@ -15,13 +15,19 @@ Podeu trobar la documentació del mòdul a [ASIX-M06](https://sites.google.com/s
 ASIX M06-ASO Escola del treball de barcelona
 
 
- * **keshikid03/ldap21:base** Servidor LDAP base inicial amb la base de dades edt.org
+ * **keshikid03/ldap21:base** Servidor LDAP base inicial amb la base de dades edt.org. Els elements bàsics de configuració i els usuaris bàsics.
  
- * **keshikid03/ldap21:editat** Imatge base amb modificacions: dn amb uid.
+ * **keshikid03/ldap21:editat** Imatge base amb modificacions de tipus MBD: DN amb UID. Password xifrat de cn=Manager,dc=edt,dc=org. Únic ldif (edt.org.ldif). 
 
- * **keshikid03/ldap21:schema** Imatge editat amb modificacions de Schemes i Objectes Estructurals
+ * **keshikid03/ldap21:schema** Imatge editat amb modificacions de SCHEMES i Objectes Estructurals.
  
- * **keshikid03/ldap21:practica** Imatge schema amb modificacions de Schemes i Objectes Estructurals i Personalitzats.
+ * **keshikid03/ldap21:practica** Imatge schema amb modificacions de SCHEMES i Objectes Estructurals i Personalitzats.
+ 
+ * **keshikid03/ldap21:acl** Imatge per a fer modificacions de ACL. S'ha incorporat la BD cn=config per a l'administració del servidor dinàmicament.
+
+
+
+
 
 
 **DOCKER**
