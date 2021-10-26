@@ -37,7 +37,7 @@ ASIX M06-ASO Escola del Treball de Barcelona.
 ## COMANDES
 ### DOCKER
 
-**Execució**
+⭐️ **Execució** ⭐️
 
 Executar una imatge de DOCKER DEBIAN:LATEST en mode Interactiu (Foreground)
 ```
@@ -68,7 +68,7 @@ docker run --rm --name ldap.edt.org -h ldap.edt.org --net 2hisx -p 389:389 -d ke
 | * **-p**: Propagació del port. |
 
 
-**ATTACH (Adherirse a un container engegat amb procesos oberts)**
+⭐️ **ATTACH (Adherirse a un container engegat amb procesos oberts)** ⭐️
 ```
 docker start ldap.edt.org
 ```
@@ -86,7 +86,7 @@ docker exet -it ldap.edt.org /bin/bash
 | ------------- |
 | *docker attach sol fallar* |
 
-**Execució de comandes en mode detach**
+⭐️**Execució de comandes en mode detach** ⭐️
 
 Posem en marxa el container ldap.edt.org
 ```
@@ -102,7 +102,7 @@ docker exet ldap.edt.org ip a
 | *Podem executar milers de comandes*    |
 
 
-**Enllistar**
+⭐️ **Enllistar** ⭐️
 
 Mostrar les imatges de DOCKER
 ```
@@ -114,7 +114,7 @@ Mostrar els containers de DOCKER (All)
 docker container ls -la
 ```
 
-**Informació técnica**
+⭐️ **Informació técnica** ⭐️
 
 Mostrar la informació técnica detallada de la imatge
 ```
@@ -122,7 +122,7 @@ docker inspect keshikid03/ldap21:tag
 ```
 
 
-**Esborrar IMATGE/CONTAINER, pause i stop**
+⭐️ **Esborrar IMATGE/CONTAINER, pause i stop** ⭐️
 
 Esborrar les imatges de DOCKER
 ```
@@ -153,7 +153,7 @@ docker stop [CONTAINER]
 | ------------- |
 | *Per esborrar primer s'ha d'aturar amb un docker stop (container) / CTRL-P + CTRL+Q: Surt d'un container sense parar-ho, es pot tornar amb un attach o amb exec -it (container) /bin/bash* |
 
-**Esborrar**
+⭐️ **Esborrar** ⭐️
 
 Esborrar les imatges de DOCKER
 ```
@@ -170,7 +170,7 @@ docker rm [CONTAINER]
 
 
 
-**Renombrar**
+⭐️ **Renombrar** ⭐️
 
 Renombre les imatges de DOCKER
 ```
@@ -178,7 +178,7 @@ docker rename [container] [new_container]
 ```
 
 
-**Procesos i monitorització**
+⭐️ **Procesos i monitorització** ⭐️
 
 Mostrar els processos actius dels contenidors DOCKER
 ```
@@ -196,7 +196,7 @@ docker stat ldap.edt.org
 ```
 
 
-**Networking**
+⭐️ **Networking** ⭐️
 
 Crear una xarxa
 ```
@@ -218,7 +218,7 @@ Borrar una xarxa de Docker
 docker network rm 2hisx
 ```
 
-**Credencials**
+⭐️ **Credencials** ⭐️
 
 Inicia sessió de DOCKER HUB
 ```
@@ -230,28 +230,28 @@ Tanca sessió de DOCKER HUB
 docker logout
 ```
 
-**History**
+⭐️ **History** ⭐️
 
 Mostra les diferents fases per on ha passat la imatge
 ```
 docker history keshikid03/ldap21:acl
 ```
 
-**Recerca**
+⭐️ **Recerca** ⭐️
 
 Busca una imatge en el respositori de DOCKER HUB
 ```
 docker search mysql
 ```
 
-**Recerca**
+⭐️ **Recerca** ⭐️
 
 Busca una imatge en el respositori de DOCKER HUB
 ```
 docker search mysql
 ```
 
-**Etiqueta**
+⭐️ **Etiqueta** ⭐️
 
 Etiqueta una imatge per ser propietari
 ```
@@ -260,7 +260,7 @@ docker tag edtasim06/ldap21:base keshikid03/ldap21:base
 
 
 
-**DOCKERFILE**
+⭐️ **DOCKERFILE** ⭐️
 
 Crear una imatge per mitjà d'un Dockerfile
 ```
@@ -307,7 +307,7 @@ EXPOSE 389
 | * **CMD**: Executa scripts. |
 | * **EXPOSE**: Propagació del port. |
 
-**COMMIT**
+⭐️ **COMMIT** ⭐️
 
 Crear una snapshot a partir del container engegat, es a dir, salvaguardem el punt de partida en una altre imatge.
 ```
@@ -317,7 +317,7 @@ docker commit -m "La meva nova imatge editada de ACL, modificada" ldap.edt.org k
 docker commit ldap.edt.org keshikid03/ldap21:acl_v1
 ```
 
-**ALWAYS ACTIVE**
+⭐️ **ALWAYS ACTIVE** ⭐️
 
 Engegar un container sempre al iniciar DOCKER
 ```
