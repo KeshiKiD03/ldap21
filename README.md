@@ -1,9 +1,3 @@
-# LDAP server
-## @edt ASIX M06-ASO Curs 2021-2022
-
-### Ldap servers:
-
- * **edtasixm06/ldap21:base** Server bàsic ldap, amb base de dades edt.org.
 # LDAP Server
 ## @edt ASIX M06-ASO 2021-2022
 ### Servidor LDAP (Debian 11)
@@ -12,8 +6,9 @@ Podeu trobar les imatges docker al Dockehub de [edtasixm06](https://hub.docker.c
 
 Podeu trobar la documentació del mòdul a [ASIX-M06](https://sites.google.com/site/asixm06edt/)
 
-ASIX M06-ASO Escola del treball de barcelona
+ASIX M06-ASO Escola del Treball de Barcelona.
 
+### Ldap servers:
 
  * **keshikid03/ldap21:base** Servidor LDAP base inicial amb la base de dades edt.org. Els elements bàsics de configuració i els usuaris bàsics.
  
@@ -61,7 +56,7 @@ docker run --rm --name ldap.edt.org -h ldap.edt.org --net 2hisx -p 389:389 -it k
 docker run --rm --name ldap.edt.org -h ldap.edt.org --net 2hisx -p 389:389 -d keshikid03/ldap21:acl
 ```
 
-| NOTA        | 
+| 🔥NOTA IMPORTANT❗🔥 | 
 | ------------- |
 | *docker run fa docker create i docker start* |
 | * **--rm**: Borra el container al sortir, la deixa verge. |
@@ -87,7 +82,7 @@ docker run --rm --name ldap.edt.org -h ldap.edt.org --net 2hisx -p 389:389 -d ke
 ```
 docker exet -it ldap.edt.org /bin/bash
 ```
-| NOTA        | 
+| 🔥NOTA IMPORTANT❗🔥 | 
 | ------------- |
 | *docker attach sol fallar* |
 
@@ -102,7 +97,7 @@ Mostrem la IP de DOCKER
 ```
 docker exet ldap.edt.org ip a
 ```
-| NOTA        | 
+| 🔥NOTA IMPORTANT❗🔥 | 
 | ------------- |
 | *Podem executar milers de comandes*    |
 
@@ -154,7 +149,7 @@ Atura el container actiu de DOCKER
 docker stop [CONTAINER]
 ```
 
-| NOTA        | 
+| 🔥NOTA IMPORTANT❗🔥 | 
 | ------------- |
 | *Per esborrar primer s'ha d'aturar amb un docker stop (container) / CTRL-P + CTRL+Q: Surt d'un container sense parar-ho, es pot tornar amb un attach o amb exec -it (container) /bin/bash* |
 
@@ -169,7 +164,7 @@ Esborrar containers de DOCKER
 ```
 docker rm [CONTAINER]
 ```
-| NOTA        | 
+| 🔥NOTA IMPORTANT❗🔥 | 
 | ------------- |
 | *Per esborrar primer s'ha d'aturar amb un docker stop [container]* |
 
@@ -242,6 +237,20 @@ Mostra les diferents fases per on ha passat la imatge
 docker history keshikid03/ldap21:acl
 ```
 
+**Recerca**
+
+Busca una imatge en el respositori de DOCKER HUB
+```
+docker search mysql
+```
+
+**Recerca**
+
+Busca una imatge en el respositori de DOCKER HUB
+```
+docker search mysql
+```
+
 **Etiqueta**
 
 Etiqueta una imatge per ser propietari
@@ -260,7 +269,7 @@ docker build -t keshikid03/ldap21:base .
 
 Colons can be used to align columns.
 
-| NOTA        | 
+| 🔥NOTA IMPORTANT❗🔥 | 
 | ------------- |
 | *Exemple de Dockerfile*     |
 
@@ -284,7 +293,7 @@ EXPOSE 389
 ```
 
 
-| NOTA        | 
+| 🔥NOTA IMPORTANT❗🔥 | 
 | ------------- |
 | *Seeing inside DOCKERFILE*     |
 | * **FROM**: De quina imatge partim copiarem les dades. |
@@ -330,6 +339,11 @@ systemctl is-enabled docker
 
 2. Que es LDAP? [what is LDAP](https://ldapwiki.com/wiki/LDAP)
 
+| LDAP ✅      | 
+| ------------- |
+| *slapd: Es el daemon del servidor* |
+| *ldap-utils: Son les comandes del client* |
+
 3. Iniciem una nova imatge de Docker que será basada en DEBIAN:LATEST.
 ```
 docker run --name ldap.edt.org -h ldap.edt.org -it debian /bin/bash
@@ -351,9 +365,11 @@ apt-get -y install procps iproute2 vim tree nmap less
 apt-get -y install slapd ldap-utils
 ```
 
-| NOTA        | 
+| 🔥NOTA IMPORTANT❗🔥 | 
 | ------------- |
-| *Seeing inside DOCKERFILE*     |
+| *slapd: Es el daemon del servidor* |
+| *ldap-utils: Son les comandes del client* |
+
 
 6. 
 ```
