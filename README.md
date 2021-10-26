@@ -28,7 +28,15 @@ ASIX M06-ASO Escola del treball de barcelona
 
 ## INDEX
 **DOCKER**: [readme DOCKER](https://github.com/KeshiKiD03/ldap21#docker)
-**LDAP**: [readme LDAP](https://github.com/KeshiKiD03/ldap21#ldap)
+
+**LDAP**: [readme LDAP](https://github.com/KeshiKiD03/ldap21#ldap-server-2)
+* **INSTAL·LACIÓ I CONFIGURACIÓ**: [readme LDAP 'INSTAL·LACIÓ I CONFIGURACIÓ'](https://github.com/KeshiKiD03/ldap21#installaci%C3%B3-i-configuraci%C3%B3)
+* **CONSULTES (LDAPSEARCH)**: [readme LDAP 'CONSULTES (LDAPSEARCH)'](https://github.com/KeshiKiD03/ldap21#consultes-ldapsearch)
+* **INSERCIÓ, MODIFICACIÓ I ESBORRAT**: [readme LDAP 'INSERCIÓ, MODIFICACIÓ I ESBORRAT'](https://github.com/KeshiKiD03/ldap21#inserci%C3%B3-modificaci%C3%B3-i-esborrat)
+* **SLAPPASSWD I LDAPPASSWD**: [readme LDAP 'SLAPPASSWD I LDAPPASSWD'](https://github.com/KeshiKiD03/ldap21#slappasswd-i-ldappasswd)
+* **SCHEMES**: [readme LDAP 'SCHEMES'](https://github.com/KeshiKiD03/ldap21#schemes)
+* **ACL**: [readme LDAP 'ACL'](https://github.com/KeshiKiD03/ldap21#acl)
+
 
 
 ## COMANDES
@@ -54,14 +62,14 @@ docker run --rm --name ldap.edt.org -h ldap.edt.org --net 2hisx -p 389:389 -d ke
 ```
 
 
-*NOTA: docker run fa docker create i docker start*
+| *NOTA: docker run fa docker create i docker start* 
  * **--rm**: Borra el container al sortir, la deixa verge.
  * **--name**: Nom del container.
  * **-h**: Nom del host del container.
  * **-it**: La imatge que volem executar i en mode Interactiu (Foreground)
  * **-d**: Mode Detach (Background).
  * **--net**: Network creada.
- * **-p**: Propagació del port.
+ * **-p**: Propagació del port. |
 
 
 **ATTACH (Adherirse a un container engegat amb procesos oberts)**
@@ -79,7 +87,7 @@ docker run --rm --name ldap.edt.org -h ldap.edt.org --net 2hisx -p 389:389 -d ke
 docker exet -it ldap.edt.org /bin/bash
 ```
 
-*NOTA: docker attach sol fallar*
+| *NOTA: docker attach sol fallar* |
 
 **Execució de comandes en mode detach**
 
@@ -93,7 +101,7 @@ Mostrem la IP de DOCKER
 docker exet ldap.edt.org ip a
 ```
 
-*NOTA: Podem executar milers de comandes*
+| *NOTA: Podem executar milers de comandes* |
 
 **Enllistar**
 
@@ -143,7 +151,7 @@ docker stop [CONTAINER]
 ```
 
 
-*NOTA: Per esborrar primer s'ha d'aturar amb un docker stop (container) / CTRL-P + CTRL+Q: Surt d'un container sense parar-ho, es pot tornar amb un attach o amb exec -it (container) /bin/bash*
+| *NOTA: Per esborrar primer s'ha d'aturar amb un docker stop (container) / CTRL-P + CTRL+Q: Surt d'un container sense parar-ho, es pot tornar amb un attach o amb exec -it (container) /bin/bash* |
 
 **Esborrar**
 
@@ -243,7 +251,7 @@ Crear una imatge per mitjà d'un Dockerfile
 docker build -t keshikid03/ldap21:base .
 ```
 
-*Exemple de DOCKERFILE*
+| *Exemple de DOCKERFILE* |
 ```
 # ldapserver
 FROM debian:latest
@@ -261,7 +269,8 @@ CMD /opt/docker/startup.sh
 EXPOSE 389
 ```
 
-*NOTA: DOCKERFILE*
+
+| *NOTA: DOCKERFILE* |
  * **FROM**: De quina imatge partim copiarem les dades.
  * **LABEL version**: Versió del Dockerfile.
  * **LABEL author**: Author del Dockerfile.
@@ -326,7 +335,7 @@ apt-get -y install procps iproute2 vim tree nmap less
 apt-get -y install slapd ldap-utils
 ```
 
-*NOTA:*
+| *NOTA:* |
 
 6. 
 ```
