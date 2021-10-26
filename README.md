@@ -19,15 +19,16 @@ ASIX M06-ASO Escola del treball de barcelona
  
  * **keshikid03/ldap21:editat** Imatge base amb modificacions de tipus MBD: DN amb UID. Password xifrat de cn=Manager,dc=edt,dc=org. Únic ldif (edt.org.ldif). 
 
- * **keshikid03/ldap21:schema** Imatge editat amb modificacions de SCHEMES i Objectes Estructurals.
+ * **keshikid03/ldap21:schema** Imatge editat amb modificacions de SCHEMES i Objectes Estructurals. Afegim a la BD, edt.org, nous objectClass i atributs definits en un schema inventat: futbolistes.schema
  
- * **keshikid03/ldap21:practica** Imatge schema amb modificacions de SCHEMES i Objectes Estructurals i Personalitzats.
+ * **keshikid03/ldap21:practica** Imatge schema amb modificacions de SCHEMES i Objectes Estructurals i Personalitzats. Afegim a la BD, edt.org, nous objectClass i atributs definits en un schema inventat: kpop.schema.
  
- * **keshikid03/ldap21:acl** Imatge per a fer modificacions de ACL. S'ha incorporat la BD cn=config per a l'administració del servidor dinàmicament.
+ * **keshikid03/ldap21:acl** Imatge schema per a fer modificacions de ACL. S'ha incorporat la BD cn=config per a l'administració del servidor dinàmicament.
 
 
-
-
+## INDEX
+**DOCKER**: [readme DOCKER](https://github.com/KeshiKiD03/ldap21#docker)
+**LDAP**: [readme LDAP](https://github.com/KeshiKiD03/ldap21#ldap)
 
 
 ## COMANDES
@@ -169,17 +170,17 @@ docker rename [container] [new_container]
 
 **Procesos i monitorització**
 
-Mostrar els processos actius dels contenedors DOCKER
+Mostrar els processos actius dels contenidors DOCKER
 ```
 docker ps
 ```
 
-Mostrar lo que s'executa en el contenedor de DOCKER
+Mostrar lo que s'executa en el contenidor de DOCKER
 ```
 docker top ldap.edt.org ls
 ```
 
-Monitoritza el contenedor de DOCKER
+Monitoritza el contenidor de DOCKER
 ```
 docker stat ldap.edt.org
 ```
@@ -218,6 +219,21 @@ Tanca sessió de DOCKER HUB
 ```
 docker logout
 ```
+
+**History**
+
+Mostra les diferents fases per on ha passat la imatge
+```
+docker history keshikid03/ldap21:acl
+```
+
+**Etiqueta**
+
+Etiqueta una imatge per ser propietari
+```
+docker tag edtasim06/ldap21:base keshikid03/ldap21:base
+```
+
 
 
 **DOCKERFILE**
@@ -277,8 +293,234 @@ docker run --restart always --name ldap.edt.org -h ldap.edt.org --net 2hisx -p 3
 systemctl is-enabled docker
 ```
 
-## COMANDES
-### LDAP
+# LDAP Server
+## @edt ASIX M06-ASO 2021-2022
+### Servidor LDAP (Debian 11)
+
+---------------------------------------------------------------------------
+
+### INSTAL·LACIÓ I CONFIGURACIÓ
+
+1. Instal·lar i configurar DOCKER. [install DOCKER](https://docs.docker.com/engine/install/debian/)
+
+2. Que es LDAP? [what is LDAP](https://ldapwiki.com/wiki/LDAP)
+
+3. Iniciem una nova imatge de Docker que será basada en DEBIAN:LATEST.
+```
+docker run --name ldap.edt.org -h ldap.edt.org -it debian /bin/bash
+```
+
+4. Obrim una pestanya nova de terminal i visualitzem el contenidor engegat.
+```
+docker ps
+```
+
+5. Dins del contenidor realitzem.
+```
+apt-get update
+```
+```
+apt-get -y install procps iproute2 vim tree nmap less
+```
+```
+apt-get -y install slapd ldap-utils
+```
+
+*NOTA:*
+
+6. 
+```
+
+```
+
+7. aw
+```
+
+```
+
+8. 2
+```
+
+```
+
+9. 
+```
+
+```
+
+10. 
+```
+
+```
+
+11. 
+```
+
+```
+
+10. 
+```
+
+```
+
+11. aw
+```
+
+```
+
+12. 2
+```
+
+```
+
+13. 
+```
+
+```
+
+14. 
+```
+
+```
+
+15. 
+```
+
+```
+
+16. 
+```
+
+```
+
+17. aw
+```
+
+```
+
+18. 2
+```
+
+```
+
+19. 
+```
+
+```
+
+20. 
+```
+
+```
+
+21. 
+```
+
+```
+
+22. 
+```
+
+```
+
+23. aw
+```
+
+```
+
+24. 2
+```
+
+```
+
+25. 
+```
+
+```
+
+26. 
+```
+
+```
+
+27. 
+```
+
+```
+
+28. 
+```
+
+```
+
+29. aw
+```
+
+```
+
+30. 2
+```
+
+```
+
+31. 
+```
+
+```
+
+32. 
+```
+
+```
+
+33. 
+```
+
+```
+
+34. 
+```
+
+```
+
+### CONSULTES (LDAPSEARCH)
+
+### INSERCIÓ, MODIFICACIÓ I ESBORRAT
+
+### SLAPPASSWD I LDAPPASSWD
+
+A
+
+### SCHEMES
+
+### ACL
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+**ldapmodify**
+
+**ldapmodify**
 
 Fer una recerca de totes les dades de la database edt org
 ```
