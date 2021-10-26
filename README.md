@@ -30,34 +30,164 @@ ASIX M06-ASO Escola del treball de barcelona
 
 
 
-**DOCKER**
+## COMANDES
+### DOCKER
 
-Crear una imatge de Docker DEBIAN:LATEST en mode Interactiu
+**Execució**
+
+Executar una imatge de DOCKER DEBIAN:LATEST en mode Interactiu (Foreground)
 ```
 docker run --rm --name debianKeshi -h debianKeshi -it debian:latest /bin/bash
 ```
 
-Crear una imatge Docker DEBIAN:LATEST en mode Detach (Background)
+Executar una imatge DOCKER DEBIAN:LATEST en mode Detach (Background)
 ```
 docker run --rm --name debianKeshi -h debianKeshi -d debian:latest /bin/bash
 ```
 
-Mostrar les imatges de Docker
+Executar una imatge de LDAP amb network 2hisx i propagació del port 389
+```
+docker run --rm --name ldap.edt.org -h ldap.edt.org --net 2hisx -p 389:389 -it keshikid03/ldap21:acl /bin/bash
+
+docker run --rm --name ldap.edt.org -h ldap.edt.org --net 2hisx -p 389:389 -d keshikid03/ldap21:acl
+```
+
+
+*NOTA: docker run fa docker create i docker start*
+ * **--rm**: Borra el container al sortir, la deixa verge.
+ * **--name**: Nom del container.
+ * **-h**: Nom del host del container.
+ * **-it**: La imatge que volem executar i en mode Interactiu (Foreground)
+ * **-d**: Mode Detach (Background).
+ * **--net**: Network creada.
+ * **-p**: Propagació del port.
+
+
+**ATTACH (Adherirse a un container engegat amb procesos oberts)**
+```
+docker start ldap.edt.org
+```
+```
+docker attach ldap.edt.org
+```
+Millor
+```
+docker run --rm --name ldap.edt.org -h ldap.edt.org --net 2hisx -p 389:389 -d keshikid03/ldap21:acl
+```
+```
+docker exet -it ldap.edt.org /bin/bash
+```
+
+*NOTA: docker attach sol fallar*
+
+**Execució de comandes en mode detach**
+
+Posem en marxa el container ldap.edt.org
+```
+docker run --rm --name ldap.edt.org -h ldap.edt.org --net 2hisx -p 389:389 -d keshikid03/ldap21:acl
+```
+
+Mostrem la IP de DOCKER
+```
+docker exet ldap.edt.org ip a
+```
+
+*NOTA: Podem executar milers de comandes*
+
+**Enllistar**
+
+Mostrar les imatges de DOCKER
 ```
 docker images
 ```
 
-Mostrar els containers de Docker (All)
+Mostrar els containers de DOCKER (All)
 ```
 docker container ls -la
 ```
 
-Mostrar els processos actius de Docker
+**Informació técnica**
+
+Mostrar la informació técnica detallada de la imatge
+```
+docker inspect keshikid03/ldap21:tag
+```
+
+
+**Esborrar IMATGE/CONTAINER, pause i stop**
+
+Esborrar les imatges de DOCKER
+```
+docker rmi [ID]
+```
+
+Esborrar containers de DOCKER
+```
+docker rm [CONTAINER]
+```
+
+Mata el container actiu de DOCKER
+```
+docker kill [CONTAINER]
+```
+
+Pausa el container actiu de DOCKER
+```
+docker pause [CONTAINER]
+```
+
+Atura el container actiu de DOCKER
+```
+docker stop [CONTAINER]
+```
+
+
+*NOTA: Per esborrar primer s'ha d'aturar amb un docker stop (container) / CTRL-P + CTRL+Q: Surt d'un container sense parar-ho, es pot tornar amb un attach o amb exec -it (container) /bin/bash*
+
+**Esborrar**
+
+Esborrar les imatges de DOCKER
+```
+docker rmi [ID]
+```
+
+Esborrar containers de DOCKER
+```
+docker rm [CONTAINER]
+```
+
+*NOTA: Per esborrar primer s'ha d'aturar amb un docker stop [container]*
+
+
+**Renombrar**
+
+Renombre les imatges de DOCKER
+```
+docker rename [container] [new_container]
+```
+
+
+**Procesos i monitorització**
+
+Mostrar els processos actius dels contenedors DOCKER
 ```
 docker ps
 ```
 
-Creear una xarxa
+Mostrar lo que s'executa en el contenedor de DOCKER
+```
+docker top ldap.edt.org ls
+```
+
+Monitoritza el contenedor de DOCKER
+```
+docker stat ldap.edt.org
+```
+
+
+**Networking**
+
+Crear una xarxa
 ```
 docker network create 2hisx
 ```
@@ -77,24 +207,78 @@ Borrar una xarxa de Docker
 docker network rm 2hisx
 ```
 
-Mostrar els containers de Docker (All)
+**Credencials**
+
+Inicia sessió de DOCKER HUB
 ```
-docker container ls -la
+docker login
 ```
+
+Tanca sessió de DOCKER HUB
+```
+docker logout
+```
+
+
+**DOCKERFILE**
 
 Crear una imatge per mitjà d'un Dockerfile
 ```
 docker build -t keshikid03/ldap21:base .
 ```
 
-Executar un container amb una network
+*Exemple de DOCKERFILE*
 ```
-docker run --rm --name ldap.edt.org -h ldap.edt.org --net hisx2 -d keshikid03/ldap21:base
+# ldapserver
+FROM debian:latest
+LABEL version="1.0"
+LABEL author="@edt ASIX-M06"
+LABEL subject="ldapserver"
+RUN apt-get update
+ARG DEBIAN_FRONTEND=noninteractive
+RUN apt-get -y install procps iproute2 tree nmap vim ldap-utils slapd less 
+RUN mkdir /opt/docker
+COPY * /opt/docker/
+RUN chmod +x /opt/docker/startup.sh
+WORKDIR /opt/docker
+CMD /opt/docker/startup.sh
+EXPOSE 389
 ```
 
+*NOTA: DOCKERFILE*
+ * **FROM**: De quina imatge partim copiarem les dades.
+ * **LABEL version**: Versió del Dockerfile.
+ * **LABEL author**: Author del Dockerfile.
+ * **LABEL subject**: Nom del Dockerfile.
+ * **RUN**: Executa comandes durant el docker build, per input.
+ * **ARG DEBIAN_FRONTEND**: Per poder executar comandes com per exemple en segon pla. Per defecte posem noninteractive.
+ * **COPY**: Copia l'origen en aquest cas * (ALL) a un directori /opt/docker
+ * **WORKDIR**: Directori de treball un cop iniciat docker.
+ * **CMD**: Executa scripts.
+ * **EXPOSE**: Propagació del port.
 
-**LDAP**
+**COMMIT**
 
+Crear una snapshot a partir del container engegat, es a dir, salvaguardem el punt de partida en una altre imatge.
+```
+docker commit -m "La meva nova imatge editada de ACL, modificada" ldap.edt.org keshikid03/ldap21:acl_v1
+```
+```
+docker commit ldap.edt.org keshikid03/ldap21:acl_v1
+```
+
+**ALWAYS ACTIVE**
+
+Engegar un container sempre al iniciar DOCKER
+```
+docker run --restart always --name ldap.edt.org -h ldap.edt.org --net 2hisx -p 389:389 -d keshikid03/ldap21:acl
+```
+```
+systemctl is-enabled docker
+```
+
+## COMANDES
+### LDAP
 
 Fer una recerca de totes les dades de la database edt org
 ```
