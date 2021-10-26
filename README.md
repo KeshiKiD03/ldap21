@@ -251,8 +251,14 @@ Crear una imatge per mitjà d'un Dockerfile
 docker build -t keshikid03/ldap21:base .
 ```
 
-| Exemple de DOCKERFILE |
-| : ---		 |
+Colons can be used to align columns.
+
+| NOTA        | 
+| ------------- |
+| Exemple de Dockerfile     |
+
+
+
 ```
 # ldapserver
 FROM debian:latest
