@@ -26,13 +26,13 @@ ASIX M06-ASO Escola del Treball de Barcelona.
 ## INDEX
 **DOCKER**: [readme DOCKER](https://github.com/KeshiKiD03/ldap21#docker)
 
-**LDAP**: [readme LDAP](https://github.com/KeshiKiD03/ldap21#ldap-server-2)
-* **INSTAL·LACIÓ I CONFIGURACIÓ**: [readme LDAP 'INSTAL·LACIÓ I CONFIGURACIÓ'](https://github.com/KeshiKiD03/ldap21#installaci%C3%B3-i-configuraci%C3%B3)
-* **CONSULTES (LDAPSEARCH)**: [readme LDAP 'CONSULTES (LDAPSEARCH)'](https://github.com/KeshiKiD03/ldap21#consultes-ldapsearch)
-* **INSERCIÓ, MODIFICACIÓ I ESBORRAT**: [readme LDAP 'INSERCIÓ, MODIFICACIÓ I ESBORRAT'](https://github.com/KeshiKiD03/ldap21#inserci%C3%B3-modificaci%C3%B3-i-esborrat)
-* **SLAPPASSWD I LDAPPASSWD**: [readme LDAP 'SLAPPASSWD I LDAPPASSWD'](https://github.com/KeshiKiD03/ldap21#slappasswd-i-ldappasswd)
-* **SCHEMES**: [readme LDAP 'SCHEMES'](https://github.com/KeshiKiD03/ldap21#schemes)
-* **ACL**: [readme LDAP 'ACL'](https://github.com/KeshiKiD03/ldap21#acl)
+**LDAP**: [readme LDAP](https://github.com/KeshiKiD03/ldap21#ldap-server-1)
+* **INSTAL·LACIÓ I CONFIGURACIÓ**: [readme](https://github.com/KeshiKiD03/ldap21#installaci%C3%B3-i-configuraci%C3%B3)
+* **CONSULTES (LDAPSEARCH)**: [readme](https://github.com/KeshiKiD03/ldap21#consultes-ldapsearch)
+* **INSERCIÓ, MODIFICACIÓ I ESBORRAT**: [readme](https://github.com/KeshiKiD03/ldap21#inserci%C3%B3-modificaci%C3%B3-i-esborrat)
+* **SLAPPASSWD I LDAPPASSWD**: [readme](https://github.com/KeshiKiD03/ldap21#slappasswd-i-ldappasswd)
+* **SCHEMES**: [readme](https://github.com/KeshiKiD03/ldap21#schemes)
+* **ACL**: [readme](https://github.com/KeshiKiD03/ldap21#acl)
 
 
 
@@ -177,6 +177,18 @@ docker rm [CONTAINER]
 Renombre les imatges de DOCKER
 ```
 docker rename [container] [new_container]
+```
+
+⭐️ **Copiar fitxers del DOCKER al HOST** ⭐️
+
+Copiem arxius desde dins del DOCKER al HOST
+```
+docker cp [container]:/[ruta] [ruta_host]
+```
+
+Copiem arxius desde el HOST al DOCKER
+```
+docker cp [ruta_host] [container]:/[ruta] 
 ```
 
 
@@ -339,12 +351,18 @@ systemctl is-enabled docker
 
 1. Instal·lar i configurar DOCKER. [install DOCKER](https://docs.docker.com/engine/install/debian/)
 
-2. Que es LDAP? [what is LDAP](https://ldapwiki.com/wiki/LDAP)
+2. Que es LDAP? [what is LDAP](https://www.profesionalreview.com/2019/01/05/ldap/)
 
 | LDAP ✅      | 
 | ------------- |
-| *slapd: Es el daemon del servidor* |
-| *ldap-utils: Son les comandes del client* |
+| *LDAP es un conjunt de protocols que són utilitzats per accedir a la informació emmagatzemada de forma centralitzada en forma d'arbre en la xarxa.* |
+| *S'utilitza a nivell d'aplicació.* |
+| *Model client-servidor.* |
+| *Conjunt d'objectes que están organitzats en forma jerarquica.*|
+| *Funcionament similar al Active Directory de Windows.*|
+| *Utilitza el port 389 per a comunicar-se.*|
+| *Permet autenticació d'usuaris de forma eficaç.*|
+
 
 3. Iniciem una nova imatge de Docker que será basada en DEBIAN:LATEST.
 ```
@@ -356,7 +374,7 @@ docker run --name ldap.edt.org -h ldap.edt.org -it debian /bin/bash
 docker ps
 ```
 
-5. Dins del contenidor realitzem.
+5. Dins del contenidor realitzem, una actualizació, després els paquets bàsics i els paquets de LDAP.
 ```
 apt-get update
 ```
@@ -369,88 +387,147 @@ apt-get -y install slapd ldap-utils
 
 | 🔥NOTA IMPORTANT❗🔥 | 
 | ------------- |
-| *slapd: Es el daemon del servidor* |
-| *ldap-utils: Son les comandes del client* |
+| *slapd: Es el daemon del servidor. En algun moment ens demanarà password de Root. Com a password li posem "secret"* |
+| *ldap-utils: Son les comandes del client.* |
+| *iproute2: Per a poder fer ip a, route, arp.* |
+| *procps: Utilitats de consola.* |
+| *procps: Mapeig de ports.* |
 
 
-6. 
+6. Observem amb *dpkg* quines ordres ens ha instal·lat.
+```
+dpkg -L slapd | grep "/bin" o dpkg -L ldap | grep "/bin" 
 ```
 
+7. Al instal·lar *slapd* s'ha creat /etc/ldap. Dins de /etc/ldap/.
+
+| 🔥NOTA IMPORTANT❗🔥 | 
+| ------------- |
+| *ldap.conf --> Configuració client.* |
+| *slapd.conf --> Configuració del servidor.* |
+| *slapd.d --> Directori de configuració del servidor.* |
+| *slap... --> Ordres de Servidor.* |
+| *ldap... --> Ordres de Client.* |
+
+
+8. Fem un *tree* per veure la estructura del servidor per defecte. I fer un *slaptest* per a verificar la integritat del LDAP.
+```
+tree /etc/ldap/slapd.d
+```
+```
+slaptest # Genera un directori de configuració a partir d'un fitxer
 ```
 
-7. aw
+9. Fet un GIT CLONE del GITHUB del PROFE. I copiem  certs fitxets.
+```
+git clone https://github.com/edtasixm06/ldap21.git
 ```
 
+10. Ens movem a /etc/ldap.
+```
+cd /etc/ldap
 ```
 
-8. 2
+11. Copiem el contingut del *slapd.conf* del PROFE al nostre.
 ```
+vim slapd.conf
+```
+```
+...
+include		/opt/docker/aaron.schema
 
-```
-
-9. 
-```
-
-```
-
-10. 
-```
-
-```
-
-11. 
-```
-
-```
-
-10. 
-```
-
-```
-
-11. aw
-```
-
-```
-
-12. 2
-```
-
-```
-
-13. 
-```
-
-```
-
-14. 
-```
-
-```
-
-15. 
-```
+database mdb
+suffix "dc=edt,dc=org"
+rootdn "cn=Manager,dc=edt,dc=org"
+rootpw {SSHA}nGnnCLjjdiKky4o0swoYmTOW4F8cJOWq
+directory /var/lib/ldap
+index objectClass eq,pres
+access to * by self write 	by * read
 
 ```
 
-16. 
+| 🔥NOTA IMPORTANT❗🔥 | 
+| ------------- |
+| *slapd.conf --> Configuració del servidor.* |
+| ------------- |
+| *suffix --> Nom del servidor* |
+| *rootdn --> Nom del ROOT, root distinguished name* |
+| *rootpw --> Password ROOT, preferiblement xifrat SSHA* |
+| *directory --> Directory d'usuari* |
+| *access --> ACL, tothom té accés, només l'usuari actual pot escriure i tothom pt llegir * |
+| *include* --> Inserció d'esquemes |
+
+10. Amb la comanda slaptest ensamblem el LDAP.
+```
+slaptest -f slapd.conf -F slapd.d -u
 ```
 
+| 🔥NOTA IMPORTANT❗🔥 | 
+| ------------- |
+| *slaptest --> Ensamblar servidor.* |
+| ------------- |
+| *-f --> Arxiu de configuració* |
+| *-F --> Output* |
+| *-u --> Omet i segueix endavant, omet errors* |
+
+
+11. Verifiquem la configuració de LDAP.
+```
+slapcat
+```
+```
+slapcat -n0 # Motor del LDAP
+```
+```
+slapcat -n1 # BD de l'usuari
 ```
 
-17. aw
+12. Borrem lo que hi hà per defecte que genera LDAP. 
+```
+rm -rf slapd.d/* /var/lib/ldap/*
 ```
 
+| 🔥NOTA IMPORTANT❗🔥 | 
+| ------------- |
+| *slaptest --> Ensamblar servidor.* |
+| ------------- |
+| *slapd.d/. --> Directori Daemon LDAP* |
+| */var/lib/ldap --> Directori de dades, on el sistema posa les dades* |
+| *-u --> Omet i segueix endavant, omet errors* |
+
+13. Tornem a copiar i enganxar la configuració del *slapd.conf* del PROFE al nostra *slapd.conf*.
+```
+vim slapd.conf # COPIAR EL GIT DEL PROFE
 ```
 
-18. 2
+14. Tornar a fer la comanda *slaptest*
+```
+slaptest -f slapd.conf -F slapd.d -u
 ```
 
+15. Fer la injecció massiva de la configuració de la estructura *organització-edt.org.ldif* i *organització.ldif* del GIT del PROFESSOR a la nostra carpeta.
+```
+slapadd -F /etc/ldap/slapd.d -l organitzacio-edt.org.ldif
 ```
 
-19. 
+16. Tornem a executar el *slaptest*
+```
+slaptest -f slapd.conf -F slapd.d -u
 ```
 
+17. Visualitzem el resultat amb *slapcat*
+```
+slapcat
+```
+
+18. Cambiem els permisos d'ambdós directoris:
+```
+sudo chown -R openldap.openldap slapd.d /var/lib/ldap
+```
+
+19. Fem un ls de /var/lib/ldap per veure el resultat.
+```
+ls -l /var/lib/ldap
 ```
 
 20. 
