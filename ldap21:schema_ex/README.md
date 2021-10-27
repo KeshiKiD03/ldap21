@@ -10,6 +10,9 @@ ASIX M06-ASO Escola del treball de barcelona
 
 
  * **edtasixm06/ldap21:schema** Servidor LDAP amb la base de dades edt.org
+
+ * REPÀS PER A L'EXAMEN DE LDAP 
+
    S'ha fet el següent:
 
    * futbolistaA.schema: Derivat de inetorgPerson, structural, injectat dades

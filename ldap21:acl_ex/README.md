@@ -12,6 +12,8 @@ ASIX M06-ASO Escola del treball de barcelona
  * **edtasixm06/ldap21:acl** Servidor LDAP amb la base de dades edt.org
    S'ha fet el següent:
    
+   * repàs per a l'examen LDAP
+
    * eliminats el schema innecesaris
 
    * definir la base de dades cn=config amb usuari cn=Sysadmin,cn=config i passwd syskey cifrat

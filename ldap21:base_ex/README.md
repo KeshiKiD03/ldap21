@@ -11,6 +11,8 @@ ASIX M06-ASO Escola del treball de barcelona
 
  * **edtasixm06/ldap21:base** Servidor LDAP base inicial amb la base de dades edt.org
 
+ * REPÀS PER A L'EXAMEN DE LDAP
+
 ```
 docker network create hisx2
 docker build -t edtasixm06/ldap21:base .
