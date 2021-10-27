@@ -1,2 +1,2 @@
 #! /bin/bash
-git push https://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@github.com/KeshiKiD03/ldap21.git
+git push https://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@github.com/KeshiKiD03/ldap21.git
