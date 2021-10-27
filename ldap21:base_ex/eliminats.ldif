@@ -1,0 +1,8 @@
+# exemple de llista d'usuaris a eliminar
+# ldapdelete -vx -h 172.17.0.2 -D 'cn=Manager,dc=edt,dc=org'  -w secret -f eliminats.ldif 
+#
+cn=Anna Pou,ou=usuaris,dc=edt,dc=org
+cn=user03,ou=usuaris,dc=edt,dc=org
+cn=user04,ou=usuaris,dc=edt,dc=org
+cn=user05,ou=usuaris,dc=edt,dc=org
+

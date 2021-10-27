@@ -1,0 +1,6 @@
+dn: x-lonom=dembele,ou=usuaris,dc=edt,dc=org
+objectClass: x-futbolista
+x-lonom: dembele
+x-equip: barca
+x-lesionat: TRUE
+

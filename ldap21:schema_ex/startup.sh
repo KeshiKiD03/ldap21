@@ -7,22 +7,12 @@ rm -rf /etc/ldap/slapd.d/*
 rm -rf /var/lib/ldap/*
 slaptest -f /opt/docker/slapd.conf -F /etc/ldap/slapd.d
 slapadd  -F /etc/ldap/slapd.d -l /opt/docker/edt.org.ldif
-slapadd  -F /etc/ldap/slapd.d -l /opt/docker/add-kpop-idols.ldif
-slapadd  -F /etc/ldap/slapd.d -l /opt/docker/add-kpop-workers.ldif
-slapadd  -F /etc/ldap/slapd.d -l /opt/docker/add-kpop-grups.ldif
-slapadd  -F /etc/ldap/slapd.d -l /opt/docker/add-kpop-tv.ldif
 slapcat
 
 chown -R openldap.openldap /etc/ldap/slapd.d /var/lib/ldap
 cp /opt/docker/ldap.conf /etc/ldap/ldap.conf
-
-# Para mode Detach
-#/usr/sbin/slapd -d0
-
-bash /opt/docker/inserir.sh
-
-# Para mode IT
-/usr/sbin/slapd
+/usr/sbin/slapd -d0
+#/usr/sbin/slapd
 
 # Pendent:
 # configuració client

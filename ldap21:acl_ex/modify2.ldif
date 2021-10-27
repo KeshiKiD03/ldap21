@@ -1,0 +1,4 @@
+dn: uid=pau,ou=usuaris,dc=edt,dc=org
+changetype: modify
+replace: olcRootPW
+olcRootPW: anna

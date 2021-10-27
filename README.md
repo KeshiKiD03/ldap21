@@ -505,19 +505,19 @@ vim slapd.conf # COPIAR EL GIT DEL PROFE
 slaptest -f slapd.conf -F slapd.d -u
 ```
 
-15. Fer la injecció massiva de la configuració de la estructura *organització-edt.org.ldif* i *organització.ldif* del GIT del PROFESSOR a la nostra carpeta.
+15. Fer la injecció massiva de la configuració de la estructura de la BD *organització.ldif* del GIT del PROFESSOR a la nostra carpeta.
 ```
-slapadd -F /etc/ldap/slapd.d -l organitzacio-edt.org.ldif
-```
-
-16. Tornem a executar el *slaptest*
-```
-slaptest -f slapd.conf -F slapd.d -u
+slapadd -F /etc/ldap/slapd.d -l organitzacio.ldif
 ```
 
-17. Visualitzem el resultat amb *slapcat*
+16. Visualitzem el resultat amb *slapcat*
 ```
 slapcat
+```
+
+17. Fem un ls de /var/lib/ldap per veure el resultat.
+```
+ls -l /var/lib/ldap
 ```
 
 18. Cambiem els permisos d'ambdós directoris:
@@ -525,87 +525,79 @@ slapcat
 sudo chown -R openldap.openldap slapd.d /var/lib/ldap
 ```
 
-19. Fem un ls de /var/lib/ldap per veure el resultat.
+19. Fem un ls de /var/lib/ldap i de /etc/ldap/slapd.d per veure el resultat.
 ```
 ls -l /var/lib/ldap
 ```
-
-20. 
+```
+ls -l /etc/ldap/slapd.d
 ```
 
+
+20. Fer la injecció massiva dels usuaris pero desde el client *usuaris-edt.org.ldif* del GIT del PROFESSOR a la nostra carpeta.
+```
+ldapadd -x -h localhost -D 'cn=Manager,dc=edt,dc=org' -w secret -F usuaris-edt.org.ldif
 ```
 
-21. 
+21. Iniciem el DAEMON abans.
+```
+/usr/sbin/slapd
 ```
 
+22. Visualitzem el resultat amb *slapcat*
+```
+slapcat
 ```
 
-22. 
+23. Realitzem una consulta a veure si funciona
 ```
+ldapsearch -x -LLL -h localhost -b 'dc=edt,dc=org'
+```
+| 🔥NOTA IMPORTANT❗🔥 | 
+| ------------- |
+| *ldapsearch --> SELECT.* |
+| ------------- |
+| *-x --> Autenticació simple* |
+| *-LLL --> Sense capçalera, simple* |
+| *-h --> Host (Configurable en /etc/ldap/ldap.conf --> URI)* |
+| *-b --> Base Search (Configurable en /etc/ldap/ldap.conf --> BASE)* |
 
-```
 
-23. aw
-```
-
-```
-
-24. 2
-```
-
-```
-
-25. 
-```
-
-```
-
-26. 
-```
-
-```
-
-27. 
-```
-
-```
-
-28. 
-```
-
-```
-
-29. aw
-```
-
-```
-
-30. 2
-```
-
-```
-
-31. 
-```
-
-```
-
-32. 
-```
-
-```
-
-33. 
-```
-
-```
-
-34. 
-```
-
-```
 
 ### CONSULTES (LDAPSEARCH)
+
+* Fer una recerca de totes les dades de la database edt org
+```
+ldapsearch -x -LLL -h ldap.edt.org -b 'dc=edt,dc=org'
+```
+
+* 
+
+* 
+
+* 
+
+* 
+
+* 
+
+* 
+
+* 
+
+* 
+
+* 
+
+* 
+
+* 
+
+* 
+
+* 
+
+* 
 
 ### INSERCIÓ, MODIFICACIÓ I ESBORRAT
 
