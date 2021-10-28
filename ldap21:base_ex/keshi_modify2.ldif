@@ -1,0 +1,19 @@
+# PRACTICA EXEMPLE DE INSERIR, BORRAR I MODIFICAR USUARIS .LDIF
+# Generar Password amb slappasswd -h {SSHA} - Per defecte SSHA
+# root@ldap:/opt/docker# slappasswd
+# New password: 
+# Re-enter new password: 
+# {SSHA}uPEwFg+pBqWbr/LLWEt25YiH8hpv7NG5
+# root@ldap:/opt/docker# 
+# PARA LDAP21:EDITAT_EX
+
+dn: cn=Jordi Mas,ou=usuaris,dc=edt,dc=org
+changetype: modify
+add: mail
+mail: patim@edt.org
+
+dn: cn=Marta Mas,ou=usuaris,dc=edt,dc=org
+changetype: modify
+add: homephone
+homephone: 555-123-123
+# Es genera un nou modifyº

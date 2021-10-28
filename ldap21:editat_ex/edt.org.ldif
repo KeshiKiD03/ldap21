@@ -317,5 +317,18 @@ gidNumber: 614
 homeDirectory: /tmp/home/1hiaw/new02
 userPassword: {SSHA}y4gNNLvnK98R99SUa1eHo9T8csL/O8wV
 
-
-
+dn: cn=Keshi Kid,ou=usuaris,dc=edt,dc=org
+objectclass: posixAccount
+objectclass: inetOrgPerson
+cn: Keshi
+cn: Kid
+sn: Keshikid
+homephone: 565-764-967
+mail: keshi@edt.org
+description: Keshi
+ou: Profes
+uid: keshi
+uidNumber: 5005
+gidNumber: 100
+homeDirectory: /tmp/home/keshi
+userPassword: {SSHA}uPEwFg+pBqWbr/LLWEt25YiH8hpv7NG5

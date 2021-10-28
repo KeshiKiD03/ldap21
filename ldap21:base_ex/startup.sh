@@ -12,7 +12,7 @@ slapadd  -F /etc/ldap/slapd.d -l /opt/docker/usuaris-mes-edt.org.ldif
 slapcat
 
 chown -R openldap.openldap /etc/ldap/slapd.d /var/lib/ldap
-/usr/sbin/slapd -d0 
+/usr/sbin/slapd
 
 
 # Pendent:

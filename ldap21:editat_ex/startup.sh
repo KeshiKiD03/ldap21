@@ -17,4 +17,3 @@ cp /opt/docker/ldap.conf /etc/ldap/ldap.conf
 # Pendent:
 # configuració client
 # posar totes les dades en una injecció massiva inicial
-

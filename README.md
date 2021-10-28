@@ -565,39 +565,338 @@ ldapsearch -x -LLL -h localhost -b 'dc=edt,dc=org'
 
 
 ### CONSULTES (LDAPSEARCH)
+ 
+- Es importante configurar el ldap.conf tanto de cliente como de servidor. Sino buscará en el Gandhi.
+- -x (Simple authentication)
+- -D (Autenticarse)
+- -w (Contraseña en texto plano)
+- -W (Introducir contraseña)
+- -LLL (Obtener respuestas 'planas', sin encabezados ni comentarios, solo datos de respuesta).
+- & --> AND
+- | --> OR
+- ! --> NOT
+- Ejemplo: (& ( | (cn=* Mas) (cn=* Pou) ) (gidNumber=600) ) # AND de 2 objetos, uno es obligatorio y el otro es uno de los 2 si cumple.
+- ldapserach -x -LLL [-h 172.18.0.2 -b 'dc=edt,dc=org'] dn cn mail uid uidNumber
+Nos muestra el arbol de directorio, pero sólo los campos Distinguished Name, Common Name, Mail, Identificador y UidNumber.
+- ldapsearch -x -LLL '(|(cn=user01)(cn=user02))' --> Importante poner las comillas simples fuera del condicional. Verificar parentesis.
+- ldapsearch -x -LLL '(!(gidNumber=100))' --> Importante estructura parentesis.
+- ldapsearch -x -LLL -D "cn=Manager,dc=edt,dc=org" -w secret
+ 
 
-* Fer una recerca de totes les dades de la database edt org
+**LDAPSEARCH**
+-----------
+
+
+Repaso práctico inventado.
+- Muestrame el DN.
 ```
-ldapsearch -x -LLL -h ldap.edt.org -b 'dc=edt,dc=org'
+ldapsearch -x -LLL dn
+
+dn: ou=clients,dc=edt,dc=org
+
+dn: ou=productes,dc=edt,dc=org
+
+dn: ou=grups,dc=edt,dc=org
+
+dn: ou=usuaris,dc=edt,dc=org
+
+dn: uid=pau,ou=usuaris,dc=edt,dc=org
 ```
 
-* 
 
-* 
+- Muestrame el user01 y user02.
+```
+ldapsearch -x -LLL '(|(cn=user01)(cn=user02))'
 
-* 
+dn: uid=user01,ou=usuaris,dc=edt,dc=org
 
-* 
+dn: uid=user02,ou=usuaris,dc=edt,dc=org
+```
 
-* 
+- Muestrame el usuario 07 o new02 y que tenga grupo 614.
+```
+ldapsearch -x -LLL '(&(|(cn=user07)(cn=new02))(gidNumber=614))'
 
-* 
+dn: uid=new02,ou=usuaris,dc=edt,dc=org
+objectClass: posixAccount
+objectClass: inetOrgPerson
+cn: new02
+sn: new02
+uid: new02
+uidNumber: 7021
+gidNumber: 614
+homeDirectory: /tmp/home/2asix/new02
+userPassword:: e1NTSEF9eVVSZDRIL0xLaU5oVlBldnFhNWFldjZ4T2djdHJVeUc=
+```
 
-* 
+- Muestrame el cn=* Pou.
+```
+ldapsearch -x -LLL 'cn=* Pou' | grep dn
 
-* 
+dn: uid=pau,ou=usuaris,dc=edt,dc=org
+dn: uid=pere,ou=usuaris,dc=edt,dc=org
+dn: uid=anna,ou=usuaris,dc=edt,dc=org
 
-* 
+ldapsearch -x -LLL 'cn=* Pou' dn
 
-* 
+dn: uid=pau,ou=usuaris,dc=edt,dc=org
 
-* 
+dn: uid=pere,ou=usuaris,dc=edt,dc=org
 
-* 
+dn: uid=anna,ou=usuaris,dc=edt,dc=org
+```
 
-* 
+- Muestrame los usuarios que empiecen con el número de teléfono 555*.
+```
+root@ldap:/opt/docker# ldapsearch -x -LLL -h 172.18.0.2 -b 'dc=edt,dc=org' 'homePhone=555*' homePhone
+dn: uid=pau,ou=usuaris,dc=edt,dc=org
+homePhone: 555-222-2220
 
-* 
+dn: uid=pere,ou=usuaris,dc=edt,dc=org
+homePhone: 555-222-2221
+
+dn: uid=anna,ou=usuaris,dc=edt,dc=org
+homePhone: 555-222-2222
+
+dn: uid=marta,ou=usuaris,dc=edt,dc=org
+homePhone: 555-222-2223
+
+dn: uid=jordi,ou=usuaris,dc=edt,dc=org
+homePhone: 555-222-2224
+
+dn: uid=admin,ou=usuaris,dc=edt,dc=org
+homePhone: 555-222-2225
+```
+
+```
+root@ldap:/opt/docker# ldapsearch -x -LLL -h 172.18.0.2 -b 'dc=edt,dc=org' 'homePhone=555*' | grep homePhone
+
+homePhone: 555-222-2220
+homePhone: 555-222-2221
+homePhone: 555-222-2222
+homePhone: 555-222-2223
+homePhone: 555-222-2224
+homePhone: 555-222-2225
+homePhone: 555-222-0001
+homePhone: 555-222-0002
+homePhone: 555-222-0003
+homePhone: 555-222-0004
+homePhone: 555-222-0005
+homePhone: 555-222-0006
+homePhone: 555-222-0007
+homePhone: 555-222-0008
+homePhone: 555-222-0009
+homePhone: 555-222-0016
+```
+
+
+- Muestrame los usuarios que no tengan como gidNumber empiecen por 100.
+```
+ldapsearch -x -LLL '(!(gidNumber=100))' | grep gidNumber
+
+gidNumber: 600
+gidNumber: 600
+gidNumber: 10
+gidNumber: 610
+gidNumber: 610
+gidNumber: 610
+gidNumber: 610
+gidNumber: 610
+gidNumber: 611
+gidNumber: 611
+gidNumber: 611
+gidNumber: 611
+gidNumber: 611
+gidNumber: 613
+gidNumber: 614
+```
+
+- Muestrame todos los usuarios que empiecen por user
+```
+ldapsearch -x -LLL 'cn=user*'
+
+root@ldap:/opt/docker# ldapsearch -x -LLL 'cn=user*' dn         
+dn: uid=user01,ou=usuaris,dc=edt,dc=org
+
+dn: uid=user02,ou=usuaris,dc=edt,dc=org
+
+dn: uid=user03,ou=usuaris,dc=edt,dc=org
+
+dn: uid=user04,ou=usuaris,dc=edt,dc=org
+
+dn: uid=user05,ou=usuaris,dc=edt,dc=org
+
+dn: uid=user06,ou=usuaris,dc=edt,dc=org
+
+dn: uid=user07,ou=usuaris,dc=edt,dc=org
+
+dn: uid=user08,ou=usuaris,dc=edt,dc=org
+
+dn: uid=user09,ou=usuaris,dc=edt,dc=org
+
+dn: uid=user10,ou=usuaris,dc=edt,dc=org
+```
+
+- Muestrame todos los usuarios que empiecen por new.
+```
+ldapsearch -x -LLL 'cn=new*'
+
+root@ldap:/opt/docker# ldapsearch -x -LLL 'cn=new*'
+dn: uid=new01,ou=usuaris,dc=edt,dc=org
+objectClass: posixAccount
+objectClass: inetOrgPerson
+cn: new01
+sn: new02
+uid: new01
+uidNumber: 7020
+gidNumber: 613
+homeDirectory: /tmp/home/2asix/new01
+userPassword:: e1NTSEF9MURITGdPMDNIZ1B4QTN1dmJYWVFjTTFSK1g5ZkxhVFc=
+
+dn: uid=new02,ou=usuaris,dc=edt,dc=org
+objectClass: posixAccount
+objectClass: inetOrgPerson
+cn: new02
+sn: new02
+uid: new02
+uidNumber: 7021
+gidNumber: 614
+homeDirectory: /tmp/home/2asix/new02
+userPassword:: e1NTSEF9eVVSZDRIL0xLaU5oVlBldnFhNWFldjZ4T2djdHJVeUc=
+```
+
+- Muestrame los usuarios que no tengan como gidNumber empiecen por 100 y que tengan como usuario new*.
+```
+ldapsearch -x -LLL '(&(!(gidNumber=100))(cn=new*))'
+
+root@ldap:/opt/docker# ldapsearch -x -LLL '(&(!(gidNumber=100))(cn=new*))'
+dn: uid=new01,ou=usuaris,dc=edt,dc=org
+objectClass: posixAccount
+objectClass: inetOrgPerson
+cn: new01
+sn: new02
+uid: new01
+uidNumber: 7020
+gidNumber: 613
+homeDirectory: /tmp/home/2asix/new01
+userPassword:: e1NTSEF9MURITGdPMDNIZ1B4QTN1dmJYWVFjTTFSK1g5ZkxhVFc=
+
+dn: uid=new02,ou=usuaris,dc=edt,dc=org
+objectClass: posixAccount
+objectClass: inetOrgPerson
+cn: new02
+sn: new02
+uid: new02
+uidNumber: 7021
+gidNumber: 614
+homeDirectory: /tmp/home/2asix/new02
+userPassword:: e1NTSEF9eVVSZDRIL0xLaU5oVlBldnFhNWFldjZ4T2djdHJVeUc=
+```
+- Muestrame los usuarios que no contengan Pou en su cn y que sean del grupo 610.
+```
+ldapsearch -x -LLL '(&(!(cn=*Pou*))(gidNumber=610))'
+
+root@ldap:/opt/docker# ldapsearch -x -LLL '(&(!(cn=*Pou*))(gidNumber=610))'
+dn: uid=user01,ou=usuaris,dc=edt,dc=org
+objectClass: posixAccount
+objectClass: inetOrgPerson
+cn: user01
+cn: alumne01 de 1asix de todos los santos
+sn: alumne01
+homePhone: 555-222-0001
+mail: user01@edt.org
+description: alumne de 1asix
+ou: 1asix
+uid: user01
+uidNumber: 7001
+gidNumber: 610
+homeDirectory: /tmp/home/1asix/user01
+userPassword:: e1NIQX1vdmY4dGEvcmVZUC91MnpqMGFmcEh0OHlFMUE9
+```
+
+- Muestrame todos los usuarios que NO empiecen por new, que terminen con el telefono 002  y que no tengan como grupo 611.
+```
+ldapsearch -x -LLL '(&(!(cn=new*))(homephone=*002)(!(gidNumber=611)))'
+
+root@ldap:/opt/docker# ldapsearch -x -LLL '(&(!(cn=new*))(homephone=*002)(!(gidNumber=611)))'
+dn: uid=user02,ou=usuaris,dc=edt,dc=org
+objectClass: posixAccount
+objectClass: inetOrgPerson
+cn: user02
+cn: alumne02 Pou Prat
+sn: alumne02
+homePhone: 555-222-0002
+mail: user02@edt.org
+description: alumne de 1asix
+ou: 1asix
+uid: user02
+uidNumber: 7002
+gidNumber: 610
+homeDirectory: /tmp/home/1asix/user02
+userPassword:: e1NIQX1vdmY4dGEvcmVZUC91MnpqMGFmcEh0OHlFMUE9
+```
+
+- Muestrame el usuario que termina en Mas y tenga como GID 600.
+```
+root@ldap:/opt/docker# ldapsearch -x -LLL '(&(cn=* Mas)(gidNumber=600))'
+dn: uid=marta,ou=usuaris,dc=edt,dc=org
+objectClass: posixAccount
+objectClass: inetOrgPerson
+cn: Marta Mas
+sn: Mas
+homePhone: 555-222-2223
+mail: marta@edt.org
+description: Watch out for this girl
+ou: Alumnes
+uid: marta
+uidNumber: 5003
+gidNumber: 600
+homeDirectory: /tmp/home/marta
+userPassword:: e1NTSEF9OSsxRjJmNXZjVzh6L3RtU3pZTldkbHo1R2JEQ3lvT3c=
+```
+
+
+Consultes ldapsearch [BASE]
+--------------------
+ldapsearch -x -LLL [Debería funcionar] [Estamos dentro del Servidor (Habiendo configurado ldap.conf)]
+
+[Sino hay que configurar el /etc/ldap/ldap.conf]
+En el servidor 
+
+    BASE dc=edt,dc=org # (Base search -b)
+    URI     ldap://ldap.edt.org # (Es el nombre del Host del Container)
+
+
+```
+   16  ldapsearch -x -LLL -h localhost -b 'dc=edt,dc=org'
+   17  ldapsearch -x -LLL
+   18  ldapsearch -x -LLL -h ldap.edt.org -b 'dc=edt,dc=org'
+   19  ldapsearch -x -LLL -h 127.0.0.1 -b 'dc=edt,dc=org'
+
+```
+
+
+En el *cliente*
+
+
+    BASE dc=edt,dc=org # (Base search -b)
+    URI     ldap://172.18.0.2 # (Es la ip del Host del Container)
+
+
+
+Populate : Injecció massiva a la BD [Hacer un populate]
+
+rdn= uid=pau
+
+dn entero:
+
+dn: uid=pau,ou=usuaris,dc=edt,dc=org
+
+
+
+
+
+
 
 ### INSERCIÓ, MODIFICACIÓ I ESBORRAT
 
@@ -686,8 +985,10 @@ userPassword:: e1NTSEF9dVBFd0ZnK3BCcVdici9MTFdFdDI1WWlIOGhwdjdORzU=
 ldapwhoami -x -D "cn= Keshi Kid,ou=usuaris,dc=edt,dc=org" -w keshi
 ```
 
+```
 root@ldap:/opt/docker# ldapwhoami -x -D "cn=Keshi Kid,ou=usuaris,dc=edt,dc=org" -w keshi
 dn:cn=Keshi Kid,ou=usuaris,dc=edt,dc=org
+```
 
 4. Desde nuestro CLIENTE hacemos un ldapsearch con el contenedor ldap.edt.org encendido con credenciales del usuario creado i filtramos por el usuario creado.
 ```
@@ -778,7 +1079,32 @@ Visualizamos el resultado
 ldapsearch -x -LLL -h 172.19.0.2 -b 'dc=edt,dc=org'
 ```
 
-**Forma 2: Para el fichero desde el CLIENTE**
+**Ejemplo:
+```
+ubuntu@keshi:~/Documents/ldap21/ldap21:base_ex$ ldapdelete -x -h 172.18.0.2 -D "cn=Manager,dc=edt,dc=org" -w secret -f keshi_delete.ldif 
+ldap_delete: Invalid DN syntax (34)
+	additional info: invalid DN
+	
+ubuntu@keshi:~/Documents/ldap21/ldap21:base_ex$ ldapdelete -vx -h 172.18.0.2 -D "cn=Manager,dc=edt,dc=org" -w secret -f keshi_delete.ldif 
+ldap_initialize( ldap://172.18.0.2 )
+deleting entry "# DARA ERROR COMENTARIO"
+ldap_delete: Invalid DN syntax (34)
+	additional info: invalid DN
+	
+ubuntu@keshi:~/Documents/ldap21/ldap21:base_ex$ ldapdelete -vxc -h 172.18.0.2 -D "cn=Manager,dc=edt,dc=org" -w secret -f keshi_delete.ldif 
+ldap_initialize( ldap://172.18.0.2 )
+deleting entry "# DARA ERROR COMENTARIO"
+ldap_delete: Invalid DN syntax (34)
+	additional info: invalid DN
+deleting entry "cn=Keshi Kid,ou=usuaris,dc=edt,dc=org"
+deleting entry "cn=Anna Pou,ou=usuaris,dc=edt,dc=org"
+deleting entry "cn=Pere Pou,ou=usuaris,dc=edt,dc=org"
+```
+*Solució: No posar comentaris en els fitxers d'esborrar.*
+
+
+**Forma 2: Desde input mediante el CLIENTE**
+
 ```
 ldapdelete -vx -h 172.19.0.2 -D 'cn=Manager,dc=edt,dc=org' -w secret 'cn=Keshi Kid,ou=usuaris,dc=edt,dc=org'
 ```
@@ -799,6 +1125,212 @@ ldapsearch -x -LLL -h 172.19.0.2 -b 'dc=edt,dc=org'
 | ------------- |
 | *ldapmodify --> MODIFICA.* |
 | ------------- |
+| *Engloba 4 modalitats: add, delete, modify, modrdn* |
+| *Requereix el *changetype* obligatori* |
+| *Per add:* |
+| *Per delete:* |
+| *Per modificar: Necesitem el *replace* |
+| *-f --> Fitxer LDIF* |
+| *Tot lo que s'escrigui fins que hagui un salt de línia, son modificacions, es posa un *-* *per a continuar editant atributs* |
+| *Exemple de add [CHANGETYPE ADD]:* |
+| *add: homephone* |
+| *homephone: 343352* |
+| *Es pot afegir diversos telefons* |
+| *Exemple de modify[replace] [CHANGETYPE MODIFY]:* |
+| *replace: mail [ATRIBUT]* |
+| *mail: hola@edt.org* |
+| *Exemple de delete [CHANGETYPE: DELETE]:* |
+| *delete: description[ATRIBUT]* |
+| *En MODIFY, pots combinar totes* |
+| *delete: description [ATRIBUT]* |
+
+
+A partir de los ficheros *keshi_modify1.ldif* *keshi_modify2.ldif*
+
+```
+# PRACTICA EXEMPLE DE INSERIR, BORRAR I MODIFICAR USUARIS .LDIF
+# Generar Password amb slappasswd -h {SSHA} - Per defecte SSHA
+# root@ldap:/opt/docker# slappasswd
+# New password: 
+# Re-enter new password: 
+# {SSHA}uPEwFg+pBqWbr/LLWEt25YiH8hpv7NG5
+# root@ldap:/opt/docker# 
+# PARA LDAP21:EDITAT_EX
+
+dn: cn=Keshi Kid,ou=usuaris,dc=edt,dc=org
+changetype: modify
+add: homephone
+homephone: 555-857-123
+-
+replace: mail
+mail: keshi03@edt.org
+-
+delete: description
+
+# A partir d aqui es modifica una altra persona # S esborra AMB DELETE
+dn: cn=Anna Pou,ou=usuaris,dc=edt,dc=org
+changetype: delete
+
+# Per a cada modify es pot fer replace | delete | add
+dn: cn=Pere Pou,ou=usuaris,dc=edt,dc=org
+changetype: modify
+replace: sn
+sn: perico
+-
+delete: homephone
+-
+add: description
+description: els pericos aquest any a la xampions
+
+dn: cn=Perico Pou,ou=usuaris,dc=edt,dc=org
+changetype: modrdn
+newrdn: cn=Pererico  Pou
+deleteoldrdn: 1
+# 1 true 0 false (default es 0)
+# NOTA: El changetype "modify" pots posar add: [atribut] - replace: [atribut] - delete: [atribut]
+# Cada espai es un objecte diferent, es a dir un dn diferent.
+```
+
+``` 
+
+# PRACTICA EXEMPLE DE INSERIR, BORRAR I MODIFICAR USUARIS .LDIF
+# Generar Password amb slappasswd -h {SSHA} - Per defecte SSHA
+# root@ldap:/opt/docker# slappasswd
+# New password: 
+# Re-enter new password: 
+# {SSHA}uPEwFg+pBqWbr/LLWEt25YiH8hpv7NG5
+# root@ldap:/opt/docker# 
+# PARA LDAP21:EDITAT_EX
+
+dn: cn=Jordi Mas,ou=usuaris,dc=edt,dc=org
+changetype: modify
+add: mail
+mail: patim@edt.org
+
+dn: cn=Marta Mas,ou=usuaris,dc=edt,dc=org
+changetype: modify
+add: homephone
+homephone: 555-123-123
+# Es genera un nou modifyº
+
+```
+
+1. Insertar las modificaciones a partir del fichero *keshi_modify1.ldif* con el usuario cn=Manager : -w secret.
+```
+ldapmodify -x -D 'cn=Manager,dc=edt,dc=org' -w secret -f keshi_modify1.ldif
+```
+```
+ldapmodify -x -D 'cn=Manager,dc=edt,dc=org' -w secret -f keshi_modify2.ldif
+```
+
+
+2. Verificamos el resultado
+```
+ldapsearch -x -LLL -h 172.18.0.2 -b 'dc=edt,dc=org'
+```
+
+
+### SLAPPASSWD I LDAPPASSWD
+
+| 🔥NOTA IMPORTANT❗🔥 | 
+| ------------- |
+| *slappasswd --> GENERA CONTRASENYA DESDE EL SERVIDOR.* |
+| *ldappasswd --> GENERA PASSWORD DESDE EL CLIENT.* |
+| ------------- |
+| *slappasswd --> genera una contrasenya xifrada en SSHA per defecte* |
+| *ldappasswd --> canvia la contrasenya de l'usuari indicat o per fitxer* |
+
+**slappasswd**
+
+```
+slappasswd -h {MD5} | {SHA} | {CRYPTE} | {SSHA}
+```
+
+
+**FORMA 1**
+
+A partir del *keshi_ldappasswd.ldif*
+```
+# Exemple de modificar passwd
+
+dn: cn=Anna Pou,ou=usuaris,dc=edt,dc=org
+changetype: modify
+replace: userPassowrd
+userPassword: {SSHA}E8kbqFbBRrtyE0e1RL98BQJydhqlu9Sn
+```
+1. Verificamos primero que podemos hacer un ldapwhoami de Anna Pou.
+```
+root@ldap:/opt/docker# ldapwhoami -x -h localhost -D "cn=Anna Pou,ou=usuaris,dc=edt,dc=org" -w anna
+dn:cn=Anna Pou,ou=usuaris,dc=edt,dc=org
+```
+
+2. Realizamos la modificación como Manager.
+```
+root@ldap:/opt/docker# ldapmodify -x -h localhost -D "cn=Manager,dc=edt,dc=org" -w secret -f keshi_ldappasswd.ldif 
+modifying entry "cn=Anna Pou,ou=usuaris,dc=edt,dc=org"
+```
+
+3. Verificamos de nuevo con un ldapwhoami con el usuario de Anna, password modificada.
+```
+root@ldap:/opt/docker# ldapwhoami -x -h localhost -D "cn=Anna Pou,ou=usuaris,dc=edt,dc=org" -w pou 
+dn:cn=Anna Pou,ou=usuaris,dc=edt,dc=org
+```
+
+
+**FORMA 2**
+
+A partir de input ldappasswd -s (password a cambiar).
+```
+root@ldap:/opt/docker# ldappasswd -x -h localhost -D "cn=Anna Pou,ou=usuaris,dc=edt,dc=org" -w pou -s anna
+
+```
+```
+root@ldap:/opt/docker# ldapwhoami -x -h localhost -D "cn=Anna Pou,ou=usuaris,dc=edt,dc=org" -w anna
+dn:cn=Anna Pou,ou=usuaris,dc=edt,dc=org
+```
+
+### SCHEMES
+
+| 🔥NOTA IMPORTANT❗🔥 | 
+| ------------- |
+| *SCHEMES --> MODIFICA.* |
+| ------------- |
+| *Engloba 4 modalitats: add, delete, modify, modrdn |
+
+
+
+### ACL
+
+| 🔥NOTA IMPORTANT❗🔥 | 
+| ------------- |
+| *ACL --> REGLES.* |
+| ------------- |
+| *Engloba 4 modalitats: add, delete, modify, modrdn* |
+| *Requereix el *changetype* obligatori* |
+| *Per add: * |
+| *Per delete: * |
+| *Per modificar: Necesitem el *replace** |
+| *-f --> Fitxer LDIF* |
+| *Tot lo que s'escrigui fins que hagui un salt de línia, son modificacions, es posa un *-* per a continuar editant atributs* |
+| *Exemple de add [CHANGETYPE ADD]:* |
+| *add: homephone* |
+| *homephone: 343352* |
+| *Es pot afegir diversos telefons* |
+| *Exemple de modify[replace] [CHANGETYPE MODIFY]:* |
+| *replace: mail [ATRIBUT]* |
+| *mail: hola@edt.org* |
+| *Exemple de delete [CHANGETYPE: DELETE]:* |
+| *delete: description[ATRIBUT]* |
+| *En MODIFY, pots combinar totes* |
+| *delete: description [ATRIBUT]* |
+
+
+### BACKUPS I RESTORE
+
+| 🔥NOTA IMPORTANT❗🔥 | 
+| ------------- |
+| *BACKUP --> AMB TAR I RESTAURAR.* |
+| ------------- |
 | *Engloba 4 modalitats: add, delete, modify, modrdn |
 | *Requereix el *changetype* obligatori* |
 | *Per add: * |
@@ -816,22 +1348,32 @@ ldapsearch -x -LLL -h 172.19.0.2 -b 'dc=edt,dc=org'
 | *Exemple de delete [CHANGETYPE: DELETE]:* |
 | *delete: description[ATRIBUT]* |
 | *En MODIFY, pots combinar totes* |
+| *delete: description [ATRIBUT]* |
+
+### GRUPS
+
+| 🔥NOTA IMPORTANT❗🔥 | 
+| ------------- |
+| *ou --> OU NUEVA.* |
+| ------------- |
+| *Engloba 4 modalitats: add, delete, modify, modrdn* |
+| *Requereix el *changetype* obligatori* |
+| *Per add: * |
+| *Per delete: * |
+| *Per modificar: Necesitem el *replace** |
+| *-f --> Fitxer LDIF* |
+| *Tot lo que s'escrigui fins que hagui un salt de línia, son modificacions, es posa un *-* per a continuar editant atributs* |
+| *Exemple de add [CHANGETYPE ADD]:* |
+| *add: homephone* |
+| *homephone: 343352* |
+| *Es pot afegir diversos telefons* |
+| *Exemple de modify[replace] [CHANGETYPE MODIFY]:* |
+| *replace: mail [ATRIBUT]* |
+| *mail: hola@edt.org* |
+| *Exemple de delete [CHANGETYPE: DELETE]:* |
 | *delete: description[ATRIBUT]* |
-
-
-
-
-### SLAPPASSWD I LDAPPASSWD
-
-
-
-### SCHEMES
-
-
-
-
-
-### ACL
+| *En MODIFY, pots combinar totes* |
+| *delete: description [ATRIBUT]* |
 
 
 
@@ -852,9 +1394,7 @@ ldapsearch -x -LLL -h 172.19.0.2 -b 'dc=edt,dc=org'
 
 
 
-
-
-
+### UNDER CONSTRUCTION NO TIME
 
 **ldapmodify**
 

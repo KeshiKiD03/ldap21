@@ -1,0 +1,41 @@
+# PRACTICA EXEMPLE DE INSERIR, BORRAR I MODIFICAR USUARIS .LDIF
+# Generar Password amb slappasswd -h {SSHA} - Per defecte SSHA
+# root@ldap:/opt/docker# slappasswd
+# New password: 
+# Re-enter new password: 
+# {SSHA}uPEwFg+pBqWbr/LLWEt25YiH8hpv7NG5
+# root@ldap:/opt/docker# 
+# PARA LDAP21:EDITAT_EX
+
+dn: cn=Keshi Kid,ou=usuaris,dc=edt,dc=org
+changetype: modify
+add: homephone
+homephone: 555-857-123
+-
+replace: mail
+mail: keshi03@edt.org
+-
+delete: description
+
+# A partir d aqui es modifica una altra persona # S esborra AMB DELETE
+dn: cn=Anna Pou,ou=usuaris,dc=edt,dc=org
+changetype: delete
+
+# Per a cada modify es pot fer replace | delete | add
+dn: cn=Pere Pou,ou=usuaris,dc=edt,dc=org
+changetype: modify
+replace: sn
+sn: perico
+-
+delete: homephone
+-
+add: description
+description: els pericos aquest any a la xampions
+
+dn: cn=Perico Pou,ou=usuaris,dc=edt,dc=org
+changetype: modrdn
+newrdn: cn=Pererico  Pou
+deleteoldrdn: 1
+# 1 true 0 false (default es 0)
+# NOTA: El changetype "modify" pots posar add: [atribut] - replace: [atribut] - delete: [atribut]
+# Cada espai es un objecte diferent, es a dir un dn diferent.
