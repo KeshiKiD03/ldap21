@@ -793,8 +793,31 @@ Visualizamos el resultado
 ldapsearch -x -LLL -h 172.19.0.2 -b 'dc=edt,dc=org'
 ```
 
-
 **LDAPMODIFY**
+
+| 🔥NOTA IMPORTANT❗🔥 | 
+| ------------- |
+| *ldapmodify --> MODIFICA.* |
+| ------------- |
+| *Engloba 4 modalitats: add, delete, modify, modrdn |
+| *Requereix el *changetype* obligatori* |
+| *Per add: * |
+| *Per delete: * |
+| *Per modificar: Necesitem el *replace** |
+| *-f --> Fitxer LDIF* |
+| *Tot lo que s'escrigui fins que hagui un salt de línia, son modificacions, es posa un *-* per a continuar editant atributs* |
+| *Exemple de add [CHANGETYPE ADD]:* |
+| *add: homephone* |
+| *homephone: 343352* |
+| *Es pot afegir diversos telefons* |
+| *Exemple de modify[replace] [CHANGETYPE MODIFY]:* |
+| *replace: mail [ATRIBUT]* |
+| *mail: hola@edt.org* |
+| *Exemple de delete [CHANGETYPE: DELETE]:* |
+| *delete: description[ATRIBUT]* |
+| *En MODIFY, pots combinar totes* |
+| *delete: description[ATRIBUT]* |
+
 
 
 
