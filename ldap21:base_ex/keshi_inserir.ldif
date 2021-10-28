@@ -1,0 +1,37 @@
+# PRACTICA EXEMPLE DE INSERIR, BORRAR I MODIFICAR USUARIS .LDIF
+# Generar Password amb slappasswd -h {SSHA} - Per defecte SSHA
+# root@ldap:/opt/docker# slappasswd
+# New password: 
+# Re-enter new password: 
+# {SSHA}uPEwFg+pBqWbr/LLWEt25YiH8hpv7NG5
+# root@ldap:/opt/docker# 
+# PARA LDAP21:EDITAT_EX
+
+dn: cn=Keshi Kid,ou=usuaris,dc=edt,dc=org
+objectclass: posixAccount
+objectclass: inetOrgPerson
+cn: Keshi
+cn: Kid
+sn: Keshikid
+homephone: 565-764-967
+mail: keshi@edt.org
+description: Keshi
+ou: Profes
+uid: keshi
+uidNumber: 5005
+gidNumber: 100
+homeDirectory: /tmp/home/keshi
+userPassword: {SSHA}uPEwFg+pBqWbr/LLWEt25YiH8hpv7NG5
+
+# dn = Distinguished Name
+# cn = Common Name
+# sn = surname
+# homephone = Telefon
+# mail = mail
+# description = descripció de l'usuari
+# ou = Profes
+# uid = nom del ID
+# uidNumber = numberID 
+# gidNumber = grup ID del usuari
+# homeDirectory = home de l'usuari
+# userPasswrd = Password de l'usuari xifrat

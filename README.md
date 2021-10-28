@@ -601,9 +601,206 @@ ldapsearch -x -LLL -h ldap.edt.org -b 'dc=edt,dc=org'
 
 ### INSERCIÓ, MODIFICACIÓ I ESBORRAT
 
+**LDAPADD**
+
+A partir del fichero *keshi_inserir.ldif*
+
+```
+# PRACTICA EXEMPLE DE INSERIR, BORRAR I MODIFICAR USUARIS .LDIF
+# Generar Password amb slappasswd -h {SSHA} - Per defecte SSHA
+# root@ldap:/opt/docker# slappasswd
+# New password: 
+# Re-enter new password: 
+# {SSHA}uPEwFg+pBqWbr/LLWEt25YiH8hpv7NG5
+# root@ldap:/opt/docker# 
+# PARA LDAP21:EDITAT_EX
+
+dn: cn=Keshi Kid,ou=usuaris,dc=edt,dc=org
+objectclass: posixAccount
+objectclass: inetOrgPerson
+cn: Keshi
+cn: Kid
+sn: Keshikid
+homephone: 565-764-967
+mail: keshi@edt.org
+description: Keshi
+ou: Profes
+uid: keshi
+uidNumber: 5005
+gidNumber: 100
+homeDirectory: /tmp/home/keshi
+userPassword: {SSHA}uPEwFg+pBqWbr/LLWEt25YiH8hpv7NG5
+
+# dn = Distinguished Name
+# cn = Common Name
+# sn = surname
+# homephone = Telefon
+# mail = mail
+# description = descripció de l'usuari
+# ou = Profes
+# uid = nom del ID
+# uidNumber = numberID 
+# gidNumber = grup ID del usuari
+# homeDirectory = home de l'usuari
+# userPasswrd = Password de l'usuari xifrat
+```
+
+ 
+---------------------------------------------------------
+
+1. Insertar el usuario a partir del fichero con el usuario cn=Manager : -w secret
+
+Antes hacemos un slappasswd para generar la llave cifrada SSHA y copiarla en userPassword.
+
+```
+ldapadd -x -D "cn=Manager,dc=edt,dc=org" -w secret -f keshi_inserir.ldif
+```
+
+2. Hacemos un ldapsearch para buscar el usuario creado (NO TENEMOS EL BASE SEARCH E URI CONFIGURADAS, toca localhost, 127.0.0.1 o la IP).
+```
+ldapsearch -x -LLL -h localhost -b 'dc=edt,dc=org' 'cn=Keshi Kid'
+```
+
+```
+root@ldap:/opt/docker# ldapsearch -x -LLL -h localhost -b 'dc=edt,dc=org' 'cn=Keshi Kid'
+dn: cn=Keshi Kid,ou=usuaris,dc=edt,dc=org
+objectClass: posixAccount
+objectClass: inetOrgPerson
+cn: Keshi
+cn: Kid
+cn: Keshi Kid
+sn: Keshikid
+homePhone: 565-764-967
+mail: keshi@edt.org
+description: Keshi
+ou: Profes
+uid: keshi
+uidNumber: 5005
+gidNumber: 100
+homeDirectory: /tmp/home/keshi
+userPassword:: e1NTSEF9dVBFd0ZnK3BCcVdici9MTFdFdDI1WWlIOGhwdjdORzU=
+```
+
+3. Verificamos nuestra identidad con el usuario creado dentro de ldap.edt.org.
+```
+ldapwhoami -x -D "cn= Keshi Kid,ou=usuaris,dc=edt,dc=org" -w keshi
+```
+
+root@ldap:/opt/docker# ldapwhoami -x -D "cn=Keshi Kid,ou=usuaris,dc=edt,dc=org" -w keshi
+dn:cn=Keshi Kid,ou=usuaris,dc=edt,dc=org
+
+4. Desde nuestro CLIENTE hacemos un ldapsearch con el contenedor ldap.edt.org encendido con credenciales del usuario creado i filtramos por el usuario creado.
+```
+ldapsearch -x -LLL -h 172.19.0.2 -b 'dc=edt,dc=org' 'cn=Keshi Kid' -D "cn=Keshi Kid,ou=usuaris,dc=edt,dc=org" -w keshi
+```
+
+```
+keshi@KeshiKiD03:~/Documents/ldap21/ldap21:base_ex$ ldapsearch -x -LLL -h 172.19.0.2 -b 'dc=edt,dc=org' 'cn=Keshi Kid' -D "cn=Keshi Kid,ou=usuaris,dc=edt,dc=org" -w keshi
+dn: cn=Keshi Kid,ou=usuaris,dc=edt,dc=org
+objectClass: posixAccount
+objectClass: inetOrgPerson
+cn: Keshi
+cn: Kid
+cn: Keshi Kid
+sn: Keshikid
+homePhone: 565-764-967
+mail: keshi@edt.org
+description: Keshi
+ou: Profes
+uid: keshi
+uidNumber: 5005
+gidNumber: 100
+homeDirectory: /tmp/home/keshi
+userPassword:: e1NTSEF9dVBFd0ZnK3BCcVdici9MTFdFdDI1WWlIOGhwdjdORzU=
+```
+
+5. Verificamos desde el CLIENTE la identidad del usuario creado.
+```
+ldapwhoami -x -h 172.19.0.2 -D "cn=Keshi Kid,ou=usuaris,dc=edt,dc=org" -w keshi
+```
+```
+keshi@KeshiKiD03:~/Documents/ldap21/ldap21:base_ex$ ldapwhoami -x -h 172.19.0.2 -D "cn=Keshi Kid,ou=usuaris,dc=edt,dc=org" -w keshi
+dn:cn=Keshi Kid,ou=usuaris,dc=edt,dc=org
+
+```
+
+**LDAPDELETE**
+
+A partir del fichero keshi_delete.ldif
+
+```
+# PRACTICA EXEMPLE DE INSERIR, BORRAR I MODIFICAR USUARIS .LDIF
+# Generar Password amb slappasswd -h {SSHA} - Per defecte SSHA
+# root@ldap:/opt/docker# slappasswd
+# New password: 
+# Re-enter new password: 
+# {SSHA}uPEwFg+pBqWbr/LLWEt25YiH8hpv7NG5
+# root@ldap:/opt/docker# 
+# PARA LDAP21:EDITAT_EX
+cn=Keshi Kid,ou=usuaris,dc=edt,dc=org
+cn=Anna Pou,ou=usuaris,dc=edt,dc=org
+cn=Pere Pou,ou=usuaris,dc=edt,dc=org
+
+# Per esborrar usuaris es poden fer de 2 formes, per fitxer input .ldif o per ldapdelete "cn=Keshi Kid".
+# Cal apuntar nom�s el CN amb persmisos d'administrador.
+```
+
+**Forma 1: Para el fichero keshi_delete.ldif desde el CLIENTE**
+```
+ldapdelete -vx -c -h 172.19.0.2 -D 'cn=Manager,dc=edt,dc=org' -w secret -f keshi_delete.ldif
+```
+
+| 🔥NOTA IMPORTANT❗🔥 | 
+| ------------- |
+| *ldapdeplete --> DELETE.* |
+| ------------- |
+| *-v --> Verbose* |
+| *-x --> Sense capçalera, simple* |
+| *-h --> Host (Configurable en /etc/ldap/ldap.conf --> URI)* |
+| *-D --> Autenticació d'usuari, en aquest cas de ROOT)* |
+| *-w --> Password en Input SECRET)* |
+| *-f --> Fitxer LDIF)* |
+| *Aquesta opció dona error si hi posem comentaris, fem -c per a que continui. SOLUCIÓ, no posar comentaris o posar comentaris i posar -c* |
+
+```
+keshi@KeshiKiD03:~/Documents/ldap21/ldap21:base_ex$ ldapdelete -vx -h 172.19.0.2 -D 'cn=Manager,dc=edt,dc=org' -w secret -f keshi_delete.ldif 
+ldap_initialize( ldap://172.19.0.2 )
+deleting entry "cn=Keshi Kid,ou=usuaris,dc=edt,dc=org"
+deleting entry "cn=Anna Pou,ou=usuaris,dc=edt,dc=org"
+deleting entry "cn=Pere Pou,ou=usuaris,dc=edt,dc=org"
+ldap_delete: No such object (32)
+	matched DN: ou=usuaris,dc=edt,dc=org
+```
+
+
+Visualizamos el resultado
+```
+ldapsearch -x -LLL -h 172.19.0.2 -b 'dc=edt,dc=org'
+```
+
+**Forma 2: Para el fichero desde el CLIENTE**
+```
+ldapdelete -vx -h 172.19.0.2 -D 'cn=Manager,dc=edt,dc=org' -w secret 'cn=Keshi Kid,ou=usuaris,dc=edt,dc=org'
+```
+```
+keshi@KeshiKiD03:~/Documents/ldap21/ldap21:practica$ ldapdelete -vx -h 172.19.0.2 -D 'cn=Manager,dc=edt,dc=org' -w secret 'cn=Keshi Kid,ou=usuaris,dc=edt,dc=org'
+ldap_initialize( ldap://172.19.0.2 )
+deleting entry "cn=Keshi Kid,ou=usuaris,dc=edt,dc=org"
+```
+
+Visualizamos el resultado
+```
+ldapsearch -x -LLL -h 172.19.0.2 -b 'dc=edt,dc=org'
+```
+
+
+**LDAPMODIFY**
+
+
+
 ### SLAPPASSWD I LDAPPASSWD
 
-A
+
 
 ### SCHEMES
 
