@@ -1289,11 +1289,17 @@ root@ldap:/opt/docker# ldapwhoami -x -h localhost -D "cn=Anna Pou,ou=usuaris,dc=
 dn:cn=Anna Pou,ou=usuaris,dc=edt,dc=org
 ```
 
+
+
+
+
+# 🚧 UNDER CONSTRUCTION NO TIME, SOON WILL BE VISIBLE 🚧
+
 ### SCHEMES
 
 | 🔥NOTA IMPORTANT❗🔥 | 
 | ------------- |
-| *SCHEMES --> MODIFICA.* |
+| *SCHEMES --> ES.* |
 | ------------- |
 | *Engloba 4 modalitats: add, delete, modify, modrdn |
 
@@ -1394,11 +1400,9 @@ dn:cn=Anna Pou,ou=usuaris,dc=edt,dc=org
 
 
 
-### UNDER CONSTRUCTION NO TIME
+# 🚧 UNDER CONSTRUCTION NO TIME 🚧
 
-**ldapmodify**
-
-**ldapmodify**
+**APUNTS DIVERSES**
 
 Fer una recerca de totes les dades de la database edt org
 ```
@@ -1456,17 +1460,19 @@ En el base search fa un AND i després un OR de group Number 610 o 611 i a mes t
 ```
 ldapsearch -x -LLL -h 172.17.0.2 -b 'dc=edt,dc=org' '(&(|(gidNumber=610)(gidNumber=611))(cn=user*))'
 ```
-
+```
 /etc/ldap/ldap.conf es configuració del client
 Base dc=edt,dc=org
 URI ldap.edt.org
 docker run --rm --name client -h client --net 2hisix -it edtasixm06/ldap21:base /bin/bash
-
+```
 
 
 propagar port= vincular port de container amb port de la maquina real/servidor
 
-
 0.0.0.0:389 totes les maquines de l'orinador tindran obert port 389
-```
+
+# THANK YOU FOR READING !
+
+<img src="https://phoneky.co.uk/thumbs/screensavers/down/original/linux_3rj131p8.gif" />
 
