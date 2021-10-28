@@ -22,6 +22,8 @@ ASIX M06-ASO Escola del Treball de Barcelona.
  
  * **keshikid03/ldap21:acl** Imatge schema per a fer modificacions de ACL. S'ha incorporat la BD cn=config per a l'administració del servidor dinàmicament.
 
+ * **keshikid03/ldap21:group** Imatge per a fer modificacions de grups, es crea una OU nova i s'afegeixen grups. Es defineixen varies mitjançant el objecClass = posigGroup.
+
 
 ## INDEX
 **DOCKER**: [readme DOCKER](https://github.com/KeshiKiD03/ldap21#docker)
