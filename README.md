@@ -1303,7 +1303,7 @@ dn:cn=Anna Pou,ou=usuaris,dc=edt,dc=org
 | ------------- |
 | *SCHEMES --> ES.* |
 | ------------- |
-| *Engloba 4 modalitats: add, delete, modify, modrdn |
+| **SCHEMES**: [readme SCHEMES](https://github.com/KeshiKiD03/ldap21/tree/main/ldap21:practica#readme) |
 
 
 
@@ -1313,25 +1313,7 @@ dn:cn=Anna Pou,ou=usuaris,dc=edt,dc=org
 | ------------- |
 | *ACL --> REGLES.* |
 | ------------- |
-| *Engloba 4 modalitats: add, delete, modify, modrdn* |
-| *Requereix el *changetype* obligatori* |
-| *Per add: * |
-| *Per delete: * |
-| *Per modificar: Necesitem el *replace** |
-| *-f --> Fitxer LDIF* |
-| *Tot lo que s'escrigui fins que hagui un salt de línia, son modificacions, es posa un *-* per a continuar editant atributs* |
-| *Exemple de add [CHANGETYPE ADD]:* |
-| *add: homephone* |
-| *homephone: 343352* |
-| *Es pot afegir diversos telefons* |
-| *Exemple de modify[replace] [CHANGETYPE MODIFY]:* |
-| *replace: mail [ATRIBUT]* |
-| *mail: hola@edt.org* |
-| *Exemple de delete [CHANGETYPE: DELETE]:* |
-| *delete: description[ATRIBUT]* |
-| *En MODIFY, pots combinar totes* |
-| *delete: description [ATRIBUT]* |
-
+| **SCHEMES**: [readme SCHEMES](https://github.com/KeshiKiD03/ldap21/tree/main/ldap21:practica#readme) |
 
 ### BACKUPS I RESTORE
 
@@ -1339,67 +1321,14 @@ dn:cn=Anna Pou,ou=usuaris,dc=edt,dc=org
 | ------------- |
 | *BACKUP --> AMB TAR I RESTAURAR.* |
 | ------------- |
-| *Engloba 4 modalitats: add, delete, modify, modrdn |
-| *Requereix el *changetype* obligatori* |
-| *Per add: * |
-| *Per delete: * |
-| *Per modificar: Necesitem el *replace** |
-| *-f --> Fitxer LDIF* |
-| *Tot lo que s'escrigui fins que hagui un salt de línia, son modificacions, es posa un *-* per a continuar editant atributs* |
-| *Exemple de add [CHANGETYPE ADD]:* |
-| *add: homephone* |
-| *homephone: 343352* |
-| *Es pot afegir diversos telefons* |
-| *Exemple de modify[replace] [CHANGETYPE MODIFY]:* |
-| *replace: mail [ATRIBUT]* |
-| *mail: hola@edt.org* |
-| *Exemple de delete [CHANGETYPE: DELETE]:* |
-| *delete: description[ATRIBUT]* |
-| *En MODIFY, pots combinar totes* |
-| *delete: description [ATRIBUT]* |
-
+| **SCHEMES**: [readme SCHEMES](https://github.com/KeshiKiD03/ldap21/tree/main/ldap21:practica#readme) |
 ### GRUPS
 
 | 🔥NOTA IMPORTANT❗🔥 | 
 | ------------- |
 | *ou --> OU NUEVA.* |
 | ------------- |
-| *Engloba 4 modalitats: add, delete, modify, modrdn* |
-| *Requereix el *changetype* obligatori* |
-| *Per add: * |
-| *Per delete: * |
-| *Per modificar: Necesitem el *replace** |
-| *-f --> Fitxer LDIF* |
-| *Tot lo que s'escrigui fins que hagui un salt de línia, son modificacions, es posa un *-* per a continuar editant atributs* |
-| *Exemple de add [CHANGETYPE ADD]:* |
-| *add: homephone* |
-| *homephone: 343352* |
-| *Es pot afegir diversos telefons* |
-| *Exemple de modify[replace] [CHANGETYPE MODIFY]:* |
-| *replace: mail [ATRIBUT]* |
-| *mail: hola@edt.org* |
-| *Exemple de delete [CHANGETYPE: DELETE]:* |
-| *delete: description[ATRIBUT]* |
-| *En MODIFY, pots combinar totes* |
-| *delete: description [ATRIBUT]* |
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+| **SCHEMES**: [readme SCHEMES](https://github.com/KeshiKiD03/ldap21/tree/main/ldap21:practica#readme) |
 
 
 # 🚧 UNDER CONSTRUCTION NO TIME 🚧
