@@ -1,0 +1,104 @@
+docker run --name ldap -h ldap -it debian /bin/bash
+
+apt-get update
+
+apt-get -y install procps iproute2 vim tree nmap
+
+apt-cache search ldap o openldap
+
+apt-get install -y ldap-utils slapd
+
+Password: secret
+
+dpkg -L slapd | grep bin --> Ver el contenido del paquete pero solo los ejecutables
+
+Las de cliente todos empiezan ldap | Las de servidor con slap
+
+/etc/ldap/ 
+	ldap.conf --> conf client
+	slapd.conf --> conf server
+	slapd.d --> directori , configuració , server
+	
+tree /etc/ldap/slapd.d
+
+slaptest --> Genera todo el directorio de configuració
+
+pwd
+
+ldap = 
+	es bases de datos no relacional, 
+	tiene forma de árbol,
+	es más eficiente a la búsqueda de información
+	ldap tiene un nodo raíz
+	se le puede poner tantos nodos por ejemplo edt.org
+		estas organizaciones se pueden organizar por suborganizaciones
+			como máquinas, usuarios, clientes...
+				dentro de los usuarios habrá un montón de usuarios
+				
+	Es una estructura de datos, las cajas son entidades, pueden contener datos
+	
+	Insertar datos al LDAP es costoso, se tiene que organizar, hacer la búsqueda dentro de LDAP es fácil.
+	
+	A las 8AM cada vez que se inicia sesión se abre una consulta a LDAP.
+	
+root@ldap:/etc/ldap# vim slapd.conf
+root@ldap:/etc/ldap# ls
+ldap.conf  sasl2  schema  slapd.conf  slapd.d
+root@ldap:/etc/ldap# vim slapd.conf
+root@ldap:/etc/ldap# ls -l slapd.d/  
+total 8
+drwxr-x--- 3 openldap openldap 4096 Sep 29 06:58 'cn=config'
+-rw------- 1 openldap openldap  478 Sep 29 06:58 'cn=config.ldif'
+root@ldap:/etc/ldap# 
+
+El usuario que se crea se llama openldap
+
+rm -rf slapd.d/*
+
+rm -rf /var/lib/ldap/*
+
+slaptest -f slapd.conf -F slapd.d (directorio de configuracion)
+
+slaptest -f slapd.conf -F slapd.d -u
+
+slapcat
+
+slapcat -n0 --> Es el motor de LDAP
+
+slapcat -n1 --> Es la base de datos del usuario
+
+Los datos de LDAP están físicamente guardados a un lado.
+
+Los órdenes slapcat, slapadd, pasan del servidor, modifican los ficheros directamente.
+
+ldapsearch - ldapadd | 389 | Directamente como comandos
+
+Los comandos Slapcat y Slapadd Modifican directamente los ficheros como /etc/passwd
+
+slapadd -F /etc/ldap/slapd.d -l organitzacio-edt.org.ldif
+
+/var/lib/ldap --> dades
+
+root@ldap:/etc/ldap# ls -l /var/lib/ldap
+total 16
+-rw------- 1 root root 12288 Sep 29 07:40 data.mdb
+-rw------- 1 root root  8192 Sep 29 07:41 lock.mdb
+root@ldap:/etc/ldap# 
+
+-
+
+chown -R openldap.openldap slapd.d /var/lib/ldap
+
+root@ldap:/etc/ldap# ls -l /var/lib/ldap
+total 16
+-rw------- 1 openldap openldap 12288 Sep 29 07:40 data.mdb
+-rw------- 1 openldap openldap  8192 Sep 29 07:42 lock.mdb
+root@ldap:/etc/ldap# 
+
+ldapadd -x -h localhost -D 'cn=Manager,dc=edt,dc=org' -w secret -f usuaris-edt.org.ldif 
+ --> -h en nuestro orde -D añadir datos y -w
+ 
+ /usr/sbin/slapd --> Encender el daemon
+ 
+ ldapsearch -LLL -x -h localhost -b 'dc=edt,dc=org' | grep dn --> Es como hacer un select
+

@@ -1,0 +1,33 @@
+root@ldap:/opt/docker# ldapmodify -x -D 'cn=Manager,dc=edt,dc=org' -w secret -f add-kpop-idols.ldif
+adding new entry "ou=kpop,dc=edt,dc=org"
+
+adding new entry "uid=jennie,ou=kpop,dc=edt,dc=org"
+
+adding new entry "uid=lisa,ou=kpop,dc=edt,dc=org"
+
+adding new entry "uid=rose,ou=kpop,dc=edt,dc=org"
+
+adding new entry "uid=jisoo,ou=kpop,dc=edt,dc=org"
+
+adding new entry "uid=karina,ou=kpop,dc=edt,dc=org"
+
+adding new entry "uid=winter,ou=kpop,dc=edt,dc=org"
+
+adding new entry "uid=ningning,ou=kpop,dc=edt,dc=org"
+
+adding new entry "uid=giselle,ou=kpop,dc=edt,dc=org"
+
+root@ldap:/opt/docker# 
+
+
+----------------
+
+deepin screen capture --> Grabar pantalla 
+
+
+----------------
+
+Modificar Worker
+
+
+

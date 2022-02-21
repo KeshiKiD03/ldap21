@@ -1,0 +1,693 @@
+mkdir ldap21:acl
+
+cp -r ldap21\:schema/ ldap21:\acl.
+
+cd ldap21\:acl/
+
+Necesita trabajar en modo interactivo en lugar de detach
+
+docker run --rm --name ldap.edt.org -h ldap.edt.org --net 2hisx -p 389:389 -it keshikid03/ldap21:base /bin/bash
+
+modificar el startup.sh
+
+Modificar el slapd.conf
+
+database config
+rootdn "cn=Sysadmin,cn=config"
+rootpw Syskey
+
+
+Slappasswd --> Generar
+
+{SSHA}ndMQ2jCrbr2hFG55A+2rIt/YBXA0wcrJ
+
+
+
+------
+
+slapcat -n0 --> Del sistema
+
+startup.sh
+
+
+
+root@ldap:/opt/docker# ldapwhoami -x -D 'cn=Sysadmin,cn=config' -w syskey --> Verificar credencials
+
+
+
+
+
+
+-------------------
+
+
+ldapsearch -x -LLL -D "cn=Sysadmin,cn=config" -w syskey -b 'cn=config' | grep dn
+
+
+
+olcdatabase={0}config,cn=config
+olcdatabase={1}mdb,cn=config
+olcdatabase={2}monitor,cn=config
+
+[VERIFICAR]
+
+-----------------------
+
+
+ACL es un conjunto de reglas
+
+Si no hay nada es como access * by * read --> Aunque haya 1, no está listado, el sistema añade, access * by * none.
+
+
+-----------------------
+
+access to * by read --> Todos pueden leer y aceder
+
+access to * by write --> Todos pueden acceder y escribir
+
+access to * by self write by * read
+
+-------------------------------------
+
+
+access to attrs=homePhone by * read
+
+access to * by * write
+
+
+
+
+
+
+
+
+
+
+
+
+access to [what] by [who] [action]
+
+
+
+Exemple 5
+
+access to [attrs=homePhone]
+	by dn.exact="cn=Anna Pou,ou=usuaris,dc=edt,dc=org" write
+	by * read
+access to * by * write
+
+----------------------
+
+
+access to attrs=userPassword
+
+	by self write
+	
+	by * auth
+	
+	[by * none] --> Hace por defecto
+
+access to *
+
+	by * read
+	
+	
+	
+ldapsearch -x -LLL -D 'cn=Sysadmin,cn=config' -w syskey -b 'cn=config' olcDatabase={1}mdb
+
+-------------------------
+
+
+
+
+vim acl1.ldif
+
+
+
+
+
+
+# Modificar acl
+# 01 --> Tots veuen tot
+
+
+dn: olcDatabase={1}mdb,cn=config
+changetype: modify
+delete: olcAccess
+
+add: olcAccess
+olcAccess: to * by * read
+
+
+ldapmodify -vxc -D 'cn=Sysadmin,cn=config' -w syskey -f acl1.ldif		
+	
+
+
+-------------------------
+
+base search 'olcDatabase={1}mdb,cn=config'
+
+
+ldapsearch -x -LLL -D 'cn=Sysadmin,cn=config' -w syskey -b    'cn=config' olcDatabase={1}mdb --> Verificar 
+
+root@ldap:/opt/docker# ^C
+root@ldap:/opt/docker# 
+root@ldap:/opt/docker# ldapsearch -x -LLL -D 'cn=Sysadmin,cn=config' -w syskey -b 'olcDatabase={1}mdb,cn=config'
+dn: olcDatabase={1}mdb,cn=config
+objectClass: olcDatabaseConfig
+objectClass: olcMdbConfig
+olcDatabase: {1}mdb
+olcDbDirectory: /var/lib/ldap
+olcSuffix: dc=edt,dc=org
+olcAccess: {0}to *  by self write  by * read
+olcAddContentAcl: FALSE
+olcLastMod: TRUE
+olcMaxDerefDepth: 15
+olcReadOnly: FALSE
+olcRootDN: cn=Manager,dc=edt,dc=org
+olcRootPW: {SSHA}nGnnCLjjdiKky4o0swoYmTOW4F8cJOWq
+olcSyncUseSubentry: FALSE
+olcMonitoring: TRUE
+olcDbNoSync: FALSE
+olcDbIndex: objectClass pres,eq
+olcDbMaxReaders: 0
+olcDbMaxSize: 10485760
+olcDbMode: 0600
+olcDbSearchStack: 16
+olcDbRtxnSize: 10000
+
+
+
+
+-d0 para que no estuviera en Detach
+
+
+-------------------------------------------
+
+ldapsearch -x -LLL -D 'uid=anna,ou=usuaris,dc=edt,dc=org' -w anna dn
+
+ldappasswd -x -LLL -D 'uid=anna,ou=usuaris,dc=edt,dc=org' -w anna dn
+
+ldapwhoami -x -LLL
+
+---
+
+slapcat -n0
+
+tree /etc/ldap/slapd.d
+
+-------------------------------------------
+
+
+root@ldap:/opt/docker# ldapwhoami -x -D 'cn=Sysadmin,cn=config' -w syskey
+
+
+
+------------------------------------------
+
+
+root@ldap:/opt/docker# ldapsearch -x -LLL -D 'cn=Sysadmin,cn=config' -w syskey -b 'olcDatabase={1}mdb,cn=config' olcAccess
+dn: olcDatabase={1}mdb,cn=config
+olcAccess: {0}to *  by self write  by * read
+
+root@ldap:/opt/docker# ldapmodify -vxc -D 'cn=Sysadmin,cn=config' -w syskey -f acl1.ldif
+ldap_initialize( <DEFAULT> )
+delete olcAccess:
+add olcAccess:
+	to * by * read
+modifying entry "olcDatabase={1}mdb,cn=config"
+modify complete
+
+root@ldap:/opt/docker# 
+
+
+
+
+root@ldap:/opt/docker# ldapsearch -x -LLL -D 'cn=Sysadmin,cn=config' -w syskey -b 'olcDatabase={1}mdb,cn=config' olcAccess
+
+
+ldapmodify -vxc -D 'cn=Sysadmin,cn=config' -w syskey -f acl1.ldif		
+
+root@ldap:/opt/docker# ldapsearch -x -LLL -D 'cn=Sysadmin,cn=config' -w syskey -b 'olcDatabase={1}mdb,cn=config' olcAccess
+dn: olcDatabase={1}mdb,cn=config
+olcAccess: {0}to * by * read
+
+root@ldap:/opt/docker# 
+
+
+-----------------------------------------
+
+
+TAREA
+
+1) access to * by * read
+
+- anonymous
+- read propi / altres
+- write propi
+- write altres
+
+2) access to * by write
+
+- modificar propi
+- modificar altre
+
+3) access to by selft write by * read
+
+- modificar el propi
+- modificar un altre
+- veure altre
+
+4) access to attrs=userPassword
+		by * auth
+		by self write
+access to * by * read
+
+- canviar el propi passwd
+- no podem canviar els altres
+- no podem canviar els altres passwd
+- tampoc podem canviar res dels altres
+- poder mirar-ho tot
+
+
+
+_------------------------
+HOW TO LDAP - ACL [LEER]
+
+PAG 29
+
+MODIFICAR LOS README [none,disclose, auth (autenticar)]
+------------------------
+
+
+
+
+
+22.10.21 ---- PRACTICA
+
+1. ldapsearch -x -LLL -D "cn=Sysadmin,cn=config" -w syskey -b 'olcDatabase={1}mdb,cn=config' --> Vemos la configuración la database.
+
+2. ldapsearch -x -LLL -D "cn=Sysadmin,cn=config" -w syskey -b 'olcDatabase={1}mdb,cn=config' olcAccess (Filtrado)
+
+-- CASO 1 --
+
+3. vim acl1.ldif
+
+# Modificar acl
+# 01 --> Tots veuen tot
+
+
+dn: olcDatabase={1}mdb,cn=config
+changetype: modify
+delete: olcAccess
+
+add: olcAccess
+olcAccess: to * by * read
+
+4. root@ldap:/opt/docker# ldapmodify -vxc -D 'cn=Sysadmin,cn=config' -w syskey -f acl1.ldif
+ldap_initialize( <DEFAULT> )
+delete olcAccess:
+add olcAccess:
+	to * by * read
+modifying entry "olcDatabase={1}mdb,cn=config"
+modify complete
+
+VERIFICACIÓN DEL RESULTADO
+--------------------------
+
+DEBE SALIR Pueden Leer y acceder pero no pueden Modificar.
+
+root@ldap:/opt/docker# ldapsearch -x -LLL -D 'uid=anna,ou=usuaris,dc=edt,dc=org' -w anna 'uid=anna'
+
+dn: uid=anna,ou=usuaris,dc=edt,dc=org
+objectClass: posixAccount
+objectClass: inetOrgPerson
+cn: Anna Pou
+cn: Anita Pou
+sn: Pou
+homePhone: 555-222-2222
+mail: anna@edt.org
+description: Watch out for this girl
+ou: Alumnes
+uid: anna
+uidNumber: 5002
+gidNumber: 600
+homeDirectory: /tmp/home/anna
+userPassword:: e1NTSEF9Qm00QjNCdS9mdUg2QmJ5OWxneGZGQXdMWXJLMFJiT3E=
+
+root@ldap:/opt/docker# ldapsearch -x -LLL -D 'uid=anna,ou=usuaris,dc=edt,dc=org' -w anna 'uid=user01'
+
+dn: uid=user01,ou=usuaris,dc=edt,dc=org
+objectClass: posixAccount
+objectClass: inetOrgPerson
+cn: user01
+cn: alumne01 de 1asix de todos los santos
+sn: alumne01
+homePhone: 555-222-0001
+mail: user01@edt.org
+description: alumne de 1asix
+ou: 1asix
+uid: user01
+uidNumber: 7001
+gidNumber: 610
+homeDirectory: /tmp/home/1asix/user01
+userPassword:: e1NIQX1vdmY4dGEvcmVZUC91MnpqMGFmcEh0OHlFMUE9
+
+
+5. vim modify1.ldif
+
+dn: uid=pau,ou=usuaris,dc=edt,dc=org
+changetype: modify
+add: homephone
+homephone: 555-888-132
+
+6. Probamos editar.
+
+root@ldap:/opt/docker# ldapmodify -x -D "uid=anna,ou=usuaris,dc=edt,dc=org" -w anna -f modify1.ldif 
+modifying entry "uid=pau,ou=usuaris,dc=edt,dc=org"
+ldap_modify: Insufficient access (50)
+
+Vemos que no puede, pero si leer
+
+
+--
+
+Probamos de nuevo pero con datos de Anna 
+
+dn: uid=anna,ou=usuaris,dc=edt,dc=org
+changetype: modify
+add: homephone
+homephone: 555-888-132
+
+root@ldap:/opt/docker# ldapmodify -x -D "uid=anna,ou=usuaris,dc=edt,dc=org" -w anna -f modify1.ldif 
+modifying entry "uid=anna,ou=usuaris,dc=edt,dc=org"
+ldap_modify: Insufficient access (50)
+
+
+
+-- CASO 2 --
+
+vim acl1.ldif
+
+
+dn: olcDatabase={1}mdb,cn=config
+changetype: modify
+delete: olcAccess
+
+add: olcAccess
+olcAccess: to * by * write
+
+
+
+root@ldap:/opt/docker# ldapmodify -vxc -D 'cn=Sysadmin,cn=config' -w syskey -f acl1.ldif
+ldap_initialize( <DEFAULT> )
+delete olcAccess:
+add olcAccess:
+	to * by * write
+modifying entry "olcDatabase={1}mdb,cn=config"
+modify complete
+
+root@ldap:/opt/docker# ldapsearch -x -LLL -D "cn=Sysadmin,cn=config" -w syskey -b 'olcDatabase={1}mdb,cn=config' olcAccess
+dn: olcDatabase={1}mdb,cn=config
+olcAccess: {0}to * by * write
+
+root@ldap:/opt/docker# 
+
+
+
+
+
+VERIFICACIÓN DEL RESULTADO
+--------------------------
+
+DEBE SALIR pueden acceder y escribir pero no pueden leer. 
+Si tienen el atributo modificar pueden leer, pero si tienes solo la de leer no pueden modificar.
+
+root@ldap:/opt/docker# ldapsearch -x -LLL -D 'uid=anna,ou=usuaris,dc=edt,dc=org' -w anna 'uid=anna'
+
+dn: uid=anna,ou=usuaris,dc=edt,dc=org
+objectClass: posixAccount
+objectClass: inetOrgPerson
+cn: Anna Pou
+cn: Anita Pou
+sn: Pou
+homePhone: 555-222-2222
+mail: anna@edt.org
+description: Watch out for this girl
+ou: Alumnes
+uid: anna
+uidNumber: 5002
+gidNumber: 600
+homeDirectory: /tmp/home/anna
+userPassword:: e1NTSEF9Qm00QjNCdS9mdUg2QmJ5OWxneGZGQXdMWXJLMFJiT3E=
+
+root@ldap:/opt/docker# ldapsearch -x -LLL -D 'uid=anna,ou=usuaris,dc=edt,dc=org' -w anna 'uid=user01'
+
+dn: uid=user01,ou=usuaris,dc=edt,dc=org
+objectClass: posixAccount
+objectClass: inetOrgPerson
+cn: user01
+cn: alumne01 de 1asix de todos los santos
+sn: alumne01
+homePhone: 555-222-0001
+mail: user01@edt.org
+description: alumne de 1asix
+ou: 1asix
+uid: user01
+uidNumber: 7001
+gidNumber: 610
+homeDirectory: /tmp/home/1asix/user01
+userPassword:: e1NIQX1vdmY4dGEvcmVZUC91MnpqMGFmcEh0OHlFMUE9
+
+
+5. vim modify1.ldif
+
+dn: uid=pau,ou=usuaris,dc=edt,dc=org
+changetype: modify
+add: homephone
+homephone: 555-888-132
+
+6. Probamos editar.
+
+root@ldap:/opt/docker# ldapmodify -x -D "uid=anna,ou=usuaris,dc=edt,dc=org" -w anna -f modify1.ldif 
+modifying entry "uid=pau,ou=usuaris,dc=edt,dc=org"
+
+Vemos que si puede escribir y leer
+
+ldapsearch -x -LLL -D 'uid=anna,ou=usuaris,dc=edt,dc=org' -w anna 'uid=user01'
+
+root@ldap:/opt/docker# ldapsearch -x -LLL -D 'uid=anna,ou=usuaris,dc=edt,dc=org' -w anna 'uid=pau'
+dn: uid=pau,ou=usuaris,dc=edt,dc=org
+objectClass: posixAccount
+objectClass: inetOrgPerson
+cn: Pau Pou
+cn: Pauet Pou
+sn: Pou
+homePhone: 555-222-2220
+homePhone: 555-888-143
+mail: pau@edt.org
+description: Watch out for this guy
+ou: Profes
+uid: pau
+uidNumber: 5000
+gidNumber: 100
+homeDirectory: /tmp/home/pau
+userPassword:: e1NTSEF9TkRraXBlc05RcVRGRGdHSmZ5cmFMei9jc1pBSWxrMi8=
+
+
+
+-- CASO 3 --
+
+root@ldap:/opt/docker# vim acl1.ldif 
+
+dn: olcDatabase={1}mdb,cn=config
+changetype: modify
+delete: olcAccess
+
+add: olcAccess
+olcAccess: to by self write by * read
+
+Modificamos el ACL
+
+root@ldap:/opt/docker# ldapmodify -vxc -D 'cn=Sysadmin,cn=config' -w syskey -f acl1.ldif
+ldap_initialize( <DEFAULT> )
+delete olcAccess:
+add olcAccess:
+	to by self write by * read
+modifying entry "olcDatabase={1}mdb,cn=config"
+modify complete
+
+
+
+
+VERIFICACIÓN DEL RESULTADO
+--------------------------
+
+DEBE SALIR el propio puede escribir y todos puedne LEER 
+Si tienen el atributo modificar pueden leer, pero si tienes solo la de leer no pueden modificar.
+
+root@ldap:/opt/docker# ldapsearch -x -LLL -D 'uid=anna,ou=usuaris,dc=edt,dc=org' -w anna 'uid=anna'
+
+dn: uid=anna,ou=usuaris,dc=edt,dc=org
+objectClass: posixAccount
+objectClass: inetOrgPerson
+cn: Anna Pou
+cn: Anita Pou
+sn: Pou
+homePhone: 555-222-2222
+homePhone: 555-888-132
+mail: anna@edt.org
+description: Watch out for this girl
+ou: Alumnes
+uid: anna
+uidNumber: 5002
+gidNumber: 600
+homeDirectory: /tmp/home/anna
+userPassword:: e1NTSEF9Qm00QjNCdS9mdUg2QmJ5OWxneGZGQXdMWXJLMFJiT3E=
+
+
+root@ldap:/opt/docker# ldapsearch -x -LLL -D 'uid=anna,ou=usuaris,dc=edt,dc=org' -w anna 'uid=user01'
+
+dn: uid=user01,ou=usuaris,dc=edt,dc=org
+objectClass: posixAccount
+objectClass: inetOrgPerson
+cn: user01
+cn: alumne01 de 1asix de todos los santos
+sn: alumne01
+homePhone: 555-222-0001
+mail: user01@edt.org
+description: alumne de 1asix
+ou: 1asix
+uid: user01
+uidNumber: 7001
+gidNumber: 610
+homeDirectory: /tmp/home/1asix/user01
+userPassword:: e1NIQX1vdmY4dGEvcmVZUC91MnpqMGFmcEh0OHlFMUE9
+
+
+5. vim modify1.ldif
+
+dn: uid=anna,ou=usuaris,dc=edt,dc=org
+changetype: modify
+add: homephone
+homephone: 555-888-152
+
+6. Probamos editar.
+
+root@ldap:/opt/docker# ldapmodify -x -D "uid=anna,ou=usuaris,dc=edt,dc=org" -w anna -f modify1.ldif 
+modifying entry "uid=anna,ou=usuaris,dc=edt,dc=org"
+
+
+## Vemos que si puede escribir y leer a uno propio
+
+## Volvemos a modificar el fichero y probamos de Pau pero lo editará Anna
+
+dn: uid=pau,ou=usuaris,dc=edt,dc=org
+changetype: modify
+add: homephone
+homephone: 555-888-162
+
+root@ldap:/opt/docker# ldapmodify -x -D "uid=anna,ou=usuaris,dc=edt,dc=org" -w anna -f modify1.ldif 
+modifying entry "uid=pau,ou=usuaris,dc=edt,dc=org"
+ldap_modify: Insufficient access (50)
+
+## Observamos que no puede editar por la ACL 
+
+## Verificamos de nuevo la nuestra ACL
+
+root@ldap:/opt/docker# ldapsearch -x -LLL -D 'cn=Sysadmin,cn=config' -b 'olcDatabase={1}mdb,cn=config' -w syskey olcAccess
+dn: olcDatabase={1}mdb,cn=config
+olcAccess: {0}to by self write by * read
+
+
+-- CASO 4 --
+
+# 04 MODIFICAR EL PASSWD A SI MISMO Y TODOS PUEDEN AUTENTICAR Y TODOS PUEDEN LLER
+
+root@ldap:/opt/docker# vim acl1.ldif 
+
+dn: olcDatabase={1}mdb,cn=config
+changetype: modify
+delete: olcAccess
+-
+add: olcAccess
+olcAccess: to attrs=userPassword by self write by * auth
+olcAccess: to * by * read
+
+Modificamos el ACL
+
+root@ldap:/opt/docker# ldapmodify -vxc -D 'cn=Sysadmin,cn=config' -w syskey -f acl1.ldif
+ldap_initialize( <DEFAULT> )
+delete olcAccess:
+add olcAccess:
+	to attrs=userPassword by self write by * auth
+	to * by * read
+modifying entry "olcDatabase={1}mdb,cn=config"
+modify complete
+
+
+VERIFICACIÓN DE RESULTADO
+-------------------------
+
+
+ldappasswd -xv -D 'uid=anna,ou=usuaris,dc=edt,dc=org' -w anna -s anna
+--ldap_initialize( <DEFAULT> )
+--Result: Success (0)
+
+# Puede cambiarse la contraseña a ella misma pero no a otros
+
+Modificamos el fichero modify2.ldif y ponemos:
+
+dn: uid=pau,ou=usuaris,dc=edt,dc=org
+changetype: modify
+replace: olcRootPW
+olcRootPW: anna
+
+# Miraremos si Anna puede modificar la entrada de PAU
+
+root@ldap:/opt/docker# ldapmodify -x -D 'uid=anna,ou=usuaris,dc=edt,dc=org' -w anna -f modify2.ldif 
+modifying entry "uid=pau,ou=usuaris,dc=edt,dc=org"
+ldap_modify: Insufficient access (50)
+
+VEMOS QUE NO DEJA.
+
+# Seguimos haciendo pruebas
+
+ldapmodify -x -D "uid=anna,ou=usuaris,dc=edt,dc=org" -w anna -f modify1.ldif
+--modifying entry "uid=anna,ou=usuaris,dc=edt,dc=org"
+--ldap_modify: Insufficient access (50)
+
+ldapmodify -x -D "uid=anna,ou=usuaris,dc=edt,dc=org" -w anna -f passwd.ldif
+--modifying entry "uid=pau,ou=usuaris,dc=edt,dc=org"
+--ldap_modify: Insufficient access (50)
+
+ldapmodify -x -D "uid=anna,ou=usuaris,dc=edt,dc=org" -w anna -f modify1.ldif
+--modifying entry "uid=pau,ou=usuaris,dc=edt,dc=org"
+--ldap_modify: Insufficient access (50)
+
+ldapsearch -x -LLL -D 'uid=anna,ou=usuaris,dc=edt,dc=org' -w anna
+
+
+------------------
+
+
+#file modify2.ldif
+dn: uid=pau,ou=usuaris,dc=edt,dc=org
+changetype: modify
+replace: olcRootPW
+olcRootPW: anna
+
+#file modify1.ldif
+dn: uid=pau,ou=usuaris,dc=edt,dc=org
+changetype: modify
+add: homephone
+homephone: 555-888-122
+#(en algunos casos se cambiaba ana por pau para hacer las diferentes pruebas)
+
+
+
+
+
+
+  
+

@@ -1,0 +1,108 @@
+1. Dockerfile --> Imatge			--> Containers
+		keshikid03/ldap21:base			Containers detach
+				:latest (Attach)		Servidor ldap funcional
+
+								ldap.edt.org
+. INSTALAR ELS PAQUETS
+
+. Creem /opt/Docker
+
+. Copiar-ho tot a /opt/Docker
+								
+. Chmod +x del fitxer Startup.sh
+
+. Llançar un stript
+
+. Startup.sh CMD
+
+. EXPOSE 389 --> Declarar el puerto 389
+		
+								
+2. Borrar por defecto RM | slapd.d/* y /var/lib/ldap/*
+
+3. Generar la configuración dinámica con el orden "slaptest"
+
+	slaptest -f [file] -F [dir]
+
+5. Aconsellable canviar el propietari dels arxius
+
+6. Fer la inserció masiva de dades: "slapadd" -F [dir] -l [fitxer]
+
+7. Chown slapd /etc/ldap/slapd.d/* /etc/ldap/* /var/lib/ldap/*
+
+8. Encender el demonio.
+
+9. 
+
+
+				
+				
+-------
+
+git clone https://www.github.com/edtasixm06/ldap21.git --> Bajar
+
+cd ldap --> ldap21:base
+
+
+docker tag
+
+docker build -t keshikid03/ldap21:base .
+
+
+
+docker run --rm --name ldap.edt.org -h ldap.edt.org -d
+
+---------
+
+docker run --rm --name ldap.edt.org -h ldap.edt.org -it keshikid03/ldap21:base /bin/bash
+
+
+------
+
+Cuando se instala el software se crea un ususario LDAP.
+
+Cuando se configura la base de datos se configura en slapd.conf
+
+Existe un usuario UNIX que se llama OPENLDAP
+
+GREP /ETC/PASSWD
+
+.....
+
+
+SLAPD.CONF
+
+edt.org
+
+rootdn
+		--> adm d'Aquesta BD
+rootpw
+
+
+
+gencat.cat
+
+rootdn
+		--> adm
+rootpw
+
+DN = Distinguition name
+
+----
+
+Pujar la imatge a Dockerhub -- Pujar tot a Dockerhub --> Començar a fer consultes
+
+docker push keshikid03/ldap21:base
+
+
+---
+
+-d (detach) en demonio
+
+---- 
+
+-a 172.17.0.2
+
+Iniciar una sesión dentro del container.
+
+

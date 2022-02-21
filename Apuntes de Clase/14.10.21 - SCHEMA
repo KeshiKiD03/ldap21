@@ -1,0 +1,558 @@
+14.10.21 - SCHEMAS FUTBOLISTAS
+
+isx36579183@i11:/var/tmp/m06/ldap21/ldap21:schema$ cat futbolista.schema 
+#futbolista.schema
+#
+# x-equip
+# x-dorsal
+# x-web
+# x-foto
+# x-lesionat
+#-------------------------------------------------------
+# attributetype ( 1.1.2.1.1 NAME 'x-my-UniqueName'
+#                DESC 'unique name with my organization'
+#                EQUALITY caseIgnoreMatch
+#                SUBSTR caseIgnoreSubstringsMatch
+#                SYNTAX 1.3.6.1.4.1.1466.115.121.1.15
+#                SINGLE-VALUE )
+#--------------------------------------------------------
+
+atributetype (1.1.2.1.1 NAME 'x-equip'
+	DESC 'nom del equip'
+	EQUALITY caseIgnoreMatch
+	SUBSTR caseIgnoreSubstringMatch
+	SYNTAX 1.3.6.1.4.1.1466.115.121.1.15
+	SINGLE-VALUE)
+
+atributetype (1.1.2.1.2 NAME 'x-dorsal'
+        DESC 'Dorsal del jugador'
+        EQUALITY integerMatch
+	ORDERING integerOrderingMatch
+        SYNTAX 1.3.6.1.4.1.1466.115.121.1.27
+        SINGLE-VALUE)
+
+attributetype (1.1.2.1.3 NAME 'x-web'
+	DESC 'Dorsal del jugador'
+	EQUIALITY integerMatch
+	ORDERING integerOrderingMatch
+	SYNTAX 1.3.6.1.4.1.1466.115.121.1.27
+	SINGLE-VALUE)
+
+
+
+
+
+attributetype (1.1.2.1.4 NAME 'x-photo')
+	DESC 'fotografia del jugador'
+	SYNTAX 1.3.6.1.4.1.1466.115.121.1.28)
+
+attributetype (1.1.2.1.5 NAME 'x-lesionat'
+	DESC 'true/false'
+	SYNTAX 1.3.6.1.4.1.1466.115.121.1.7)
+
+objectclass (1.1.2.2.1 NAME 'x-futbolista'
+	DESC 'Futboleros crazys'
+	SUP inetOrgPerson
+	MUST x-equip
+	MAY ( x-dorsal $ x-web $ x-photo $ x-lesionat)
+	)
+
+
+------------------------------------------------------------------------
+
+
+
+
+
+objectclass (1.1.2.2.1 NAME 'x-futbolista'
+        DESC 'Futboleros crazys'
+        SUP inetOrgPerson
+        MUST x-equip
+        MAY ( x-dorsal $ x-web $ x-photo $ x-lesionat)
+        )     
+        
+        
+        MUST ES OBLIGATORIO
+        
+        MAY OPCIONAL
+        
+        
+        
+        
+        Todo estará en /opt/docker
+        
+        
+-----------
+
+Modificar el slapd.conf para añadir el SCHEMA creado
+
+include         /opt/docker/futbolista.schema
+
+----------------------------------------------------------
+
+generamos de nuevo el Dockerfile
+
+$ docker build -t keshikid03/ldap21:schema .
+
+
+
+-----------------------------------------------------------
+
+isx36579183@i11:/var/tmp/m06/ldap21/ldap21:schema$ docker run --rm --name ldap.edt.org -h ldap.edt.org --net 2hisx -it keshikid03/ldap21:schema /bin/bash 
+
+
+
+-----------------------------------------------------------
+
+EDITAR EL STARTUP.SH en /opt/docker
+
+vim startup.sh
+
+le quitamos el -d0
+
+y hacemos un # bash startup
+
+
+
+-----------------------------------------------------------
+
+Nos vamos a https://github.com/edtasixm06/ldap20/blob/master/ldap20:schema/futbolista-A.schema
+
+Para verificar si tenemos bien la sintaxis.
+
+
+
+-----------------------------------------------------------
+
+Volvemos a cargar el archivo o copiar el archivo
+
+DOCKER COPY O DOCKER BUILD
+
+-----------------------------------------------------------
+
+vim datafutbolistas.ldif
+
+dn: cn=dembele,ou=usuaris,dc=edt,dc=org
+objectClass: x-Futbolista
+cn: dembele
+sn: lo crack
+x-equip: barca
+x-lesionat: TRUE
+
+------------------------------------------------------------
+root@ldap:/opt/docker# bash startup.sh 
+61680e04 mdb_db_open: database "dc=edt,dc=org" cannot be opened: No such file or directory (2). Restore from backup!
+61680e04 backend_startup_one (type=mdb, suffix="dc=edt,dc=org"): bi_db_open failed! (2)
+slap_startup failed (test would succeed using the -u switch)
+_#################### 100.00% eta   none elapsed            none fast!         
+Closing DB...
+dn: dc=edt,dc=org
+dc: edt
+description: Escola del treball de Barcelona
+objectClass: dcObject
+objectClass: organization
+o: edt.org
+structuralObjectClass: organization
+entryUUID: d0c52334-c129-103b-8544-f5dc38978914
+creatorsName: cn=Manager,dc=edt,dc=org
+createTimestamp: 20211014110124Z
+entryCSN: 20211014110124.132785Z#000000#000#000000
+modifiersName: cn=Manager,dc=edt,dc=org
+modifyTimestamp: 20211014110124Z
+
+
+
+-----------------------------------------------------------
+
+root@ldap:/opt/docker# ldapadd -vx -D 'cn=Manager,dc=edt,dc=org' -w secret -f datafutbolista.ldif
+ldap_initialize( <DEFAULT> )
+add objectClass:
+	x-Futbolista
+add cn:
+	dembele
+add sn:
+	lo crack
+add x-equip:
+	barca
+add x-lesionat:
+	TRUE
+adding new entry "cn=dembele,ou=usuaris,dc=edt,dc=org"
+modify complete
+
+
+
+
+-----------------------------------------------------------
+
+
+ldapadd -vx -D 'cn=Manager,dc=edt,dc=org' -w secret -f data-futbol.ldif
+
+
+-----------------------------------------------------------
+
+
+inetOrgPerson
+
+
+
+-----------------------------------------------------------
+
+
+docker run --rm --name ldap.edt.org -h ldap.edt.org --net 2hisx -p 389:389 -it keshikid03/ldap21:schema /bin/bash
+
+
+
+
+-----------------------------------------------------------
+
+Instalamos PHPLDAPADMIN
+
+docker run --rm --name phpldapadmin.edt.org -h phpldapadmin.edt.org --net 2hisx -p 80:80 -d edtasixm06/phpldapadmin:20
+
+-----------------------------------------------------------
+
+PHPLDAPADMIN
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+-----------------------------------------------------------
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+-----------------------------------------------------------
+
+
+
+
+
+CAMPO PARA DIFERENCIAR OTRO FUTBOLISTA DE OTRO
+
+HAY FUTBOLISTAS QUE NO TIENEN DORSALES
+
+necesita el campo nombre
+
+
+
+REPASAR DE NUEVO HOY
+
+
+
+-----------------------------------------------------------
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+-----------------------------------------------------------
+
+
+BASH STARTUP.SH
+
+
+ADDING NEW ENTRY "x-lonom=dembele,ou=usuaris"
+
+
+INTENTAR AÑADIR A DEMBELE
+
+
+
+kill 17
+
+
+MATAR EL SERVIDOR 
+
+
+
+
+docker cp ldap.edt.org:/opt/docker/futbolista.schema .
+
+docker cp ldap.edt.org:/opt/docker/futbolistaA.schema .
+
+cp data-futbolA.ldif
+
+
+
+
+
+
+
+
+-----------------------------------------------------------
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+-----------------------------------------------------------
+
+
+
+DEBERES
+
+2 FUTBOLISTAS DIFERETES
+
+
+
+
+
+
+
+
+
+
+
+-----------------------------------------------------------
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+-----------------------------------------------------------
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+-----------------------------------------------------------
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+-----------------------------------------------------------
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+-----------------------------------------------------------
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+-----------------------------------------------------------
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+-----------------------------------------------------------
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+-----------------------------------------------------------
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+-----------------------------------------------------------
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+-----------------------------------------------------------
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+-----------------------------------------------------------
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+-----------------------------------------------------------
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+-----------------------------------------------------------
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+-----------------------------------------------------------
+

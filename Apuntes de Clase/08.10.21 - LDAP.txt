@@ -1,0 +1,764 @@
+docker run --rm --name ldap.edt.org -h ldap.edt.org -d keshikid03/ldap21:base
+
+En modo DETACH
+
+ldapsearch -x -LLL -h 172.17.0.2 -b 'dc=edt,dc=org' '(&(|(gidNumber=610)(gidNumber=611))(cn=user*))'
+
+
+
+
+
+isx36579183@i11:~$ docker exec -it ldap.edt.org /bin/bash
+root@ldap:/opt/docker# 
+
+
+
+
+isx36579183@i11:~$ docker exec -it ldap.edt.org /bin/bash
+root@ldap:/opt/docker# ldapsearch -x -LLL
+No such object (32)
+root@ldap:/opt/docker# ldapsearch -x -LLL -v
+ldap_initialize( <DEFAULT> )
+filter: (objectclass=*)
+requesting: All userApplication attributes
+No such object (32)
+root@ldap:/opt/docker# 
+
+
+root@ldap:/etc/ldap# tree slapd.d/
+slapd.d/
+|-- cn=config
+|   |-- cn=module{0}.ldif
+|   |-- cn=schema
+|   |   |-- cn={0}corba.ldif
+|   |   |-- cn={10}ppolicy.ldif
+|   |   |-- cn={11}collective.ldif
+|   |   |-- cn={1}core.ldif
+|   |   |-- cn={2}cosine.ldif
+|   |   |-- cn={3}duaconf.ldif
+|   |   |-- cn={4}dyngroup.ldif
+|   |   |-- cn={5}inetorgperson.ldif
+|   |   |-- cn={6}java.ldif
+|   |   |-- cn={7}misc.ldif
+|   |   |-- cn={8}nis.ldif
+|   |   `-- cn={9}openldap.ldif
+|   |-- cn=schema.ldif
+|   |-- olcDatabase={-1}frontend.ldif
+|   |-- olcDatabase={0}config.ldif
+|   |-- olcDatabase={1}mdb.ldif
+|   `-- olcDatabase={2}monitor.ldif
+`-- cn=config.ldif
+
+LDAP.CONF es la configuración cliente
+
+SLAPD.CONF es la configuración del servidor
+
+
+
+BASE le dice a las ordenes clientes donde tienen que contactar
+
+URI dice a que servidor quiere contactar
+
+Estamos configurando el servidor dentro del docker
+
+
+NO NECESITAMOS EL BASE SEARCH PORQUE YA ESTÁ DEFINIDO EN EL LDAP.CONF
+
+cuando hagamos un ldapsearch -x -LLL -h (NO REQUERIDO PORQUE ESTAMOS DENTRO) -b (no requerido porque ya lo hemos puesto en el ldap.conf BASE)
+
+-------------------------------
+
+GANDHI
+
+ldap.conf
+
+
+
+
+
+
+
+-------------------------------
+
+
+root@ldap:/etc/ldap# ldapwhoami -x -D 'cn=Manager,dc=edt,dc=org' -w secret
+dn:cn=Manager,dc=edt,dc=org
+root@ldap:/etc/ldap# ldapwhoami -x -D 'cn=Jordi Mas,ou=usuaris,dc=edt,dc=org' -w jordi 
+dn:cn=Jordi Mas,ou=usuaris,dc=edt,dc=org
+root@ldap:/etc/ldap# 
+
+
+
+
+
+
+
+-------------------------------
+
+
+El fichero ldap.conf tenemos que definir una URI y BASE
+
+ldap.conf
+
+	conf client
+
+
+
+
+
+
+-------------------------------
+
+CONFIGURAR 
+
+
+
+
+
+
+
+-------------------------------
+
+ABRIR UN DEBIAN E INSTALAR UN LDAP
+
+isx36579183@i11:~$ docker run --rm -it keshikid03/ldap21:base /bin/bash ||| PODEMOS PONER -h --name host
+
+INICIAMOS DENTRO DEL CONTAINER QUE TENGA LAS ORDENES LDAP
+
+
+isx36579183@i11:~$ docker run --rm -it keshikid03/ldap21:base /bin/bash
+root@f742458be35b:/opt/docker# nmap 172.17.0.2
+Starting Nmap 7.80 ( https://nmap.org ) at 2021-10-08 08:23 UTC
+Nmap scan report for 172.17.0.2
+Host is up (0.000015s latency).
+Not shown: 999 closed ports
+PORT    STATE SERVICE
+389/tcp open  ldap
+MAC Address: 02:42:AC:11:00:02 (Unknown)
+
+Nmap done: 1 IP address (1 host up) scanned in 0.29 seconds
+root@f742458be35b:/opt/docker# 
+
+
+
+
+-------------------------------
+
+
+TENEMOS UN CONTAINER AHÍ, PRUEBAS BÁSICAS
+
+
+
+
+
+
+-------------------------------
+
+root@f742458be35b:/opt/docker# ldapsearch -x -LLL -h 172.17.0.2 -b 'dc=edt,dc=org'
+dn: dc=edt,dc=org
+dc: edt
+description: Escola del treball de Barcelona
+objectClass: dcObject
+objectClass: organization
+o: edt.org
+
+dn: ou=maquines,dc=edt,dc=org
+ou: maquines
+description: Container per a maquines linux
+objectClass: organizationalunit
+
+
+
+
+
+
+
+
+-------------------------------
+
+
+root@f742458be35b:/opt/docker# ldapsearch -x -LLL -h 172.17.0.2 -b 'dc=edt,dc=org' | head -n5 
+dn: dc=edt,dc=org
+dc: edt
+description: Escola del treball de Barcelona
+objectClass: dcObject
+objectClass: organization
+
+
+
+head
+
+
+
+-------------------------------
+
+
+vim /etc/ldap/ldap.conf
+
+
+URI = SCHEMA
+
+ldap://172.17.0.2
+
+
+ldap.conf a que host hay que contactar y a que base seach hay que añadir
+
+root@f742458be35b:/opt/docker# ldapsearch -x -LLL | head -n5
+dn: dc=edt,dc=org
+dc: edt
+description: Escola del treball de Barcelona
+objectClass: dcObject
+objectClass: organization
+root@f742458be35b:/opt/docker
+
+NO NECESITAMOS -H Y -B
+
+-------------------------------
+
+Toda la red de 172.17.0.0/16 del DOCKER
+
+Los clientes no saben
+
+En lugar de usar la red por defecto usaremos 2hisix
+
+
+Cuando abrimos los containers, dentro de una red, si son resolvibles por DNS. Docker habrá construido un servidor DNS entre todos los containers de esta red, de esta forma que se puede hacer por red.
+
+
+
+
+
+
+-------------------------------
+
+docker ps
+
+docker stop ldap.edt.org
+
+
+
+
+
+
+
+
+-------------------------------
+
+CREACIÓN DE RED DENTRO DE DOCKER
+
+docker network ls
+
+isx36579183@i11:~$ docker network ls
+NETWORK ID     NAME      DRIVER    SCOPE
+2d8f61340cf5   bridge    bridge    local
+4acba4923f1f   host      host      local
+593b5aa94d05   mynet     bridge    local
+2830b519c8a7   none      null      local
+
+
+isx36579183@i11:~$ docker network create 2hisx
+
+152edc7fdd332b89dc6435e59f6be11210ae988db946a2f7c700c44fcf598b54
+
+isx36579183@i11:~$ docker run --rm --name ldap.edt.org -h ldap.edt.org --net 2hisx -d keshikid03/ldap21:base
+
+Añadimos 
+
+
+isx36579183@i11:~$ docker run --rm --name ldap.edt.org -h ldap.edt.org --net 2hisx -d keshikid03/ldap21:base
+1a957708df7e37d6d0953739eb6bca45ddca841c220ddd30fc169c8de9b3df7d
+
+
+LA RED POR DEFECTO ES QUE NO TIENE SERVICIO DE DNS, NO RECONOCE LOS CONTAINERS POR NOMBRE DE HOST, QUE ES LO MÁS INTELIGENTE.
+
+LO MEJOR ES CREAR UNA RED PROPIA INTERNA PARA QUE ELLOS PUEDAN VERSE
+
+
+-------------------------------
+
+PARA VERIFICAR EL DOCKER NETWORK INSPECT [RED] PARA VER LOS DATOS DE LA RED
+
+isx36579183@i11:~$ docker network inspect 2hisx
+[
+    {
+        "Name": "2hisx",
+        "Id": "152edc7fdd332b89dc6435e59f6be11210ae988db946a2f7c700c44fcf598b54",
+        "Created": "2021-10-08T10:34:09.412489433+02:00",
+        "Scope": "local",
+        "Driver": "bridge",
+        "EnableIPv6": false,
+        "IPAM": {
+            "Driver": "default",
+            "Options": {},
+            "Config": [
+                {
+                    "Subnet": "172.19.0.0/16",
+                    "Gateway": "172.19.0.1"
+                }
+            ]
+        },
+        "Internal": false,
+        "Attachable": false,
+        "Ingress": false,
+        "ConfigFrom": {
+            "Network": ""
+        },
+        "ConfigOnly": false,
+        "Containers": {
+            "1a957708df7e37d6d0953739eb6bca45ddca841c220ddd30fc169c8de9b3df7d": {
+                "Name": "ldap.edt.org",
+                "EndpointID": "70d61b2d5351cc37c75173f8ad2d04f00be7819883429d11ea1cb5399d6b8ea4",
+                "MacAddress": "02:42:ac:13:00:02",
+                "IPv4Address": "172.19.0.2/16",
+                "IPv6Address": ""
+            }
+        },
+        "Options": {},
+        "Labels": {}
+    }
+]
+isx36579183@i11:~$ 
+
+
+
+
+
+
+
+-------------------------------
+
+isx36579183@i11:~$ docker run --rm --name client -h client --net 2hisx -it keshikid03/ldap21:base /bin/bash
+
+
+
+(sin detach)
+
+ip a
+
+172.19.0.3/16
+
+root@client:/opt/docker# nmap ldap.edt.org
+Starting Nmap 7.80 ( https://nmap.org ) at 2021-10-08 08:38 UTC
+Nmap scan report for ldap.edt.org (172.19.0.2)
+Host is up (0.0000060s latency).
+rDNS record for 172.19.0.2: ldap.edt.org.2hisx
+Not shown: 999 closed ports
+PORT    STATE SERVICE
+389/tcp open  ldap
+MAC Address: 02:42:AC:13:00:02 (Unknown)
+
+Nmap done: 1 IP address (1 host up) scanned in 0.17 seconds
+root@client:/opt/docker# 
+
+Funciona la resolución de nombres.
+
+
+
+
+
+-------------------------------
+
+MODIFICAMOS EL LDAP.CONF
+
+BASE dc=edt,dc=org
+URI ldap://ldap.edt.org
+
+
+root@client:/opt/docker# ldapsearch -x -LLL | head -n5
+dn: dc=edt,dc=org
+dc: edt
+description: Escola del treball de Barcelona
+objectClass: dcObject
+objectClass: organization
+root@client:/opt/docker# 
+
+Tiene que ver el DNS para saber lo del LDAP. Con DOCKER se tiene que crear una red propia. Luego debe desplegar dentro de 2HISX. Red interna. 
+
+
+
+
+-------------------------------
+
+DEBERES ASIX M06-ASO Ldap Deures: ldap21:editat
+
+
+
+
+
+
+
+-------------------------------
+
+AWS/DigitalOcean/google
+
+CLIENT PORT 389 CONTRA SU ORDENADOR
+
+EL CONTAINER PROPAGARÁ EL PUERTO EN EL HOST
+
+PROPAGAR EL PUERTO, HACER PRESO EL CONTAINER EN EL HOST
+
+	-->
+
+CLIENTE	-->	389
+
+	-->
+
+SERVIDOR
+
+
+isx36579183@i11:~$ docker ps
+CONTAINER ID   IMAGE                    COMMAND                  CREATED          STATUS          PORTS                                   NAMES
+baffc0956232   keshikid03/ldap21:base   "/bin/sh -c /opt/doc…"   17 seconds ago   Up 16 seconds   0.0.0.0:389->389/tcp, :::389->389/tcp   ldap.edt.org
+------- host container
+Totes les IPS
+del host 
+
+isx36579183@i11:~$ 
+
+
+
+
+isx36579183@i11:~$ docker run --rm --name client -h client --net 2hisx -P 389:389 -it keshikid03/ldap21:base /bin/bash
+
+
+
+
+-p de puerto
+
+
+
+-------------------------------
+
+
+
+man docker run
+
+       -p, --publish ip:[hostPort]:containerPort | [hostPort:]containerPort
+
+nmap localhost
+
+
+-------------------------------
+
+
+man docker
+
+
+
+
+
+
+-------------------------------
+
+isx36579183@i11:~$ docker run --rm --name ldap.edt.org -h ldap.edt.org --net 2hisx -p 389:389 -d keshikid03/ldap21:base
+
+
+
+
+
+
+
+
+-------------------------------
+
+docker port ldap.edt.org
+
+isx36579183@i11:~$ docker port ldap.edt.org
+389/tcp -> 0.0.0.0:389
+389/tcp -> :::389
+isx36579183@i11:~$ 
+
+La 1a linea es IPv4
+la 2da linea es IPv6
+
+isx36579183@i11:~$ ip a | grep inet
+    inet 127.0.0.1/8 scope host lo
+    inet6 ::1/128 scope host 
+    inet 10.200.243.211/24 brd 10.200.243.255 scope global dynamic noprefixroute eno1
+    inet6 fe80::1ac0:4dff:fea0:8dbb/64 scope link noprefixroute 
+    inet 192.168.100.1/24 brd 192.168.100.255 scope global virbr0
+    inet 172.18.0.1/16 brd 172.18.255.255 scope global br-593b5aa94d05
+    inet 172.17.0.1/16 brd 172.17.255.255 scope global docker0
+    inet6 fe80::42:f2ff:fe2c:d535/64 scope link 
+    inet 172.19.0.1/16 brd 172.19.255.255 scope global br-152edc7fdd33
+    inet6 fe80::42:6ff:fe55:7288/64 scope link 
+    inet6 fe80::6c0c:e3ff:fec7:cfc/64 scope link 
+
+-------------------------------
+
+
+
+nmap localhost
+
+isx36579183@i11:~$ nmap localhost
+Starting Nmap 7.80 ( https://nmap.org ) at 2021-10-08 11:41 CEST
+Nmap scan report for localhost (127.0.0.1)
+Host is up (0.000059s latency).
+Other addresses for localhost (not scanned): ::1
+Not shown: 998 closed ports
+PORT    STATE SERVICE
+111/tcp open  rpcbind
+389/tcp open  ldap
+
+Nmap done: 1 IP address (1 host up) scanned in 0.03 seconds
+
+
+
+
+
+
+--------------------------------
+isx36579183@i11:~$ ip a | grep inet
+    inet 127.0.0.1/8 scope host lo
+    inet6 ::1/128 scope host 
+    inet 10.200.243.211/24 brd 10.200.243.255 scope global dynamic noprefixroute eno1
+    inet6 fe80::1ac0:4dff:fea0:8dbb/64 scope link noprefixroute 
+    inet 192.168.100.1/24 brd 192.168.100.255 scope global virbr0
+    inet 172.18.0.1/16 brd 172.18.255.255 scope global br-593b5aa94d05
+    inet 172.17.0.1/16 brd 172.17.255.255 scope global docker0
+    inet6 fe80::42:f2ff:fe2c:d535/64 scope link 
+    inet 172.19.0.1/16 brd 172.19.255.255 scope global br-152edc7fdd33
+    inet6 fe80::42:6ff:fe55:7288/64 scope link 
+    inet6 fe80::6c0c:e3ff:fec7:cfc/64 scope link 
+    
+    IP DE varias  REDES y servicios
+
+----------------------------------
+
+nmap 10.200.247.243
+
+
+
+
+
+
+apt-get install nmap
+
+
+
+isx36579183@i11:~$ nmap 10.200.247.243
+Starting Nmap 7.80 ( https://nmap.org ) at 2021-10-08 11:39 CEST
+Nmap scan report for profeN2I.informatica.escoladeltreball.org (10.200.247.243)
+Host is up (0.00013s latency).
+Not shown: 997 closed ports
+PORT    STATE SERVICE
+22/tcp  open  ssh
+111/tcp open  rpcbind
+389/tcp open  ldap
+
+Nmap done: 1 IP address (1 host up) scanned in 0.04 seconds
+isx36579183@i11:~$ 
+
+
+
+----------------------------------
+
+
+
+
+isx36579183@i11:~$ nmap 172.18.0.1
+Starting Nmap 7.80 ( https://nmap.org ) at 2021-10-08 11:39 CEST
+Nmap scan report for 172.18.0.1
+Host is up (0.000071s latency).
+Not shown: 998 closed ports
+PORT    STATE SERVICE
+111/tcp open  rpcbind
+389/tcp open  ldap
+
+Nmap done: 1 IP address (1 host up) scanned in 0.03 seconds
+
+
+
+
+
+
+
+
+
+
+
+----------------------------------
+
+
+isx36579183@i11:~$ ldapsearch -x -LLL -h i10 -b 'dc=edt,dc=org' | head -n5
+dn: dc=edt,dc=org
+dc: edt
+description: Escola del treball de Barcelona
+objectClass: dcObject
+objectClass: organization
+
+Resuelve el nombre y vemos con el ldapsearch
+
+
+
+
+
+
+
+
+
+
+
+
+----------------------------------
+
+DNS Y DHCP SON UN POCO PROBLEMATICOS el container propague los puertos,
+
+Se hace una consulta con el orde del cristian.
+
+Se hace una consulta desde el ordenador de cualquiera el servidor del Cristian a nivel de host no a nivel de docker. Hay que ver si está abierto el puerto con NMAP y hacer la consulta con LDAPSEARCH
+
+
+
+isx36579183@i11:~$ docker run --rm --name ldap.edt.org -h ldap.edt.org --net 2hisx -p 5000:389 -d keshikid03/ldap21:base
+7bf95d548ad9ccc5f134987f93e9b16fceeb0d8e8ae66c5e944ca7a13e0613f5
+isx36579183@i11:~$ 
+
+
+
+
+
+isx36579183@i11:~$ docker port ldap.edt.org
+389/tcp -> 0.0.0.0:5000
+389/tcp -> :::5000
+isx36579183@i11:~$ 
+
+La primera es la del host.
+
+la ultima es la del contenedor.
+
+
+
+
+
+----------------------------------
+
+ldapsearch -x -LLL -h i04:5000 -b 'dc=edt,dc=org' | head -n5
+
+
+isx36579183@i11:~$ ldapsearch -x -LLL -h i04:5000 -b 'dc=edt,dc=org' | head -n5
+dn: dc=edt,dc=org
+dc: edt
+description: Escola del treball de Barcelona
+objectClass: dcObject
+objectClass: organization
+isx36579183@i11:~$ 
+
+Se propaga por el puerto 5000 el LDAP
+
+
+
+
+
+
+
+
+
+
+----------------------------------
+
+isx36579183@i11:~$ docker run --rm --name ldap.edt.org -h ldap.edt.org --net 2hisx -P -d keshikid03/ldap21:base
+d185efda553aaa7266fc042970f30685d971567b36b4142807c35ebb03e7d7c3
+
+-P de forma aleatoria de forma dinamica
+
+isx36579183@i11:~$ docker port ldap.edt.org
+389/tcp -> 0.0.0.0:49153
+389/tcp -> :::49153
+isx36579183@i11:~$ 
+
+Se le asigna uno aleatorio
+
+
+
+
+
+
+
+
+
+
+
+
+----------------------------------
+
+
+
+
+REDACTAR DE NUEVO EL README
+
+
+
+
+
+
+
+
+
+
+----------------------------------
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+----------------------------------
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+----------------------------------
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+----------------------------------
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+----------------------------------
+

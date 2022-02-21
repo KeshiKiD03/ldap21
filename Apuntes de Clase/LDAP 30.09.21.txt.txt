@@ -1,0 +1,126 @@
+LDAP 30.09.21
+
+DIT --> DATA INFORMATION TREE
+
+edt.org
+
+	o=organization
+
+	ou = organization unit = maquines
+
+	clientes = ou
+
+	productes = ou
+
+	usuaris
+
+Los registros están organizados en tablas. Cada registro en cada tabla se dividen en campos.
+
+Las entidades tienen atributos.
+
+slapcat -n0
+
+Entidad de configuración --> Una base de datos --> Todo lo que hay dentro son atributos necesarios para la configuración.
+
+/usr/sbin/slapd --> Encender el demonio de LDAP
+
+ps ax --> Ver los procesos ejecutables
+
+Host con puerto 389 --> 
+
+ldapsearch -x --> Consulta básica 
+
+ldapsearch -x -b "dc=edt,dc=org" --> Se realiza una consulta donde muestra todos los registros + entidades + usuarios. 
+
+ldapsearch -x -b -LLL "dc=edt,dc=org" | more
+
+ldapsearch -x -LLL -h 172.17.0.2 -b "dc=edt,dc=org"
+
+ldapsearch -x -LLL -h 172.17.0.2 -b 'cn=Pau Pou,ou=usuaris,dc=edt,dc=org'
+
+
+
+
+
+
+
+
+
+
+
+
+
+--------------------
+
+LDAPADD --> Inserción en cliente
+
+SLAPADD --> 
+
+INJECCIÓ MASSIVA (POPULATE)
+
+
+
+dn: cn=Pau Pou,ou=usuaris,dc=edt,dc=org
+objectclass: posixAccount --> Es la estandar de sistemas operativos abiertos
+objectclass: inetOrgPerson --> Persona que pertenece a una organización de Internet
+cn: Pau Pou
+cn: Pauet Pou
+sn: Pou
+
+POSIX --> Sistema compatible, cuenta de usuario de Linux
+
+DN --> Distingution Name --> Se construye de la siguiente forma.
+
+EDT.ORG
+	
+	USUARIS
+	
+		PERE
+
+
+CN = Pere Pou,ou=usuaris,dc=edt,dc=org | Es toda la ruta absoluta
+
+rdn = Relative Distuintition Name --> El nombre que identifica el elemento que lo separa de otros. 
+
+2 elementos pueden tener el mismo nombre pero están en otras ubicaciones.
+
+Primeramente hacer SELECTS | INSERTS | DELETES | UPDATES
+
+
+
+
+
+------
+
+INSTAL LDAP DESDE 0 CON EL LINUX
+
+1. Configurar el Docker
+
+docker run --name ldap -h ldap -it debian /bin/bash
+
+	docker start ldap
+
+	docker attach ldap
+	
+2. Dentro del Docker
+
+	apt-get update
+	
+	apt-get -y install procps iproute2 vim tree nmap
+	
+	apt-get install -y ldap-utils slapd
+
+3. Configurar el LDAP y SLAPD
+
+
+--------
+
+
+
+
+
+
+1. PWD
+
+2. git clone
+

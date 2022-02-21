@@ -1,0 +1,361 @@
+13.10.21 - LDAP EDITAT
+-----------------------
+
+1. mkdir ldap21:editat
+
+2. cp ldap21\:base/* ldap21\:editat/
+
+3. rm afegir.ldif eliminats.ldif
+
+4. Poner UUID.
+
+5. Copiar el /etc/ldap/ldap.conf a ldap21:editat.
+
+
+#
+# LDAP Defaults
+#
+
+# See ldap.conf(5) for details
+# This file should be world readable but not world writable.
+
+#SIZELIMIT	12
+#TIMELIMIT	15
+#DEREF		never
+
+# TLS certificates (needed for GnuTLS)
+TLS_CACERT	/etc/ssl/certs/ca-certificates.crt
+
+BASE dc=edt,dc=org
+URI ldap://ldap.edt.org
+
+
+6. docker build -t keshikid03/ldap21:editat . # Generamos a partir del Dockerfile.
+
+7. Modificar el startup.sh.
+
+  GNU nano 5.4                       startup.sh *                               
+#! /bin/bash
+
+# export DEBIAN_FRONTEND=noninteractive
+# apt-get -y install slapd
+
+rm -rf /etc/ldap/slapd.d/*
+rm -rf /var/lib/ldap/*
+slaptest -f /opt/docker/slapd.conf -F /etc/ldap/slapd.d
+slapadd  -F /etc/ldap/slapd.d -l /opt/docker/organitzacio-edt.org.ldif # a edt.org.ldif solo
+slapadd  -F /etc/ldap/slapd.d -l /opt/docker/usuaris-edt.org.ldif
+slapadd  -F /etc/ldap/slapd.d -l /opt/docker/usuaris-mes-edt.org.ldif
+slapcat
+
+chown -R openldap.openldap /etc/ldap/slapd.d /var/lib/ldap
+/usr/sbin/slapd -d0 
+
+
+8. docker run --rm --name ldap.edt.org -h ldap.edt.org --net 2hisx -p 389:389 -d keshikid03/ldap21:editat # Iniciamos el docker en la red 2hisx y propagamos en el puerto 389 tanto de host como de container
+
+9. Verificamos
+
+isx36579183@i11:/var/tmp/m06-Nuevo/ldap21/ldap21:editat$ docker run --rm --name ldap.edt.org -h ldap.edt.org --net 2hisx -p 389:389 -d keshikid03/ldap21:editat
+dec8dbe2cd2d857386416855d7b24a8f74184d5b9f034766e94aee4f2a77bd9b
+
+isx36579183@i11:/var/tmp/m06-Nuevo/ldap21/ldap21:editat$ docker ps
+CONTAINER ID   IMAGE                      COMMAND                  CREATED         STATUS        PORTS                                   NAMES
+dec8dbe2cd2d   keshikid03/ldap21:editat   "/bin/sh -c /opt/doc…"   2 seconds ago   Up 1 second   0.0.0.0:389->389/tcp, :::389->389/tcp   ldap.edt.org
+isx36579183@i11:/var/tmp/m06-Nuevo/ldap21/ldap21:editat$ 
+
+
+
+10. 
+
+Dockerfile --> Crear la receta de la imagen
+
+edt.org.ldif --> Estructura que tendrá LDAP
+
+ldap.conf --> Configuración de cliente ~ Es para encontrar la base y uri search
+
+slapd.confg --> Configuración del servidor
+
+11. Modificar el startup.sh
+
+#! /bin/bash
+
+# export DEBIAN_FRONTEND=noninteractive
+# apt-get -y install slapd
+
+rm -rf /etc/ldap/slapd.d/*
+rm -rf /var/lib/ldap/*
+slaptest -f /opt/docker/slapd.conf -F /etc/ldap/slapd.d
+slapadd  -F /etc/ldap/slapd.d -l /opt/docker/edt.org.ldif # Dejar esta
+cp /opt/docker/ldap.conf /etc/ldap/ldap.conf
+slapcat
+
+chown -R openldap.openldap /etc/ldap/slapd.d /var/lib/ldap
+/usr/sbin/slapd -d0 
+
+
+# Pendent:
+# configuració client
+# posar totes les dades en una injecció massiva inicial
+
+
+
+cp /opt/docker/ldap.conf /etc/ldap/ldap.conf
+
+12. Password encriptado slapasswd --> slapasswd
+
+13. isx36579183@i11:/var/tmp/m06-Nuevo/ldap21/ldap21:editat$ docker exec -it ldap.edt.org /bin/bash
+root@ldap:/opt/docker# ldapsearch -x -LLL
+dn: dc=edt,dc=org
+dc: edt
+description: Escola del treball de Barcelona
+objectClass: dcObject
+objectClass: organization
+o: edt.org
+
+dn: ou=maquines,dc=edt,dc=org
+ou: maquines
+description: Container per a maquines linux
+objectClass: organizationalunit
+
+dn: ou=clients,dc=edt,dc=org
+ou: clients
+description: Container per a clients linux
+objectClass: organizationalunit
+
+
+14. slapasswd dentro del servidor
+
+root@ldap:/opt/docker# slapasswd
+bash: slapasswd: command not found
+root@ldap:/opt/docker# slappasswd
+New password: 
+Re-enter new password: 
+{SSHA}hevsYQiC9rPGSXe9vdpjdsfLyIj2CDhc
+root@ldap:/opt/docker# 
+
+
+
+
+  GNU nano 5.4                                    slapd.conf *                                           
+#
+# See slapd.conf(5) for details on configuration options.
+# This file should NOT be world readable.
+#
+# debian packages: slapd ldap-utils
+
+include         /etc/ldap/schema/corba.schema
+include         /etc/ldap/schema/core.schema
+include         /etc/ldap/schema/cosine.schema
+include         /etc/ldap/schema/duaconf.schema
+include         /etc/ldap/schema/dyngroup.schema
+include         /etc/ldap/schema/inetorgperson.schema
+include         /etc/ldap/schema/java.schema
+include         /etc/ldap/schema/misc.schema
+include         /etc/ldap/schema/nis.schema
+include         /etc/ldap/schema/openldap.schema
+include         /etc/ldap/schema/ppolicy.schema
+include         /etc/ldap/schema/collective.schema
+
+# Allow LDAPv2 client connections.  This is NOT the default.
+allow bind_v2
+
+pidfile         /var/run/slapd/slapd.pid
+#argsfile       /var/run/openldap/slapd.args
+
+modulepath /usr/lib/ldap
+moduleload back_mdb.la
+moduleload back_monitor.la
+
+# ----------------------------------------------------------------------
+database mdb
+suffix "dc=edt,dc=org"
+rootdn "cn=Manager,dc=edt,dc=org"
+rootpw {SSHA}hevsYQiC9rPGSXe9vdpjdsfLyIj2CDhc
+directory /var/lib/ldap
+index objectClass eq,pres
+access to * by self write       by * read
+# ----------------------------------------------------------------------
+database monitor
+access to *
+       by dn.exact="cn=Manager,dc=edt,dc=org" read
+       by * none
+
+
+
+15. Añadimos un nuevo grupo y un usuario en edt.org.ldif.
+
+
+
+
+
+
+
+
+dn: uid=new01,ou=usuaris,dc=edt,dc=org
+objectclass: posixAccount
+objectclass: inetOrgPerson
+cn: new01
+uid: new01
+uidNumber: 7020
+gidNumber: 613
+homeDirectory: /tmp/home/2asix/new01
+userPassword: {SSHA}1DHLgO03HgPxA3uvbXYQcM1R+X9fLaTW
+
+
+
+root@ldap:/opt/docker# slappasswd
+New password: 
+Re-enter new password: 
+{SSHA}1DHLgO03HgPxA3uvbXYQcM1R+X9fLaTW
+root@ldap:/opt/docker# 
+
+
+
+
+
+
+16. Si no funciona probar las lineas 1 a 1 de forma interactiva el SN es REQUERIDA. 
+
+17. Entramos con un docker exec -it /
+
+Modificamos
+
+root@ldap:/opt/docker# ldapwhoami -x -D "cn=Manager,dc=edt,dc=org" -w secret
+dn:cn=Manager,dc=edt,dc=org
+root@ldap:/opt/docker# ldapwhoami -x -D "uid=new01,ou=usuaris,dc=edt,dc=org" -w new01
+dn:uid=new01,ou=usuaris,dc=edt,dc=org
+root@ldap:/opt/docker# 
+
+
+18. docker push keshikid03/ldap21:editat para subirlo a DOCKER
+
+19. Modificar los README tanto de DOCKER como de GIT
+
+Docker Hub
+
+20. Subir los ficheros a GIT
+
+
+
+SOLUCIONAR PROBLEMA DE GIT PARA SUBIR
+
+
+
+
+
+-------------------------------------------------
+
+isx36579183@i11:/tmp$ git clone https://www.github.com/edtasixm06/ldap21.git
+
+--> Coger los apuntes del profe
+
+mkdir ldap21:schema
+
+cp ldap21\:editat/* ldap21\:schema/.
+
+docker build -t keshikid03/ldap21:schema .
+
+isx36579183@i11:/tmp/ldap21/ldap21:schema$ docker run --rm --name ldap.edt.org -h ldap.edt.org --net 2hisx -p 389:389 -it keshikid03/ldap21:schema /bin/bash
+
+Iniciar el container de forma interactiva:
+
+isx36579183@i11:/tmp/ldap21/ldap21:schema$ docker run --rm --name ldap.edt.org -h ldap.edt.org --net 2hisx -p 389:389 -it keshikid03/ldap21:schema /bin/bash
+
+
+root@ldap:/opt/docker# tree /etc/ldap
+/etc/ldap
+|-- ldap.conf
+|-- sasl2
+|-- schema
+|   |-- README
+|   |-- collective.ldif
+|   |-- collective.schema
+|   |-- corba.ldif
+|   |-- corba.schema
+|   |-- core.ldif
+|   |-- core.schema
+|   |-- cosine.ldif
+|   |-- cosine.schema
+|   |-- duaconf.ldif
+|   |-- duaconf.schema
+|   |-- dyngroup.ldif
+|   |-- dyngroup.schema
+|   |-- inetorgperson.ldif
+|   |-- inetorgperson.schema
+|   |-- java.ldif
+|   |-- java.schema
+|   |-- misc.ldif
+|   |-- misc.schema
+|   |-- nis.ldif
+|   |-- nis.schema
+|   |-- openldap.ldif
+|   |-- openldap.schema
+|   |-- pmi.ldif
+|   |-- pmi.schema
+|   |-- ppolicy.ldif
+|   `-- ppolicy.schema
+`-- slapd.d
+    |-- cn=config
+    |   |-- cn=module{0}.ldif
+    |   |-- cn=schema
+    |   |   |-- cn={0}core.ldif
+    |   |   |-- cn={1}cosine.ldif
+    |   |   |-- cn={2}nis.ldif
+    |   |   `-- cn={3}inetorgperson.ldif
+    |   |-- cn=schema.ldif
+    |   |-- olcDatabase={-1}frontend.ldif
+    |   |-- olcDatabase={0}config.ldif
+    |   `-- olcDatabase={1}mdb.ldif
+    `-- cn=config.ldif
+
+5 directories, 38 files
+root@ldap:/opt/docker# 
+
+
+
+
+Un usuario está formada por dos objetos:
+* InetOrgPerson
+
+* PosixAccount
+
+cn y sn son atributos obligatorios, puede tener más como homephone, mail...etc.
+
+Modificar el InetOrgPerson
+
+-------------------------------------------------------------------------------
+
+un inetOrgPerson son hijos de organizationalPerson --> Derivado de Person.
+
+PAG 44 REVISAR
+
+
+https://www.openldap.org/doc/admin25/schema.html 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+------------------------------------------------------------------------------
+
+
+
+

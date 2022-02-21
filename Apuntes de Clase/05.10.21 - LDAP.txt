@@ -1,0 +1,457 @@
+05.10.21
+
+https://docs.github.com/es/authentication/managing-commit-signature-verification/generating-a-new-gpg-key
+
+https://docs.bmc.com/docs/fpsc121/ldap-attributes-and-associated-fields-495323340.html 
+
+Generar Clave GPG
+
+CONSULTES LDAP:
+- BASE SEARCH
+- LLISTA D'ATRIBUTS
+- SCOPE: BASE ONE CHILDREN SUB
+- TIPUS D'ATRITUBS: +
+- FILTRES (WHERE) AND, OR NOT
+
+apt-get install ssh
+
+SSH Keys
+
+SSH KEYGEN
+
+Consultes ldsapsearch {REVISAR HOY EN IMAGIN}
+
+
+
+---------------
+
+cd ..
+
+ls
+
+git.md ldap21:base
+pwd
+/var/tmp/m06/ldap21
+
+cd /var/tmp/m06
+
+cd /var/tmp/m06/ldap21/
+
+tree ldap21:base
+
+ll
+
+------------------
+
+
+edtasixm06
+
+GIT.MD
+
+https://github.com/edtasixm06/ldap21
+
+--------
+
+crear un readme
+
+
+-----------------
+
+Si hay un docker ps abierto
+
+docker pes
+
+docker stop ldap21
+
+-----------------
+
+CONSULTAS LDAP
+
+1. docker run --rm --name ldap.edt.org -h ldap.edt.org -d edtasixm06/ldap21:base
+
+isx36579183@i11:~$ docker run --rm --name ldap.edt.org -h ldap.edt.org -d edtasixm06/ldap21:base
+Unable to find image 'edtasixm06/ldap21:base' locally
+base: Pulling from edtasixm06/ldap21
+955615a668ce: Already exists 
+da1595d30f93: Pull complete 
+997546cbc0e4: Pull complete 
+b77b0dad5b95: Pull complete 
+79f0d4d62801: Pull complete 
+8146eabc976d: Pull complete 
+Digest: sha256:2a93fbd85cdb73d3d94195aa180e9ebb82e83687e1ca0a06cd366d93a270a66b
+Status: Downloaded newer image for edtasixm06/ldap21:base
+f983c868d7dd2bd703ca1dff04a2afb92d14fb43a2e2e8725dea56d216cb7869
+
+
+2. Consultas desde dentro --> $ Docker exec
+	Consultas desde fuera --> $ ldapsearch -x -LLL -h 172.17.0.2 -b 'dc=edt,dc=org' (-x autenticación simple, -LLL no me pongas comentario , -h host (tiene que apuntar al Host), -b (A que punto del arbol tiene que buscar), top domain name, dentro del dominio ORG)
+	
+isx36579183@i11:~$ ldapsearch -x -LLL -h 172.17.0.2 -b 'dc=edt,dc=org'
+dn: dc=edt,dc=org
+dc: edt
+description: Escola del treball de Barcelona
+objectClass: dcObject
+objectClass: organization
+o: edt.org
+
+dn: ou=maquines,dc=edt,dc=org
+ou: maquines
+description: Container per a maquines linux
+objectClass: organizationalunit
+
+dn: ou=clients,dc=edt,dc=org
+ou: clients
+description: Container per a clients linux
+objectClass: organizationalunit
+
+dn: ou=productes,dc=edt,dc=org
+ou: productes
+description: Container per a productes linux
+objectClass: organizationalunit
+
+dn: cn=user01,ou=usuaris,dc=edt,dc=org
+objectClass: posixAccount
+objectClass: inetOrgPerson
+cn: user01
+cn: alumne01 de 1asix de todos los santos
+sn: alumne01
+homePhone: 555-222-0001
+
+.............
+...........
+.....
+
+	
+	
+	
+3. Listar una selección de campos: ldapsearch -x -LLL -h 172.17.0.2 -b 'dc=edt,dc=org' dn mail
+
+NOTA: Maquinas y productos no tienen
+
+Se pueden poner varios atritutos
+
+uidNumber
+
+dn: cn=user06,ou=usuaris,dc=edt,dc=org
+mail: user06@edt.org
+uidNumber: 7006
+
+dn: cn=user07,ou=usuaris,dc=edt,dc=org
+mail: user07@edt.org
+uidNumber: 7007
+
+dn: cn=user08,ou=usuaris,dc=edt,dc=org
+mail: user08@edt.org
+uidNumber: 7008
+
+dn: cn=user09,ou=usuaris,dc=edt,dc=org
+mail: user09@edt.org
+uidNumber: 7009
+
+dn: cn=user10,ou=usuaris,dc=edt,dc=org
+mail: user10@edt.org
+uidNumber: 7010
+
+dn = Distinguition Name
+
+4. Mostrar datos solo de un usuario
+
+	1. ldapsearch -x -LLL -h 172.17.0.2 -b 'dc=edt,dc=org' 'cn=user10'
+
+dn: cn=user10,ou=usuaris,dc=edt,dc=org
+objectClass: posixAccount (Cuenta de UNIX)
+objectClass: inetOrgPerson (Persona de Internet)
+cn: user10 (Common Name = Identificador de nombre) (Puede haber más de 1)
+cn: alumne10 de 2asix de todos los santos 
+sn: alumne10 (Surname = Nombre propio)
+homePhone: 555-222-0016 
+mail: user10@edt.org (Puede tener varios)
+description: alumne de 2asix
+ou: 2asix
+uid: user10 (Login ID)
+uidNumber: 7010
+gidNumber: 611
+homeDirectory: /tmp/home/2asix/user10 (Home puede tener 1)
+userPassword:: e1NIQX1vdmY4dGEvcmVZUC91MnpqMGFmcEh0OHlFMUE9
+	
+	
+	(Error de diseño, no es un campo clave, no se puede poner el nombre y apellido, se ha de hacer servir el DNI, la Base de datos está mal diseñado)
+
+	Hay que reescribir toda la base de datos.
+	
+	UID = Login
+	
+	2. ldapsearch -x -LLL -h 172.17.0.2 -b 'dc=edt,dc=org' 'cn=user10' +
+dn: cn=user10,ou=usuaris,dc=edt,dc=org
+structuralObjectClass: inetOrgPerson
+entryUUID: b0167ace-ba09-103b-93ba-ef588c4d1daf
+creatorsName: cn=Manager,dc=edt,dc=org
+createTimestamp: 20211005092347Z
+entryCSN: 20211005092347.266385Z#000000#000#000000
+modifiersName: cn=Manager,dc=edt,dc=org
+modifyTimestamp: 20211005092347Z
+entryDN: cn=user10,ou=usuaris,dc=edt,dc=org
+subschemaSubentry: cn=Subschema
+hasSubordinates: FALSE
+
+	
+	Son atributos operacionales, no forman parte, son los metadatos del demonio asociados a la entidad. Se puede ver si se puede modificar o no
+	
+	3.  isx36579183@i11:~$ ldapsearch -x -LLL -h 172.17.0.2 -b 'dc=edt,dc=org' 'cn=user10' dn uidNumber gidNumber
+dn: cn=user10,ou=usuaris,dc=edt,dc=org
+uidNumber: 7010
+gidNumber: 611
+
+	Nos muestra el usuario 10 su DN, uidNumber gidNumber
+	
+	4. isx36579183@i11:~$ ldapsearch -x -LLL -h 172.17.0.2 -b 'dc=edt,dc=org' 'cn=user*' dn uidNumber gidNumber
+dn: cn=user01,ou=usuaris,dc=edt,dc=org
+uidNumber: 7001
+gidNumber: 610
+
+dn: cn=user02,ou=usuaris,dc=edt,dc=org
+uidNumber: 7002
+gidNumber: 610
+
+dn: cn=user03,ou=usuaris,dc=edt,dc=org
+uidNumber: 7003
+gidNumber: 610
+
+dn: cn=user04,ou=usuaris,dc=edt,dc=org
+uidNumber: 7004
+gidNumber: 610
+
+dn: cn=user05,ou=usuaris,dc=edt,dc=org
+uidNumber: 7005
+gidNumber: 610
+
+dn: cn=user06,ou=usuaris,dc=edt,dc=org
+uidNumber: 7006
+gidNumber: 611
+
+dn: cn=user07,ou=usuaris,dc=edt,dc=org
+uidNumber: 7007
+gidNumber: 611
+
+dn: cn=user08,ou=usuaris,dc=edt,dc=org
+uidNumber: 7008
+gidNumber: 611
+
+dn: cn=user09,ou=usuaris,dc=edt,dc=org
+uidNumber: 7009
+gidNumber: 611
+
+dn: cn=user10,ou=usuaris,dc=edt,dc=org
+uidNumber: 7010
+gidNumber: 611
+
+Muestra todos los usuarios que empiecen con user* (Metacarácteres).
+
+	5. isx36579183@i11:~$ ldapsearch -x -LLL -h 172.17.0.2 -b 'dc=edt,dc=org' 'gidNumber=610' dn uidNumber gidNumber
+dn: cn=user01,ou=usuaris,dc=edt,dc=org
+uidNumber: 7001
+gidNumber: 610
+
+dn: cn=user02,ou=usuaris,dc=edt,dc=org
+uidNumber: 7002
+gidNumber: 610
+
+dn: cn=user03,ou=usuaris,dc=edt,dc=org
+uidNumber: 7003
+gidNumber: 610
+
+dn: cn=user04,ou=usuaris,dc=edt,dc=org
+uidNumber: 7004
+gidNumber: 610
+
+dn: cn=user05,ou=usuaris,dc=edt,dc=org
+uidNumber: 7005
+gidNumber: 610
+
+Muestra todos los del grupo 610
+	
+	6. isx36579183@i11:~$ ldapsearch -x -LLL -h 172.17.0.2 -b 'dc=edt,dc=org' 'uidNumber>=7005' dn uidNumber gidNumber
+dn: cn=user05,ou=usuaris,dc=edt,dc=org
+uidNumber: 7005
+gidNumber: 610
+
+dn: cn=user06,ou=usuaris,dc=edt,dc=org
+uidNumber: 7006
+gidNumber: 611
+
+dn: cn=user07,ou=usuaris,dc=edt,dc=org
+uidNumber: 7007
+gidNumber: 611
+
+dn: cn=user08,ou=usuaris,dc=edt,dc=org
+uidNumber: 7008
+gidNumber: 611
+
+dn: cn=user09,ou=usuaris,dc=edt,dc=org
+uidNumber: 7009
+gidNumber: 611
+
+dn: cn=user10,ou=usuaris,dc=edt,dc=org
+uidNumber: 7010
+gidNumber: 611
+
+Muestra todos los UID mayores que 7005
+	
+	7. OPERADORES RELACIONALES
+	
+	OR = | (condició1,condició2)
+	
+	isx36579183@i11:~$ ldapsearch -x -LLL -h 172.17.0.2 -b 'dc=edt,dc=org' '(|(gidNumber=610)(gidNumber=611))' dn uidNumber gidNumber
+dn: cn=user01,ou=usuaris,dc=edt,dc=org
+uidNumber: 7001
+gidNumber: 610
+
+dn: cn=user02,ou=usuaris,dc=edt,dc=org
+uidNumber: 7002
+gidNumber: 610
+
+dn: cn=user03,ou=usuaris,dc=edt,dc=org
+uidNumber: 7003
+gidNumber: 610
+
+dn: cn=user04,ou=usuaris,dc=edt,dc=org
+uidNumber: 7004
+gidNumber: 610
+
+dn: cn=user05,ou=usuaris,dc=edt,dc=org
+uidNumber: 7005
+gidNumber: 610
+
+dn: cn=user06,ou=usuaris,dc=edt,dc=org
+uidNumber: 7006
+gidNumber: 611
+
+dn: cn=user07,ou=usuaris,dc=edt,dc=org
+uidNumber: 7007
+gidNumber: 611
+
+dn: cn=user08,ou=usuaris,dc=edt,dc=org
+uidNumber: 7008
+gidNumber: 611
+
+dn: cn=user09,ou=usuaris,dc=edt,dc=org
+uidNumber: 7009
+gidNumber: 611
+
+dn: cn=user10,ou=usuaris,dc=edt,dc=org
+uidNumber: 7010
+gidNumber: 611
+
+Muestrame los del 610 o 610
+	
+	Funcionan
+	
+	8. isx36579183@i11:~$ ldapsearch -x -LLL -h 172.17.0.2 -b 'dc=edt,dc=org' '(|(cn=user01)(cn=user07))' dn uidNumber gidNumber
+dn: cn=user01,ou=usuaris,dc=edt,dc=org
+uidNumber: 7001
+gidNumber: 610
+
+dn: cn=user07,ou=usuaris,dc=edt,dc=org
+uidNumber: 7007
+gidNumber: 611
+
+Muestrame user01 o use07
+
+	9. isx36579183@i11:~$ ldapsearch -x -LLL -h 172.17.0.2 -b 'dc=edt,dc=org' '(&(cn=user01)(gidNumber=610))' dn uidNumber gidNumber
+dn: cn=user01,ou=usuaris,dc=edt,dc=org
+uidNumber: 7001
+gidNumber: 610
+
+Muestrame el AND del user 01 y del grupo 610
+
+5. SCOPE = -s (Permite gestionar quien es el SCOPE, que parte del arvin se verá afectada)
+
+isx36579183@i11:~$ ldapsearch -x -LLL -h 172.17.0.2 -b 'dc=edt,dc=org' -s base
+dn: dc=edt,dc=org
+dc: edt
+description: Escola del treball de Barcelona
+objectClass: dcObject
+objectClass: organization
+o: edt.org
+
+Solo me muestra ese nodo
+
+dn: dc=edt,dc=org
+structuralObjectClass: organization
+entryUUID: b008cab4-ba09-103b-973a-f3c37d8fdc6c
+creatorsName: cn=Manager,dc=edt,dc=org
+createTimestamp: 20211005092347Z
+entryCSN: 20211005092347.176619Z#000000#000#000000
+modifiersName: cn=Manager,dc=edt,dc=org
+modifyTimestamp: 20211005092347Z
+entryDN: dc=edt,dc=org
+subschemaSubentry: cn=Subschema
+hasSubordinates: TRUE
+
+
+6. isx36579183@i11:~$ ldapsearch -x -LLL -h 172.17.0.2 -b 'dc=edt,dc=org' -s one
+dn: ou=clients,dc=edt,dc=org
+ou: clients
+description: Container per a clients linux
+objectClass: organizationalunit
+
+dn: ou=maquines,dc=edt,dc=org
+ou: maquines
+description: Container per a maquines linux
+objectClass: organizationalunit
+
+dn: ou=productes,dc=edt,dc=org
+ou: productes
+description: Container per a productes linux
+objectClass: organizationalunit
+
+
+[] ---> O BASE
+|--|--|--|
+[][] [] [] --> ONE
+	 |
+     |-|--|-|-
+     [][][][]
+     
+     CHILDREN = ONE + BASE
+     
+     SUB = SUBTREE ES TODO LO DE ABAJO
+
+7. ldapsearch -x -LLL -h 172.17.0.2 -b 'dc=edt,dc=org' -s children dn
+
+
+
+------
+
+8. isx36579183@i11:~$ docker stop ldap.edt.org
+ldap.edt.org
+
+9. Borrar la imagen: docker run rmi [ID]
+
+10. isx36579183@i11:~$ docker run --rm --name ldap.edt.org -h ldap.edt.org -d edtasixm06/ldap21:base
+
+Bajarnos la ID del Profe
+
+11.
+
+12.
+
+13.
+
+14.
+
+15.
+
+16.
+
+17.
+
+18.
+
+19.
+
+20.
+
+
+
+

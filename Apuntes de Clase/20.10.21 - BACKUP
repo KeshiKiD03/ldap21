@@ -1,0 +1,438 @@
+20.10.21 - CORREGIR PRACTICA
+-----------------------------
+
+STARTUP.SH
+/
+
+#!/bin/bash
+
+# export DEBIAN_FRONTEND=noninteractive
+# apt-get -y install slapd
+
+rm -rf /etc/ldap/slapd.d/*
+rm -rf /var/lib/ldap/*
+slaptest -f /opt/docker/slapd.conf -F /etc/ldap/slapd.d
+slapadd -F /etc/ldap/slapd.d -l /opt/docker/edt.org.ldif
+slapadd -F /etc/ldap/slapd.d -l /opt/docker/data-macaco.ldif --> Añadir esta linea
+cat /opt/docker/ldap-conf.txt >> /etc/ldap/ldap.conf
+
+chown -R openldap.openldap /etc/ldap/slapd.d /var/lib/ldap
+/usr/sbin/slapd --> Añadir
+slapcat --> Añadir
+
+-------------------------
+
+# El fichero data-macaco.ldif
+# man ldif
+
+
+dn: ou=macacos,dc=edt,dc=org
+ou: macacos
+description: Container per macacos
+objectClass: organizationalunit
+
+dn: cn=macaco navajero,ou=macacos,dc=edt,dc=org
+objectClass: x-macaco
+objectClass: x-animal
+cn: macaco navajero
+sn: el navajas
+x-descripcion: Macaco navajero del barrio, suele ir con riñonera y ropa fila
+x-raza: macaco
+x-localidad: el raval
+x-foto: <file:////opt/docker/macaco-navaja.jpeg
+x-documento: <file:///opt/docker/pdf.pdf
+x-grito: <file:///opt/docker/grito1.mp3
+
+# uri schema - host - ruta
+#     http:// 192.94.3.12
+#     fpt://
+#     file:///tmp
+
+
+# Para la foto
+# cp /usr/bin/date
+# hexdump -c ~/date | head --> Es el binari del programa en Hexadecimal.
+# cat ~/date
+# base64 date | less
+
+# base 64 --> Transforma cualquier byte que son 8 bits y lo coge de 6 en 6 y lo representa un carácter de 8 bits. Solo puede representar 64 carácteres. Cada byte es 1 carácter. 
+# Coger 6 porciones de BITS y convertirlo en BYTE. Solo de la A a la z minuscula. Hinchar el fichero. Para cada BYTE ha hinchado 2 BYTES el fichero. 
+
+
+# base64 decompress
+
+-------------
+
+# slapd.conf
+
+---------------
+
+# http://localhost:5000/phpldapadmin/
+
+isx36579183@i11:~/Documents$ docker run --rm --name phpldapadmin.edt.org -h phpldapadmin.edt.org --network 2hisx -p 5000:80 -d edtasixm06/phpldapadmin:20
+
+--> PORT DINÁMIC
+
+isx36579183@i11:~/Documents$ docker ps
+CONTAINER ID   IMAGE                        COMMAND                  CREATED          STATUS          PORTS                                   NAMES
+b36140d5073a   edtasixm06/phpldapadmin:20   "/bin/sh -c /opt/doc…"   15 seconds ago   Up 14 seconds   0.0.0.0:5000->80/tcp, :::5000->80/tcp   phpldapadmin.edt.org
+c44a78510cc2   keshikid03/ldap21:practica   "/bin/bash"              28 seconds ago   Up 27 seconds   0.0.0.0:389->389/tcp, :::389->389/tcp   ldap.edt.org
+isx36579183@i11:~/Documents$ 
+
+---------------
+
+http://localhost:9000/#/init/admin
+
+jupiter00
+
+Local
+
+docker container run -d -p 9000:9000 -v /var/run/docker.sock:/var/run/docker.sock
+portainer/portainer
+
+docker run -ti -p 4000:4000 docs/docker.github.io:latest
+
+
+---------------
+
+Hay 6 containers
+
+12 imagenes
+
+Es un gestor gráfico que revisa el Docker. Y se ve como se ha creado.
+
+
+
+
+---------------
+
+20.10.21 GRUPOS
+
+Abrir el DOCKER BASE
+
+Modificar el startup.sh --> Cambiar el -d0
+
+/var/lib/ldap
+
+Configuració
+
+	Modificar en calent amb ordres ldap
+	
+	Backups amb slapcat i tar
+	
+Dades
+
+	* Salud / Restaurar slapcat tar
+				slapadd
+				
+				
+				
+slapcat > dades.slapcat.ldif    || --> Volcado de datos
+
+Volcado de datos a bajo nivel.
+
+Volcado de dato de datos con ldapsearch
+
+vim /etc/ldap/ldap.conf  --> Modificar para la busqueda
+
+Sino ldapsearch -x -LLL -b 'dc=edt,dc=org' > dades.ldapsearch.ldif
+
+
+ldapsearch -x -LLL > dades.ldapsearch.ldif
+
+
+
+
+
+slapadd --> Me lo insertará todo a bajo nivel.
+
+
+
+-------
+
+ps ax
+
+kill 20
+
+rm -rf /var/lib/ldap/*
+
+slapadd -F /etc/ldap/slapd.d/ -l dades.slapcat.ldif  --> Recuperar el Slapcat
+
+/usr/sbin/slapd --> Encender el DAEMON
+
+ldapsearch -x -LLL -b 'dc=edt,dc=org'
+
+
+
+---------
+
+ps ax
+
+kill 33
+
+rm /var/lib/ldap/* --> Borrar las bases de datos
+
+root@ldap:/opt/docker# slapadd -F /etc/ldap/slapd.d/ -l dades.ldapsearch.ldif 
+_#################### 100.00% eta   none elapsed            none fast!         
+Closing DB...
+root@ldap:/opt/docker# 
+
+----------
+
+cd /varl/lib/ldap
+
+cd /opt/docker
+
+tar cvzPf dades.tgz /var/lib/ldap
+
+c create
+v verbose
+z comprimit
+P mantiene los datos y ruta entera
+f file
+
+root@ldap:/opt/docker# tar cvzPf dades.tgz /var/lib/ldap
+/var/lib/ldap/
+/var/lib/ldap/lock.mdb
+/var/lib/ldap/data.mdb
+root@ldap:/opt/docker# 
+
+tar tvf dades.tgz --> Me dice los ficheros que tiene el TAR
+
+drwxr-xr-x openldap/openldap 0 2021-10-20 07:13 /var/lib/ldap/
+-rw------- root/root      8192 2021-10-20 07:13 /var/lib/ldap/lock.mdb
+-rw------- root/root    102400 2021-10-20 07:13 /var/lib/ldap/data.mdb
+root@ldap:/opt/docker# 
+
+
+
+tar xvzPf dades.tgz --> Volverlo a hacer
+
+
+
+----------------------------
+
+slapcat -n0
+
+slapcat -n0 | more
+
+olcDatabase={1}mdc,cn=config
+
+dn: olcDatabase={1}mdb,cn=config
+
+
+----------------------------
+
+
+root@ldap:/opt/docker# slapcat -n0 > config.slapcat.ldif
+root@ldap:/opt/docker# rm -rf /etc/ldap/slapd.d/*
+root@ldap:/opt/docker# ps ax
+    PID TTY      STAT   TIME COMMAND
+      1 pts/0    Ss     0:00 /bin/bash
+     19 ?        Ssl    0:00 /usr/sbin/slapd
+     50 pts/0    R+     0:00 ps ax
+root@ldap:/opt/docker# 
+
+Se genera una estructura por defecto.
+
+root@ldap:/opt/docker# slapadd -F /etc/ldap/slapd.d/ -l config.slapcat.ldif 
+Available database(s) do not allow slapadd
+root@ldap:/opt/docker# 
+
+No sirve no funciona
+
+slaptest -f slapd.conf -F /etc/ldap/slapd.d/ --> Volver a generar toda al estructura de LDAP
+
+root@ldap:/opt/docker# slaptest -f slapd.conf -F /etc/ldap/slapd.d   
+config file testing succeeded
+root@ldap:/opt/docker# 
+
+
+
+
+root@ldap:/opt/docker# tar cvzPf config.tgz /etc/ldap/slapd.d/
+/etc/ldap/slapd.d/
+/etc/ldap/slapd.d/cn=config.ldif
+/etc/ldap/slapd.d/cn=config/
+/etc/ldap/slapd.d/cn=config/cn=module{0}.ldif
+/etc/ldap/slapd.d/cn=config/cn=schema/
+/etc/ldap/slapd.d/cn=config/cn=schema/cn={1}core.ldif
+/etc/ldap/slapd.d/cn=config/cn=schema/cn={0}corba.ldif
+/etc/ldap/slapd.d/cn=config/cn=schema/cn={7}misc.ldif
+/etc/ldap/slapd.d/cn=config/cn=schema/cn={6}java.ldif
+/etc/ldap/slapd.d/cn=config/cn=schema/cn={3}duaconf.ldif
+/etc/ldap/slapd.d/cn=config/cn=schema/cn={4}dyngroup.ldif
+/etc/ldap/slapd.d/cn=config/cn=schema/cn={10}ppolicy.ldif
+/etc/ldap/slapd.d/cn=config/cn=schema/cn={9}openldap.ldif
+/etc/ldap/slapd.d/cn=config/cn=schema/cn={5}inetorgperson.ldif
+/etc/ldap/slapd.d/cn=config/cn=schema/cn={8}nis.ldif
+/etc/ldap/slapd.d/cn=config/cn=schema/cn={11}collective.ldif
+/etc/ldap/slapd.d/cn=config/cn=schema/cn={2}cosine.ldif
+/etc/ldap/slapd.d/cn=config/olcDatabase={0}config.ldif
+/etc/ldap/slapd.d/cn=config/olcDatabase={2}monitor.ldif
+/etc/ldap/slapd.d/cn=config/olcDatabase={-1}frontend.ldif
+/etc/ldap/slapd.d/cn=config/cn=schema.ldif
+/etc/ldap/slapd.d/cn=config/olcDatabase={1}mdb.ldif
+root@ldap:/opt/docker# 
+
+# Con el comando este está guardando todo el directorio de configuración
+# Nos cargamos
+
+rm -rf /etc/ldap/slapd.d/*
+
+<pre>root@ldap:/opt/docker# /usr/sbin/slapd      
+root@ldap:/opt/docker# ps ax
+    PID TTY      STAT   TIME COMMAND
+      1 pts/0    Ss     0:00 /bin/bash
+     19 ?        Ssl    0:00 /usr/sbin/slapd
+     59 pts/0    R+     0:00 ps ax
+root@ldap:/opt/docker# kill 19
+root@ldap:/opt/docker# 
+</pre>
+
+Primero parar el deomino y luego borralo, intentar encender el demonio de nuevo (Ver que no funciona) y volver a restaurar con el TAR y probar que funcione.
+
+
+tar xvzPf config.tgz --> Restaurar estructura de datos
+
+[REVISAR]
+
+-------------------
+
+CREAR UNA BASE DE DATOS NUEVA
+
+base de datos de configuración del demonio.
+
+Sysadmin está reservada
+
+mdb es una tecnologia (Backend, como se graba)
+
+Todo el bloque donde el "rootdn" que se hará es del propio demonio
+
+rootpw syskey
+
+Parar el demonio
+
+rm -rf /etc/ldap/slapd.d/*
+
+Generar el slaptest
+
+root@ldap:/opt/docker# slaptest -f slapd.conf -F /etc/ldap/slapd.d
+config file testing succeeded
+
+slapcat -n0
+
+La 1 que es la mdb
+
+La 0 es la nuestra
+
+dn: olcDatabase={0}config,cn=config
+objectClass: olcDatabaseConfig
+olcDatabase: {0}config
+olcAccess: {0}to *  by * none
+olcAddContentAcl: TRUE
+olcLastMod: TRUE
+olcMaxDerefDepth: 15
+olcReadOnly: FALSE
+olcRootDN: cn=Sysadmin,cn=config
+olcRootPW:: c3lza2V5
+olcSyncUseSubentry: FALSE
+olcMonitoring: FALSE
+structuralObjectClass: olcDatabaseConfig
+entryUUID: d50a16d6-c5c3-103b-8211-bfe9f24e5d80
+creatorsName: cn=config
+createTimestamp: 20211020073358Z
+entryCSN: 20211020073358.441132Z#000000#000#000000
+modifiersName: cn=config
+modifyTimestamp: 20211020073358Z
+
+/usr/sbin/slapd
+
+
+
+
+
+
+---------------------
+
+root@ldap:/opt/docker# vim slapd.conf 
+root@ldap:/opt/docker# ps ax
+    PID TTY      STAT   TIME COMMAND
+      1 pts/0    Ss     0:00 /bin/bash
+     70 ?        Ssl    0:00 /usr/sbin/slapd
+     95 pts/0    R+     0:00 ps ax
+root@ldap:/opt/docker# kill 70
+root@ldap:/opt/docker# rm -rf /etc/ldap/slapd.d/*
+root@ldap:/opt/docker# slaptest -f slapd.conf -F /etc/ldap/slapd.d
+config file testing succeeded
+root@ldap:/opt/docker# ldapsearch -x -LLL -D "cn=Sysadmin,cn=config" -w syskey -b 'cn=config' | grep dn
+
+
+root@ldap:/opt/docker# ldapsearch -x -LLL -D "cn=Sysadmin,cn=config" -w syskey -b 'cn=config' | grep dn
+dn: cn=config
+dn: cn=module{0},cn=config
+dn: cn=schema,cn=config
+dn: cn={0}corba,cn=schema,cn=config
+dn: cn={1}core,cn=schema,cn=config
+olcAttributeTypes: {39}( 2.5.4.46 NAME 'dnQualifier' DESC 'RFC2256: DN qualifi
+dn: cn={2}cosine,cn=schema,cn=config
+dn: cn={3}duaconf,cn=schema,cn=config
+dn: cn={4}dyngroup,cn=schema,cn=config
+dn: cn={5}inetorgperson,cn=schema,cn=config
+dn: cn={6}java,cn=schema,cn=config
+dn: cn={7}misc,cn=schema,cn=config
+dn: cn={8}nis,cn=schema,cn=config
+dn: cn={9}openldap,cn=schema,cn=config
+dn: cn={10}ppolicy,cn=schema,cn=config
+dn: cn={11}collective,cn=schema,cn=config
+dn: olcDatabase={-1}frontend,cn=config
+dn: olcDatabase={0}config,cn=config
+dn: olcDatabase={1}mdb,cn=config
+dn: olcDatabase={2}monitor,cn=config
+olcAccess: {0}to *  by dn.base="cn=manager,dc=edt,dc=org" read  by * none
+
+
+---------------------------
+
+dn: olcDatabase={1}mdc,cn=config
+changetype: modify
+delete olcRootDN
+-
+add: olcRootDN
+olcRootDN: cn=Macaco,dc=edt,dc=org
+
+
+
+ldapmodify -vx -D "cn=Sysadmin,cn=config" -w syskey -f modconfig.ldif
+
+root@ldap:/opt/docker# ldapmodify -vx -D "cn=Sysadmin,cn=config" -w syskey -f modconfig.ldif 
+ldap_initialize( <DEFAULT> )
+delete olcRootDN:
+add olcRootDN:
+	cn=Macaco,dc=edt,dc=org
+modifying entry "olcDatabase={1}mdc,cn=config"
+ldap_modify: No such object (32)
+	matched DN: cn=config
+
+
+
+ldapwhoami -x -D 'cn=Manager,dc=edt,dc=org' -w secret
+
+root@ldap:/opt/docker# ldapwhoami -x -D 'cn=Manager,dc=edt,dc=org' -w secret
+dn:cn=Manager,dc=edt,dc=org
+root@ldap:/opt/docker# 
+
+
+ldapwhoami -x -D 'cn=Macaco,dc=edt,dc=org' -w 
+
+
+
+
+
+
+
+
+
+
+
+

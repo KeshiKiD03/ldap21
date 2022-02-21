@@ -1,0 +1,659 @@
+    1  28/09/21 09:55:31 sudo nautilus
+    2  28/09/21 10:02:46 docker container ls
+    3  28/09/21 10:06:56 docker run --rm -it debian /bin/bash 
+    4  28/09/21 10:07:05 docker ps
+    5  28/09/21 10:07:24 docker container ls
+    6  28/09/21 10:07:30 docker run --rm -it debian /bin/bash 
+    7  28/09/21 10:12:26 ip a s docker0
+    8  28/09/21 10:13:45 docker run --rm -it debian /bin/bash 
+    9  28/09/21 10:16:52 docker run --rm --name proval -h proval -it debian /bin/bash
+   10  28/09/21 10:18:24 docker ps
+   11  28/09/21 10:18:34 docker ps -l
+   12  28/09/21 10:19:25 docker run --rm --name prova2 -h prova2 -it debian /bin/bash
+   13  28/09/21 10:22:43 man docker network
+   14  28/09/21 10:23:18 docker network create mynet
+   15  28/09/21 10:23:21 docker network ls
+   16  28/09/21 10:24:30 docker network inspect mynet
+   17  28/09/21 10:26:57 docker network ls
+   18  28/09/21 10:27:15 docker network inspect bridge
+   19  28/09/21 10:28:53 docker network inspect myprova1
+   20  28/09/21 10:28:59 docker network inspect prova1
+   21  28/09/21 10:29:13 docker container inspect prova1
+   22  28/09/21 10:29:21 dockerp s
+   23  28/09/21 10:29:23 docker ps
+   24  28/09/21 10:29:24 docker ps -a
+   25  28/09/21 10:29:37 docker run --rm --name prova2 -h prova2 -it debian /bin/bash
+   26  28/09/21 10:29:45 docker run --rm --name proval -h proval -it debian /bin/bash
+   27  28/09/21 10:29:51 docker ps
+   28  28/09/21 10:29:52 docker ps -a
+   29  28/09/21 10:31:19 docker run --rm -it --network mynet debian /bin/bash
+   30  28/09/21 10:39:16 docker ps
+   31  28/09/21 10:39:26 docker ps a
+   32  28/09/21 10:39:37 docker ps A
+   33  28/09/21 10:39:39 docker ps -a
+   34  28/09/21 10:39:47 docker ps
+   35  28/09/21 10:40:34 usermod -aG docker isx36579183
+   36  28/09/21 10:41:28 sudo usermod -aG docker isx36579183
+   37  28/09/21 10:41:36 docker ps
+   38  28/09/21 10:41:50 docker run --rm --name proval -h proval -it debian /bin/bash
+   39  28/09/21 10:41:58 docker run --rm --name prova2 -h prova2 -it debian /bin/bash
+   40  28/09/21 10:42:01 docker ps
+   41  28/09/21 10:42:03 exit
+   42  28/09/21 10:03:20 gcalctool
+   43  28/09/21 10:03:25 gcalccmd 
+   44  28/09/21 10:03:29 calc
+   45  28/09/21 10:05:37 docker run --rm fedora cat /etc/os-release
+   46  28/09/21 10:42:04 exit
+   47  28/09/21 10:42:07 docker ps
+   48  28/09/21 10:43:21 sudo init 6
+   49  28/09/21 11:24:51 uname -a
+   50  28/09/21 11:25:09 docker container ls -a
+   51  28/09/21 11:25:20 docker ps
+   52  28/09/21 11:25:49 docker run --rm --name proval -h proval -it debian /bin/bash
+   53  28/09/21 11:19:52 docker ps
+   54  28/09/21 11:20:14 docker run --rm --name prova2 -h prova2 -it debian /bin/bash
+   55  28/09/21 11:20:20 docker run --rm --name proval -h proval -it debian /bin/bash
+   56  28/09/21 11:20:24 docker ps -a
+   57  28/09/21 11:20:50 docker rm bold_snyder
+   58  28/09/21 11:20:57 docker ps -a
+   59  28/09/21 11:21:20 docker run -it debian vim /tmp/carta.txt
+   60  28/09/21 11:21:27 docker run -it debian nano /tmp/carta.txt
+   61  28/09/21 11:22:00 docker ps
+   62  28/09/21 11:22:16 sudo su
+   63  28/09/21 11:22:30 cat /etc/group
+   64  28/09/21 11:23:37 docker run --name web -h web -it debian /bin/bash
+   65  28/09/21 11:27:36 docker exec -it web /bin/bash
+   66  28/09/21 11:27:53 docker run --name web -h web -it debian /bin/bash
+   67  28/09/21 11:28:03 docker exec -it web /bin/bash
+   68  28/09/21 11:28:07 docker ps
+   69  28/09/21 11:28:09 docker ps -a
+   70  28/09/21 11:28:50 docker exec -it web /bin/bash
+   71  28/09/21 11:28:58 docker start web
+   72  28/09/21 11:29:02 docker exec -it web /bin/bash
+   73  28/09/21 11:29:40 docker exec web echo "exemple de modificació" > /var/www/html/index.html
+   74  28/09/21 11:30:02 docker exec web echo "exemple de modificació" >> /var/www/html/index.html
+   75  28/09/21 11:30:22 docker exec -it web /bin/bash
+   76  28/09/21 11:30:56 docker ps
+   77  28/09/21 11:30:58 docker ps -a
+   78  28/09/21 11:32:12 docker attach web
+   79  28/09/21 11:34:25 docker rm
+   80  28/09/21 11:34:42 docker rm flamboyant_euler 
+   81  28/09/21 11:34:48 docker rm goofy_chebyshev 
+   82  28/09/21 11:35:00 cd /var/tmp/mp6
+   83  28/09/21 11:35:05 cd /var/tmp/m06
+   84  28/09/21 11:35:10 cd /var/tmp
+   85  28/09/21 11:35:17 mkdir m06
+   86  28/09/21 11:35:20 cd m06
+   87  28/09/21 11:37:23 mkdir web
+   88  28/09/21 11:37:34 rmdir web
+   89  28/09/21 11:38:04 pico web
+   90  28/09/21 11:44:33 ls -a
+   91  28/09/21 11:45:11 mv web Dockerfile.swp
+   92  28/09/21 11:45:12 ls
+   93  28/09/21 11:45:29 docker build -t webimp .
+   94  28/09/21 11:45:46 mv Dockerfile.swp Dockerfile
+   95  28/09/21 11:45:48 docker build -t webimp .
+   96  28/09/21 11:46:35 cat Dockerfile 
+   97  28/09/21 11:50:53 docker history webimg:latest
+   98  28/09/21 11:52:24 docker run --rm it webimg
+   99  28/09/21 11:52:45 docker images
+  100  28/09/21 11:53:11 docker run --rm it webimp
+  101  28/09/21 11:53:52 docker run --rm it webimg
+  102  28/09/21 11:54:12 docker history webimg:latest
+  103  28/09/21 11:54:22 docker history webimp:latest
+  104  28/09/21 11:54:47 docker run --rm -it webimp
+  105  28/09/21 11:55:28 docker imges
+  106  28/09/21 11:55:30 docker images
+  107  28/09/21 11:55:42 pico Dockerfile 
+  108  28/09/21 11:56:46 docker build -t webimp .
+  109  28/09/21 11:57:11 docker images
+  110  28/09/21 11:57:15 docker history webimp:latestç
+  111  28/09/21 11:57:17 docker history webimp:latest
+  112  28/09/21 11:58:16 docker run --rm -it webimp
+  113  28/09/21 11:59:25 pico Index.html
+  114  28/09/21 12:03:10 pico Dockerfile 
+  115  28/09/21 12:05:50 ll
+  116  28/09/21 12:06:02 ls > README.md
+  117  28/09/21 12:06:03 ll
+  118  28/09/21 12:06:22 docker build -t webimp .
+  119  28/09/21 12:06:32 pico Dockerfile 
+  120  28/09/21 12:06:42 docker build -t webimp .
+  121  28/09/21 12:06:55 ls -a
+  122  28/09/21 12:07:03 mv Index.html index.html
+  123  28/09/21 12:07:05 docker build -t webimp .
+  124  28/09/21 12:07:23 ls -l
+  125  28/09/21 12:07:45 docker run --rm -it webimp
+  126  29/09/21 08:05:57 cd /var/tmp/m06/web
+  127  29/09/21 08:05:59 cd /var/tmp/m06
+  128  29/09/21 08:06:33 ls
+  129  29/09/21 08:06:34 ls -l
+  130  29/09/21 08:06:57 ll
+  131  29/09/21 08:07:04 docker images
+  132  29/09/21 08:07:31 docker rmi c0e2d12fc17d
+  133  29/09/21 08:08:00 cat Dockerfile 
+  134  29/09/21 08:08:31 pico Dockerfile 
+  135  29/09/21 08:09:23 docker build -t webimg .
+  136  29/09/21 08:09:27 ls
+  137  29/09/21 08:09:35 pico Dockerfile 
+  138  29/09/21 08:09:44 docker build -t webimg .
+  139  29/09/21 08:09:47 pico Dockerfile 
+  140  29/09/21 08:10:14 docker build -t webimg .
+  141  29/09/21 08:10:20 pico Dockerfile 
+  142  29/09/21 08:11:00 docker run --it webimg
+  143  29/09/21 08:11:11 docker run --it webimp
+  144  29/09/21 08:11:28 docker run --rm -it webimp
+  145  29/09/21 08:11:57 pico Dockerfile 
+  146  29/09/21 08:12:04 cat index.html 
+  147  29/09/21 08:12:09 pico Dockerfile 
+  148  29/09/21 08:13:11 cd ..
+  149  29/09/21 08:13:14 cd /opt
+  150  29/09/21 08:13:17 ls
+  151  29/09/21 08:13:24 cd /var/www
+  152  29/09/21 08:13:27 cd /var
+  153  29/09/21 08:13:28 ls
+  154  29/09/21 08:13:29 cd tmp
+  155  29/09/21 08:13:31 cd m06
+  156  29/09/21 08:13:32 ls
+  157  29/09/21 08:13:41 docker build -t webimg .
+  158  29/09/21 08:13:54 docker run --rm -it webimp
+  159  29/09/21 08:14:28 docker run --rm -d webimp
+  160  29/09/21 08:14:34 docker ps
+  161  29/09/21 08:14:37 docker ps -a
+  162  29/09/21 08:14:57 pico Dockerfile 
+  163  29/09/21 08:15:17 docker run --rm --name web -d webimg
+  164  29/09/21 08:15:34 docker start webimp
+  165  29/09/21 08:15:37 docker run --rm --name web -d webimp
+  166  29/09/21 08:15:40 docker start webimp
+  167  29/09/21 08:15:44 docker images
+  168  29/09/21 08:15:48 docker start webimg
+  169  29/09/21 08:15:58 docker run --rm --name web -d webimg
+  170  29/09/21 08:16:13 docker build -t webimg .
+  171  29/09/21 08:16:28 docker run --rm --name web -d webimg
+  172  29/09/21 08:17:06 pico Dockerfile 
+  173  29/09/21 08:19:09 pico start.sh
+  174  29/09/21 08:19:49 pico Dockerfile 
+  175  29/09/21 08:20:35 ls
+  176  29/09/21 08:21:15 docker build -t webimg .
+  177  29/09/21 08:21:21 ll
+  178  29/09/21 08:21:33 mv start.sh install.sh
+  179  29/09/21 08:21:37 docker build -t webimg .
+  180  29/09/21 08:21:56 docker run --name web -d webimg
+  181  29/09/21 08:22:06 docker run --name web0 -d webimg
+  182  29/09/21 08:22:29 pico install.sh
+  183  29/09/21 08:22:36 pico Dockerfile 
+  184  29/09/21 08:22:51 docker build -t webimg .
+  185  29/09/21 08:22:56 docker run --name web0 -d webimg
+  186  29/09/21 08:23:02 docker run --name web1 -d webimg
+  187  29/09/21 08:23:07 docker images
+  188  29/09/21 08:23:57 docker rm web
+  189  29/09/21 08:24:04 docker rm web1
+  190  29/09/21 08:24:06 docker rm web2
+  191  29/09/21 08:24:09 docker rm web0
+  192  29/09/21 08:24:14 docker run --name web0 -d webimg
+  193  29/09/21 08:24:52 docker ps
+  194  29/09/21 08:24:55 docker logs web
+  195  29/09/21 08:25:05 docker run --name web -d webimg
+  196  29/09/21 08:25:07 docker logs web
+  197  29/09/21 08:25:30 docker ps
+  198  29/09/21 08:28:27 docker rm web
+  199  29/09/21 08:29:23 docker run --name web -d webimg
+  200  29/09/21 08:29:30 docker images
+  201  29/09/21 08:29:48 docker rm web
+  202  29/09/21 08:30:02 docker build -t webimg .
+  203  29/09/21 08:30:19 docker run --name web -it webimg /bin/bash
+  204  29/09/21 08:39:40 docker run --name web -d webimg
+  205  29/09/21 08:39:46 docker rm web
+  206  29/09/21 08:39:48 docker run --name web -d webimg
+  207  29/09/21 08:39:52 docker ps
+  208  29/09/21 08:40:01 docker logs web
+  209  29/09/21 08:40:32 docker top web
+  210  29/09/21 08:40:41 docker run --name web -d webimg
+  211  29/09/21 08:40:48 docker rm web
+  212  29/09/21 08:40:54 docker build -t webimg .
+  213  29/09/21 08:40:57 docker run --name web -d webimg
+  214  29/09/21 08:41:00 ps ax
+  215  29/09/21 08:41:04 docker ps
+  216  29/09/21 08:45:19 docker stop web
+  217  29/09/21 08:45:27 docker rm web
+  218  29/09/21 08:45:30 ls
+  219  29/09/21 08:45:37 docker rm web
+  220  29/09/21 08:45:41 docker images
+  221  29/09/21 08:46:49 docker rmi ea6bc914efad
+  222  29/09/21 08:48:10 docker rmi f9df484024d8 7f5be3e76514 d112a1f3063c 12a20f0b455a 
+  223  29/09/21 08:48:16 docker rmi f9df484024d8 7f5be3e76514 d112a1f3063c
+  224  29/09/21 08:49:28 docker images
+  225  29/09/21 08:49:35 docker rm f9df484024d8
+  226  29/09/21 08:49:39 docker rmi f9df484024d8
+  227  29/09/21 08:50:04 docker stop f9df484024d8
+  228  29/09/21 08:50:09 docker force-stop f9df484024d8
+  229  29/09/21 08:50:13 docker --help
+  230  29/09/21 08:51:02 ls
+  231  29/09/21 08:53:34 docker run --name ldap -h ldap -it debian /bin/bash
+  232  29/09/21 08:37:38 docker exec -it web ps ax
+  233  30/09/21 12:38:04 ldapsearch -x -b -LLL "dc=edt,dc=org" | more
+  234  30/09/21 12:38:20 rm -rf slapd.d/*
+  235  30/09/21 12:38:27 rm -rf /var/lib/ldap/*
+  236  30/09/21 12:38:36 slaptest -f slapd.conf -F slapd.d -u
+  237  30/09/21 12:38:55 docker attach ldap
+  238  30/09/21 12:14:47 docker images
+  239  30/09/21 12:15:01 docker run --name ldap -h ldap -it debian /bin/bash
+  240  30/09/21 12:15:11 docker start ldap
+  241  30/09/21 12:15:13 docker run --name ldap -h ldap -it debian /bin/bash
+  242  30/09/21 12:15:44 docker run ldap
+  243  30/09/21 12:18:15 docker images
+  244  30/09/21 12:18:36 docker run --name ldap -h ldap -it debian /bin/bash
+  245  30/09/21 12:19:28 docker rm ldap
+  246  30/09/21 12:19:34 docker stop ldap
+  247  30/09/21 12:19:51 docker container
+  248  30/09/21 12:19:55 docker container ls
+  249  30/09/21 12:19:58 docker container ls -a
+  250  30/09/21 12:20:26 docker run --name ldap -h ldap -it debian /bin/bash
+  251  30/09/21 12:20:38 docker attach ldap
+  252  30/09/21 12:20:44 docker start ldap
+  253  30/09/21 12:20:48 docker attach ldap
+  254  30/09/21 12:43:36 docker images
+  255  30/09/21 12:43:47 docker container ls -a
+  256  30/09/21 12:43:55 docker rm ldap
+  257  30/09/21 12:44:00 docker rm web0
+  258  30/09/21 12:44:02 docker rm epic_volhard 
+  259  30/09/21 12:44:05 docker rm admiring_turing 
+  260  30/09/21 12:44:11 docker rm naughty_moser 
+  261  30/09/21 12:44:18 docker rm competent_nightingale zealous_ishizaka 
+  262  30/09/21 12:44:22 docker container ls -a
+  263  30/09/21 12:44:31 docker run --name ldap -h ldap -it debian /bin/bash
+  264  30/09/21 13:12:19 ls -l
+  265  30/09/21 13:13:07 cd /var/tmp/
+  266  30/09/21 13:13:08 ls
+  267  30/09/21 13:13:11 cd m06
+  268  30/09/21 13:13:20 git clone https://github.com/KeshiKiD03/ldap21.git
+  269  30/09/21 13:13:33 ll
+  270  30/09/21 13:15:15 cd ldap21/
+  271  30/09/21 13:15:26 pwd
+  272  30/09/21 13:15:33 ls -l ../
+  273  30/09/21 13:15:39 ll
+  274  30/09/21 13:15:42 ls -l
+  275  30/09/21 13:16:22 vim README.md
+  276  30/09/21 13:18:03 ls -l
+  277  30/09/21 13:18:25 mkdir ldap21:base
+  278  30/09/21 13:19:48 cd ldap21\:base/
+  279  30/09/21 13:19:57 pwd
+  280  30/09/21 13:20:07 cp ../README.md .
+  281  30/09/21 13:20:08 LS -L
+  282  30/09/21 13:20:11 ls -l
+  283  30/09/21 13:21:05 nano Dockerfile
+  284  30/09/21 13:36:03 vim organitzacio.ldif
+  285  30/09/21 13:37:43 docker container ls
+  286  30/09/21 13:38:51 docker cp organitzacio.ldif cranky_turing:/etc/ldap
+  287  30/09/21 14:01:26 ldapsearch -x -LLL -h 172.17.0.2 -b 'dc=edt,dc=org'
+  288  30/09/21 13:22:25 docker run --rm -it debian /bin/bash
+  289  30/09/21 13:26:48 vim slapd.conf
+  290  30/09/21 14:04:06 docker attach cranky_turing 
+  291  30/09/21 13:51:40 ldapsearch -x -LLL -x 172.17.0.3 -d 'dc=edt,dc=org' dn
+  292  30/09/21 13:52:06 ldapsearch -x -LLL -x 172.17.0.2 -d 'dc=edt,dc=org' dn
+  293  04/10/21 10:05:04 sudo su
+  294  04/10/21 10:05:12 virt-manager 
+  295  04/10/21 12:25:12 cd /
+  296  04/10/21 12:25:13 ls -l
+  297  04/10/21 12:25:15 cd tmp/
+  298  04/10/21 12:25:16 ls -l
+  299  04/10/21 12:25:39 cd /var
+  300  04/10/21 12:25:40 ls -l
+  301  04/10/21 12:25:46 ls tmp
+  302  04/10/21 12:25:47 cd tmp
+  303  04/10/21 12:25:50 ls -l
+  304  04/10/21 12:25:53 cd m06
+  305  04/10/21 12:25:53 ls -l
+  306  04/10/21 12:26:03 cd ldap21
+  307  04/10/21 12:26:15 ls -l
+  308  04/10/21 12:26:21 rm hola 
+  309  04/10/21 12:26:22 rm pipi
+  310  04/10/21 12:26:28 cd ..
+  311  04/10/21 12:26:29 ls -l
+  312  04/10/21 12:27:03 cp Dockerfile Dockerfile.original index.html install.sh startup.sh ./ldap21/.
+  313  04/10/21 12:27:07 cd ldap21/
+  314  04/10/21 12:27:08 ls -l
+  315  04/10/21 12:33:09 cd ldap21:base
+  316  04/10/21 12:33:10 ls -l
+  317  04/10/21 12:33:34 docker container ls
+  318  04/10/21 12:33:39 docker images
+  319  04/10/21 12:33:45 cd ..
+  320  04/10/21 12:33:51 history
+  321  04/10/21 12:35:03 man git
+  322  04/10/21 12:35:37 gpg --full-generate-key
+  323  04/10/21 12:36:54 git push
+  324  04/10/21 12:40:11 git remote add origin 'git@github.com:KeshiKiD03/ldap21.git'
+  325  04/10/21 12:40:43 git push -u origin master
+  326  04/10/21 12:46:22 git push
+  327  04/10/21 12:51:36 docker push keshikid03/ldap21:latest
+  328  04/10/21 12:51:40 docker images
+  329  04/10/21 12:51:44 docker push keshikid03/ldap21
+  330  04/10/21 12:52:26 docker push keshikid03/ldap21:base
+  331  04/10/21 12:53:04 ldapsearch -x -LLL -x 172.17.0.3 -d 'dc=edt,dc=org' dn
+  332  04/10/21 12:54:27 docker search keshikid03/*
+  333  04/10/21 12:54:36 docker images keshikid03/*
+  334  04/10/21 12:54:56 docker images
+  335  04/10/21 12:57:17 docker rmi 5008291a19e0 5008291a19e0 5008291a19e0 5008291a19e0 5008291a19e0 5008291a19e0 5008291a19e0
+  336  04/10/21 12:57:27 docker images
+  337  04/10/21 12:57:43 docker rmi f9df484024d8
+  338  04/10/21 12:58:06 docker rmi d112a1f3063c 12a20f0b455a 49ba81ac6025 c0e2d12fc17d cdf8f5251417
+  339  04/10/21 12:58:08 docker rmi
+  340  04/10/21 12:58:11 docker images
+  341  04/10/21 12:58:23 ls -l
+  342  06/10/21 11:24:47 sudo su
+  343  06/10/21 11:24:50 su -l
+  344  06/10/21 11:25:35 su - guest
+  345  06/10/21 11:25:44 su -l guest
+  346  06/10/21 11:25:55 passwd guest
+  347  06/10/21 11:25:57 sudo su
+  348  06/10/21 11:26:00 su -l
+  349  06/10/21 11:26:09 su -l guest
+  350  06/10/21 09:52:48 virt-manager 
+  351  06/10/21 08:04:11 docker images
+  352  06/10/21 08:04:34 docker rmi b6dc07ff310f
+  353  06/10/21 08:04:46 docker tag keshikid03/ldap21
+  354  06/10/21 08:04:49 docker tag keshikid03/ldap21:base
+  355  06/10/21 08:05:12 docker tag edtasixm06/ldap21:base
+  356  06/10/21 08:05:20 docker tag edtasixm06/ldap21:base keshikid03/ldap21:base
+  357  06/10/21 08:05:23 docker imagesç
+  358  06/10/21 08:05:25 docker images
+  359  06/10/21 08:07:45 docker push keshikid03/ldap21
+  360  06/10/21 08:07:51 docker push keshikid03/ldap21:base
+  361  06/10/21 08:08:28 docker push keshikid03/ldap21
+  362  06/10/21 08:08:43 docker images
+  363  06/10/21 08:09:53 docker push keshikid03/ldap21:base
+  364  06/10/21 08:10:17 docker rmi 093b58535449
+  365  06/10/21 08:10:26 ls -l
+  366  06/10/21 08:10:31 docker images
+  367  06/10/21 08:11:00 ls -l
+  368  06/10/21 08:11:41 docker images
+  369  06/10/21 08:11:51 docker rmi 093b58535449
+  370  06/10/21 08:12:00 docker rmi -force 093b58535449
+  371  06/10/21 08:12:04 docker rmi -forced 093b58535449
+  372  06/10/21 08:12:10 docker rmi --forced 093b58535449
+  373  06/10/21 08:12:19 docker rmi --help
+  374  06/10/21 08:12:25 docker rmi -f 093b58535449
+  375  06/10/21 08:12:30 docker images
+  376  06/10/21 08:13:13 history
+  377  06/10/21 08:13:25 history | grep edt*
+  378  06/10/21 08:14:07 docker run --rm --name ldap.edt.org -h ldap.edt.org -d edtasixm06/ldap21:base
+  379  06/10/21 08:14:22 docker images
+  380  06/10/21 08:14:45 docker tag edtasixm06/ldap21 keshikid03/ldap21
+  381  06/10/21 08:14:53 docker tag edtasixm06/ldap21:base keshikid03/ldap21:base
+  382  06/10/21 08:14:55 docker images
+  383  06/10/21 08:15:01 docker rmi -f edtasixm06/ldap21:base 
+  384  06/10/21 08:15:05 docker images
+  385  06/10/21 08:15:21 docker run --rm -it keshikid03/ldap21:base
+  386  06/10/21 08:15:48 docker attach ldap21:base
+  387  06/10/21 08:15:52 docker container
+  388  06/10/21 08:16:04 docker images
+  389  06/10/21 08:16:10 docker rmi -f c96199a5a1d7
+  390  06/10/21 08:16:24 docker images
+  391  06/10/21 08:16:26 docker ps
+  392  06/10/21 08:16:32 docker stop ldap.edt.org
+  393  06/10/21 08:16:47 docker rmi -f c96199a5a1d7
+  394  06/10/21 08:16:59 docker run --rm --name ldap.edt.org -h ldap.edt.org -d edtasixm06/ldap21:base
+  395  06/10/21 08:17:50 docker tag edtasixm06/ldap21:base keshikid03/ldap21:base
+  396  06/10/21 08:17:54 docker images
+  397  06/10/21 08:18:20 docker push keshikid03/ldap21:base
+  398  06/10/21 08:20:09 docker push keshikid03/ldap21
+  399  06/10/21 08:20:25 docker push keshikid03/ldap21:base
+  400  06/10/21 08:20:36 ls -l
+  401  06/10/21 08:20:38 docker images
+  402  06/10/21 08:21:37 ls
+  403  06/10/21 08:21:46 docker rmi -f edtasixm06/ldap21:base 
+  404  06/10/21 08:21:55 docker rmi -f keshikid03/ldap21:base 
+  405  06/10/21 08:21:58 docker images
+  406  06/10/21 08:22:10 docker rmi -f edtasixm06/ldap21
+  407  06/10/21 08:22:15 docker rmi c96199a5a1d7
+  408  06/10/21 08:22:18 docker rmi -f c96199a5a1d7
+  409  06/10/21 08:22:21 docker ps
+  410  06/10/21 08:22:28 docker stop ldap.edt.org
+  411  06/10/21 08:22:55 docker run --rm --name ldap.edt.org -h ldap.edt.org -d edtasixm06/ldap21:base
+  412  06/10/21 08:33:08 history
+  413  06/10/21 08:35:14 history | grep git
+  414  06/10/21 08:36:03 cd /var/tmp/m06/ldap21/
+  415  06/10/21 08:36:13 git remote add origin 'git@github.com:KeshiKiD03/ldap21.git'
+  416  06/10/21 08:36:23 git push -u origin master
+  417  06/10/21 08:42:09 ls -l
+  418  06/10/21 08:42:14 cd ldap21\:base/
+  419  06/10/21 08:42:16 ll
+  420  06/10/21 08:42:17 cd ..
+  421  06/10/21 08:42:19 ll
+  422  06/10/21 08:42:20 cd .git/
+  423  06/10/21 08:42:21 ls -l
+  424  06/10/21 08:42:29 nano config 
+  425  06/10/21 08:42:59 cd ..
+  426  06/10/21 08:43:04 git push -u origin master
+  427  06/10/21 08:44:25 ls -l
+  428  06/10/21 08:44:29 cd ..
+  429  06/10/21 08:44:33 ls -l
+  430  06/10/21 08:44:37 cd 
+  431  06/10/21 08:44:45 cd /var/tmp
+  432  06/10/21 08:44:52 mkdir m06-Nuevo
+  433  06/10/21 08:44:55 cd m06-Nuevo/
+  434  06/10/21 08:44:56 ls -l
+  435  06/10/21 08:45:06 git remote add origin 'git@github.com:KeshiKiD03/ldap21.git'
+  436  06/10/21 08:45:37 git clone https://github.com/edtasixm06/ldap21.git
+  437  06/10/21 08:45:40 ls -l
+  438  06/10/21 08:45:42 cd ldap21/
+  439  06/10/21 08:45:43 ls -l
+  440  06/10/21 08:45:47 ll
+  441  06/10/21 09:36:12 ls -lls -l
+  442  06/10/21 09:37:17 ls -l
+  443  06/10/21 08:47:07 cd ldap21\:base/
+  444  06/10/21 08:47:27 cp organitzacio-edt.org.ldif edt.org.ldif
+  445  06/10/21 08:47:28 ls -l
+  446  06/10/21 08:47:36 cat usuaris-edt.org.ldif 
+  447  06/10/21 08:47:50 cat usuaris-edt.org.ldif >> edt.org.ldif 
+  448  06/10/21 08:47:55 ll
+  449  06/10/21 08:48:26 cat usuaris-mes-edt.org.ldif >> edt.org.ldif 
+  450  06/10/21 08:48:30 nano edt.org.ldif 
+  451  06/10/21 09:26:50 man ldapadd
+  452  06/10/21 09:37:26 cd ..
+  453  06/10/21 09:37:27 ls -l
+  454  06/10/21 09:37:35 mkdir keshi
+  455  06/10/21 09:37:36 ls -l
+  456  06/10/21 09:37:39 cd ..
+  457  06/10/21 09:37:58 ls -l
+  458  06/10/21 09:38:00 ll
+  459  06/10/21 09:38:13 mkdir keshi
+  460  06/10/21 09:38:16 cd keshi/
+  461  06/10/21 09:38:17 ls -l
+  462  06/10/21 09:38:21 git clone https://github.com/KeshiKiD03/ldap21.git
+  463  06/10/21 09:38:24 ll
+  464  06/10/21 09:38:26 ls -l
+  465  06/10/21 09:38:29 cd ldap21/
+  466  06/10/21 09:38:30 ls -l
+  467  06/10/21 09:38:33 ll
+  468  06/10/21 09:46:36 ls -l
+  469  06/10/21 09:48:03 cd ..
+  470  06/10/21 09:48:04 ll
+  471  06/10/21 09:48:06 cd ldap21/
+  472  06/10/21 09:48:07 ll
+  473  06/10/21 09:49:10 ls -r
+  474  06/10/21 09:49:12 ls -l
+  475  06/10/21 09:49:14 ll
+  476  06/10/21 09:49:34 git add . ; git commit -m "LDAP1 Aaron" ; git push
+  477  06/10/21 08:23:01 docker ps
+  478  06/10/21 08:24:22 docker tag edtasixm06/ldap21:base keshikid03/ldap21:base
+  479  06/10/21 08:24:25 docker images
+  480  06/10/21 08:25:21 docker push keshikid03/ldap21:base
+  481  06/10/21 08:25:49 ls -l
+  482  06/10/21 08:25:52 cd Do
+  483  06/10/21 08:25:57 cd /var/tmp/m06
+  484  06/10/21 08:25:58 ls -l
+  485  06/10/21 08:26:02 cd ldap21/
+  486  06/10/21 08:26:04 ls -l
+  487  06/10/21 08:26:11 cd ..
+  488  06/10/21 08:26:19 history | git clone
+  489  06/10/21 08:26:51 git clone https://github.com/edtasixm06/ldap21.git
+  490  06/10/21 08:26:53 git clone https://github.com/edtasixm06/ldap21.git .
+  491  06/10/21 08:26:55 cd ..
+  492  06/10/21 08:26:56 ls -l
+  493  06/10/21 08:27:00 cd m06
+  494  06/10/21 08:27:01 ls -l
+  495  06/10/21 08:27:08 rm -r ./*
+  496  06/10/21 08:27:18 sudo su
+  497  06/10/21 08:27:23 su -l
+  498  06/10/21 08:28:01 ls -l
+  499  06/10/21 08:28:05 cd ldap21/
+  500  06/10/21 08:28:08 ls -l
+  501  06/10/21 08:28:14 git clone https://github.com/edtasixm06/ldap21.git .
+  502  06/10/21 08:28:16 git clone https://github.com/edtasixm06/ldap21.git
+  503  06/10/21 08:28:20 ls -l
+  504  06/10/21 08:28:24 cd ldap21/
+  505  06/10/21 08:28:25 ls -l
+  506  06/10/21 08:28:29 cd ldap21\:base/
+  507  06/10/21 08:28:32 cd ..
+  508  06/10/21 08:28:38 mv * ..
+  509  06/10/21 08:28:39 ls -l
+  510  06/10/21 08:28:41 cd ..
+  511  06/10/21 08:28:42 ls -l
+  512  06/10/21 08:28:49 rm -r ldap21
+  513  06/10/21 08:28:57 su -l
+  514  06/10/21 08:29:23 ls -l
+  515  06/10/21 08:29:25 cd ..
+  516  06/10/21 08:29:26 ls -l
+  517  06/10/21 08:29:33 git clone https://github.com/edtasixm06/ldap21.git
+  518  06/10/21 08:29:35 ls -l
+  519  06/10/21 08:30:10 git add . ; git -m "LDAP21" ; git push
+  520  06/10/21 08:32:16 git add . ; git -m "LDAP21" ; git push 
+  521  06/10/21 08:32:24 ls -l
+  522  06/10/21 08:32:27 ll
+  523  06/10/21 08:32:29 cd ldap21/
+  524  06/10/21 08:32:30 ls -l
+  525  06/10/21 08:32:31 ll
+  526  06/10/21 08:32:36 git add . ; git -m "LDAP21" ; git push 
+  527  06/10/21 08:39:11 docker ps
+  528  06/10/21 08:39:23 ldapsearch -x -LLL -h 172.17.0.2 -b 'ou=usuaris,dc=edt,dc=org' 'cn=* Mas' 'gidNumber=600' dn uidNumber gidNumber
+  529  06/10/21 08:40:00 ldapsearch -x -LLL -h 172.17.0.2 -b 'ou=usuaris,dc=edt,dc=org' '(&(cn=* Mas)(gidNumber=600))' dn uidNumber gidNumber
+  530  06/10/21 08:52:23 ls -l
+  531  06/10/21 08:52:25 cd ..
+  532  06/10/21 08:52:27 ls -l
+  533  06/10/21 08:52:38 cd ldap21/
+  534  06/10/21 08:52:39 ls -l
+  535  06/10/21 08:52:44 cd ..
+  536  06/10/21 08:54:49 git add .
+  537  06/10/21 08:54:53 cd ldap21/
+  538  06/10/21 08:54:58 cd ..
+  539  06/10/21 08:55:07 cd m06-Nuevo/
+  540  06/10/21 08:55:08 ls 
+  541  06/10/21 08:55:09 cd ldap21/
+  542  06/10/21 08:55:12 git init
+  543  06/10/21 08:55:16 git add .
+  544  06/10/21 08:55:30 git commit -m "My First Commit"
+  545  06/10/21 08:56:14 git remote add origin https://github.com/KeshiKiD03/ldap21.git
+  546  06/10/21 08:56:24 git push -u origin master
+  547  06/10/21 08:59:28 ldapdelete -vx -h 172.17.0.2 -D 'cn=Manager,dc=edt,dc=org' -w secret "cn=Pau Pou,ou=usuaris,dc=edt,dc=org"
+  548  06/10/21 08:59:45 man ldapdelete
+  549  06/10/21 09:01:13 ldapdelete -x -h 172.17.0.2 -D 'cn=Manager,dc=edt,dc=org' -W "cn=Jordi Mas,ou=usuaris,dc=edt,dc=org"
+  550  06/10/21 09:03:25 ldapdelete -x -h 172.17.0.2 -D 'cn=Manager,dc=edt,dc=org' "cn=Jordi Mas,ou=usuaris,dc=edt,dc=org"
+  551  06/10/21 09:03:35 ldapwhoami 
+  552  06/10/21 09:03:58 ldapwhoami -h 172.17.0.2
+  553  06/10/21 09:04:47 ldapwhoami -x -h 172.17.0.2
+  554  06/10/21 09:06:07 ldapwhoami -x -h 172.17.0.2 -D 'cn=Manager,dc=edt,dc=org' -w secret
+  555  06/10/21 09:07:28 ldapwhoami -x -h 172.17.0.2 -D "cn=Anna Pou,ou,usuaris,dc=edt,dc=org" -w anna
+  556  06/10/21 09:07:53 ldapwhoami -x -h 172.17.0.2 -D "cn=Anna Pou,ou=usuaris,dc=edt,dc=org" -w anna
+  557  06/10/21 09:08:10 man ldap
+  558  06/10/21 09:08:29 pwd
+  559  06/10/21 09:08:51 vim eliminats.ldif
+  560  06/10/21 09:12:17 cat eliminats.ldif 
+  561  06/10/21 09:15:02 vim eliminats.ldif
+  562  06/10/21 09:16:01 ldapdelete -x -h 172.17.0.2 -D 'cn=Manager,dc=edt,dc=^Cg' -w secret -f eliminats.ldif
+  563  06/10/21 09:16:12 ldapdelete -x -h 172.17.0.2 -D 'cn=Manager,dc=edt,dc=org' -w secret -f eliminats.ldif
+  564  06/10/21 09:16:30 vim eliminats.ldif
+  565  06/10/21 09:17:20 ldapdelete -x -h 172.17.0.2 -D 'cn=Manager,dc=edt,dc=org' -w secret -f eliminats.ldif
+  566  06/10/21 09:17:25 cat eliminats.ldif 
+  567  06/10/21 09:17:43 vim eliminats.ldif 
+  568  06/10/21 09:18:32 cd ldap21\:base/
+  569  06/10/21 09:18:35 cat edt.org.ldif 
+  570  06/10/21 09:18:52 cat edt.org.ldif | grep Anna
+  571  06/10/21 09:18:55 cat edt.org.ldif | grep Anna*
+  572  06/10/21 09:19:34 cd ..
+  573  06/10/21 09:19:38 nano afegir.ldif
+  574  06/10/21 09:20:34 ldapdelete -x -h 172.17.0.2 -D 'cn=Manager,dc=edt,dc=org' -w secret -f eliminats.ldif
+  575  06/10/21 09:20:50 ls -l
+  576  06/10/21 09:21:03 ldapdelete -x -h 172.17.0.2 -D "cn=Manager,dc=edt,dc=org" -w secret -f eliminats.ldif
+  577  06/10/21 09:21:12 ldapdelete -x -h 172.17.0.2 -D 'cn=Manager,dc=edt,dc=org' -w secret -f eliminats.ldif
+  578  06/10/21 09:21:34 ldapdelete -vx -h 172.17.0.2 -D 'cn=Manager,dc=edt,dc=org' -w secret -f eliminats.ldif
+  579  06/10/21 09:21:58 vim eliminats.ldif 
+  580  06/10/21 09:23:11 ldapsearch -x -LLL -h 172.17.0.2 -b 'cn=Manager,dc=edt,dc=org' 'cn=Anna Pou' dn
+  581  06/10/21 09:23:14 ldapsearch -x -LLL -h 172.17.0.2 -b 'cn=Manager,dc=edt,dc=org' 'cn=Anna Pou'
+  582  06/10/21 09:23:36 ls -l
+  583  06/10/21 09:23:40 nano afegir.ldif 
+  584  06/10/21 09:24:40 ldapadd -x -h 172.17.0.2 -D 'cn=Manager,dc=edt,dc=org' -w secret -f afegir.ldif 
+  585  06/10/21 09:25:03 nano afegir.ldif 
+  586  06/10/21 09:25:08 vim afegir.ldif 
+  587  06/10/21 09:28:58 ldapdelete -c -vx -h 172.17.0.2 -D 'cn=Manager,dc=edt,dc=org' -w secret -f eliminats.ldif
+  588  06/10/21 09:29:32 nano afegir.ldif 
+  589  06/10/21 09:29:38 vim afegir.ldif 
+  590  06/10/21 09:34:35 ldapadd -c -vx -h 172.17.0.2 -D 'cn=Manager,dc=edt,dc=org' -w secret -f afegir.ldif
+  591  06/10/21 09:39:10 ls -l
+  592  06/10/21 09:39:27 mv afegir.ldif eliminats.ldif ./ldap21\:base/
+  593  06/10/21 09:39:50 cd ldap21\:base/
+  594  06/10/21 09:39:52 ll
+  595  06/10/21 09:39:57 vim modify.ldif
+  596  06/10/21 09:47:21 ll
+  597  06/10/21 09:47:23 cd
+  598  06/10/21 09:47:24 ll
+  599  06/10/21 09:47:37 cd /var/tmp/m06-Nuevo/
+  600  06/10/21 09:47:38 ls -l
+  601  06/10/21 09:47:40 ll
+  602  06/10/21 09:47:43 cd ldap21/
+  603  06/10/21 09:47:44 ll
+  604  06/10/21 09:47:48 rmdir keshi/
+  605  06/10/21 09:47:50 ll
+  606  06/10/21 09:48:55 cp * /var/tmp/m06-Nuevo/keshi/ldap21
+  607  06/10/21 09:49:02 cp -r * /var/tmp/m06-Nuevo/keshi/ldap21
+  608  08/10/21 10:17:56 cat /etc/ldap/ldap.conf 
+  609  08/10/21 10:19:14 sudo /etc/ldap/ldap.conf
+  610  08/10/21 10:19:22 sudo vim /etc/ldap/ldap.conf
+  611  08/10/21 10:20:09 ldapsearch -x 
+  612  08/10/21 10:22:50 docker run --rm -it keshikid03/ldap21:base /bin/bash
+  613  08/10/21 10:38:22 docker run --rm --name client -h client --net 2hisx -it keshikid03/ldap21:base /bin/bash
+  614  08/10/21 11:29:04 docker stop ldap.edt.org ldap.edt.org 
+  615  08/10/21 11:34:31 docker run --rm --name client -h client --net 2hisx -P 389:389 -it keshikid03/ldap21:base /bin/bash
+  616  08/10/21 11:34:42 docker run --rm --name client -h client --net 2hisx -p 389:389 -it keshikid03/ldap21:base /bin/bash
+  617  08/10/21 11:34:59 docker stop client
+  618  08/10/21 11:35:45 docker run --rm --name ldap.edt.org -h ldap.edt.org --net 2hisx -p 389:389 -d keshikid03/ldap21:base
+  619  08/10/21 11:36:02 docker ps
+  620  08/10/21 11:37:01 docker port ldap.edt.org
+  621  08/10/21 11:37:25 ip a
+  622  08/10/21 11:37:37 ip a | grep inet
+  623  08/10/21 11:38:42 nmap localhost
+  624  08/10/21 11:38:48 sudo apt-get install nmap
+  625  08/10/21 11:39:33 nmap 10.200.247.243
+  626  08/10/21 11:39:47 namp 172.18.0.2
+  627  08/10/21 11:39:51 nmap 172.18.0.2
+  628  08/10/21 11:39:58 nmap 172.18.0.1
+  629  08/10/21 11:40:50 ldapsearch -x -LLL -h i10 -b 'dc=edt,dc=org' | head -n5
+  630  08/10/21 11:41:29 nmap localhost
+  631  08/10/21 11:43:38 docker stop ldap.edt.org
+  632  08/10/21 11:44:22 docker run --rm --name ldap.edt.org -h ldap.edt.org --net 2hisx -p 5000:389 -d keshikid03/ldap21:base
+  633  08/10/21 11:44:36 docker port ldap.edt.org
+  634  08/10/21 11:45:39 ldapsearch -x -LLL -h i04:5000 -b 'dc=edt,dc=org' | head -n5
+  635  08/10/21 11:46:05 docker stop ldap.edt.org
+  636  08/10/21 11:46:35 docker run --rm --name ldap.edt.org -h ldap.edt.org --net 2hisx -P -d keshikid03/ldap21:base
+  637  08/10/21 11:46:40 docker port ldap.edt.org
+  638  08/10/21 11:52:27 docker ps
+  639  08/10/21 11:52:31 docker stop ldap.edt.org 
+  640  08/10/21 12:03:03 cd /var/tmp/
+  641  08/10/21 12:03:03 ls
+  642  08/10/21 12:03:07 cd m06-Nuevo/
+  643  08/10/21 12:03:08 ls -l
+  644  08/10/21 12:03:10 cd keshi/
+  645  08/10/21 12:03:11 ls -l
+  646  08/10/21 12:03:12 ll
+  647  08/10/21 12:03:14 cd ldap21/
+  648  08/10/21 12:03:14 ll
+  649  08/10/21 12:03:32 git add . ; git commit -m "Mod 08.10" ; git push
+  650  08/10/21 12:04:03 ls
+  651  08/10/21 12:04:08 hola > echo.txt
+  652  08/10/21 12:04:18 echo > echo.txt
+  653  08/10/21 12:04:19 ls -l
+  654  08/10/21 12:04:23 git add . ; git commit -m "Mod 08.10" ; git push
+  655  08/10/21 12:04:35 ls -l
+  656  08/10/21 12:04:41 cd ..
+  657  08/10/21 12:04:54 docker push keshikid03/ldap21:base
+  658  08/10/21 12:07:00 history
+  659  08/10/21 12:07:24 history >> history.txt

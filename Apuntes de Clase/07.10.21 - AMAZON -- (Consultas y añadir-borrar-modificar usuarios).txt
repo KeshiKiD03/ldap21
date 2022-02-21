@@ -1,0 +1,889 @@
+07.10.21 - AMAZON
+
+DONARSE DE ALTA A AMAZON FREE TEAR
+
+---------------
+
+LDAP ---
+
+LDAP MODIFY 
+
+DN: ............
+changetype: modify | ADD | DELETE | MODRDN
+
+[add]
+-
+[delete]
+-
+[replace]
+-
+[modify]
+
+Todo lo se que escribe hasta que haya una linea en blanco son modificaciones
+
+Se puede poner otro DN, todas las modificaciones que se hacen son DN de una entidad.
+
+La primera modificación es "changetype".
+
+CHANGETYPE: 
+
+ADD
+DELETE
+MODIFY
+MODRDN
+
+Cuando le decimos modify, tenemos que poner un "-", significa que ya he terminado de modificar una modificación ahora modificaré otro.
+
+Si queremos añadir un changetype que es add. 
+
+Añadir un atributo a una entidad, añadir un atributo a toda la entidad.
+
+---
+
+1.
+
+isx36579183@i11:/var/tmp/m06-Nuevo/ldap21$ docker run --rm --name ldap.edt.org -h ldap.edt.org -d keshikid03/ldap21:base
+f8b2780df6260a36f514ecb07a8d68e3d7b2497450005864e4814d90d366dffb
+
+isx36579183@i11:/var/tmp/m06-Nuevo/ldap21$ docker ps
+CONTAINER ID   IMAGE                    COMMAND                  CREATED         STATUS         PORTS     NAMES
+f8b2780df626   keshikid03/ldap21:base   "/bin/sh -c /opt/doc…"   6 seconds ago   Up 4 seconds   389/tcp   ldap.edt.org
+
+-----
+
+Puede tener varios teléfonos. homephone
+para añadir atributos a un campo
+add: homephone
+homephone: 34342
+-
+replace: mail
+mail: awdkaw@org
+-
+delete: description
+
+-------------
+
+
+dn: cn=Anna Pou,ou=usuaris,dc=edt,dc=org
+changetype: delete
+
+Borrar
+
+---------------
+
+# Exemple de modificacions
+
+dn: cn=Pau Pou,ou=usuaris,dc=edt,dc=org
+changetype: modify
+add: homephone
+homephone: 555-888-123
+-
+replace: mail
+mail: paupou@edt.org
+-
+delete: description
+
+dn: cn=Anna Pou,ou=usuaris,dc=edt,dc=org
+changetype: delete
+
+dn: cn=Pere Pou,ou=usuaris,dc=edt,dc=org
+changetype: modify
+replace: sn
+sn: perico
+-
+delete: homephone
+-
+add: description
+description: els per
+
+---
+
+ldapmodify -x -h 172.17.0.2 -D "cn=Manager,dc=edt,dc=org" -w secret -f modify1.ldif
+
+-D Autenticarse como admin
+
+-x ejecutar
+
+-h host
+
+
+
+---
+
+ldapsearch -x -LLL -h 172.17.0.2 -b 'dc=edt,dc=org' 'cn=* Pou'
+
+-----
+
+isx36579183@i11:/var/tmp/m06-Nuevo/keshi/ldap21/ldap21:base$ ldapmodify -x -h 172.17.0.2 -D "cn=Manager,dc=edt,dc=org" -w secret -f modify.ldif
+modifying entry "cn=Pau Pou,ou=usuaris,dc=edt,dc=org"
+
+deleting entry "cn=Anna Pou,ou=usuaris,dc=edt,dc=org"
+
+modifying entry "cn=Pere Pou,ou=usuaris,dc=edt,dc=org"
+
+
+RDN = PERE POU
+
+DN es TODA LA RUTA cn=Pau Pou,ou=usuaris,dc=edt,dc=org
+
+
+-------
+
+dn: cn=Pere Pou,ou=usuaris,dc=edt,dc=org
+changetype: modrdn
+newrdn: cn=Perico Pou
+deleteoldrdn:0
+
+changetype: modrdn --> Es para para modificar el nombre relativo cn=Pere Pou
+Para cambiar el identificador del Distinguition Name necesitamos usar el MODRDN
+newrdn: cn=Perico Pou
+deleteoldrdn: 0
+
+ldapmodify -cv -x -h 172.17.0.2 -D "cn=Manager,dc=edt,dc=org" -w secret -f modify.ldif 
+
+ldap_initialize( ldap://172.17.0.2 )
+add homephone:
+	555-888-123
+replace mail:
+	paupou@edt.org
+delete description:
+modifying entry "cn=Pau Pou,ou=usuaris,dc=edt,dc=org"
+ldap_modify: Type or value exists (20)
+	additional info: modify/add: homePhone: value #0 already exists
+
+deleting entry "cn=Anna Pou,ou=usuaris,dc=edt,dc=org"
+ldap_delete: No such object (32)
+	matched DN: ou=usuaris,dc=edt,dc=org
+
+replace sn:
+	perico
+delete homephone:
+add description:
+	els per
+modifying entry "cn=Pere Pou,ou=usuaris,dc=edt,dc=org"
+ldap_modify: No such attribute (16)
+	additional info: modify/delete: homePhone: no such attribute
+
+modifying rdn of entry "cn=Pere Pou,ou=usuaris,dc=edt,dc=org"
+	new RDN: "cn=Perico Pou" (keep existing values)
+rename complete
+
+
+
+
+ldapsearch -x -LLL -h 172.17.0.2 -b 'dc=edt,dc=org' 'cn=* Pou'
+
+-v Verbose
+
+
+dc=org' 'cn=* Pou'
+dn: cn=Pau Pou,ou=usuaris,dc=edt,dc=org
+objectClass: posixAccount
+objectClass: inetOrgPerson
+cn: Pau Pou
+cn: Pauet Pou
+sn: Pou
+homePhone: 555-222-2220
+homePhone: 555-888-123
+ou: Profes
+uid: pau
+uidNumber: 5000
+gidNumber: 100
+homeDirectory: /tmp/home/pau
+userPassword:: e1NTSEF9TkRraXBlc05RcVRGRGdHSmZ5cmFMei9jc1pBSWxrMi8=
+mail: paupou@edt.org
+
+dn: cn=Perico Pou,ou=usuaris,dc=edt,dc=org
+objectClass: posixAccount
+objectClass: inetOrgPerson
+cn: Pere Pou
+cn: Perico Pou
+mail: pere@edt.org
+description: Watch out for this guy
+description: els per
+ou: Profes
+uid: pere
+uidNumber: 5001
+gidNumber: 100
+homeDirectory: /tmp/home/pere
+userPassword:: e1NTSEF9Z2htdFJMMTFZdFhvVWhJUDd6NmY3bmI4UkNOYWRGZSs=
+sn: perico
+
+deleteold: 0 NO y deleteold: 1 SI
+
+--------
+
+INTERACTIVAMENTE A CONSOLA
+
+PERE POU Y PERERICO
+
+PERICO SE BORRA.
+
+vim modify.ldif
+
+ldapmodify -cv -x -h 172.17.0.2 -D "cn=Manager,dc=edt,dc=org" -w secret -f modify.ldif 
+
+
+
+ldap_initialize( ldap://172.17.0.2 )
+add homephone:
+	555-888-123
+replace mail:
+	paupou@edt.org
+delete description:
+modifying entry "cn=Pau Pou,ou=usuaris,dc=edt,dc=org"
+ldap_modify: Type or value exists (20)
+	additional info: modify/add: homePhone: value #0 already exists
+
+deleting entry "cn=Anna Pou,ou=usuaris,dc=edt,dc=org"
+ldap_delete: No such object (32)
+	matched DN: ou=usuaris,dc=edt,dc=org
+
+replace sn:
+	perico
+delete homephone:
+add description:
+	els per
+modifying entry "cn=Pere Pou,ou=usuaris,dc=edt,dc=org"
+ldap_modify: No such object (32)
+	matched DN: ou=usuaris,dc=edt,dc=org
+
+modifying rdn of entry "cn=Perico Pou,ou=usuaris,dc=edt,dc=org"
+	new RDN: "cn=Pererico Pou" (do not keep existing values)
+rename complete
+
+
+ldapsearch -x -LLL -h 172.17.0.2 -b 'dc=edt,dc=org' 'cn=* Pou'
+
+
+
+dc=org' 'cn=* Pou'
+dn: cn=Pau Pou,ou=usuaris,dc=edt,dc=org
+objectClass: posixAccount
+objectClass: inetOrgPerson
+cn: Pau Pou
+cn: Pauet Pou
+sn: Pou
+homePhone: 555-222-2220
+homePhone: 555-888-123
+ou: Profes
+uid: pau
+uidNumber: 5000
+gidNumber: 100
+homeDirectory: /tmp/home/pau
+userPassword:: e1NTSEF9TkRraXBlc05RcVRGRGdHSmZ5cmFMei9jc1pBSWxrMi8=
+mail: paupou@edt.org
+
+dn: cn=Pererico Pou,ou=usuaris,dc=edt,dc=org
+objectClass: posixAccount
+objectClass: inetOrgPerson
+cn: Pere Pou
+cn: Pererico Pou
+mail: pere@edt.org
+description: Watch out for this guy
+description: els per
+ou: Profes
+uid: pere
+uidNumber: 5001
+gidNumber: 100
+homeDirectory: /tmp/home/pere
+userPassword:: e1NTSEF9Z2htdFJMMTFZdFhvVWhJUDd6NmY3bmI4UkNOYWRGZSs=
+sn: perico
+
+-----
+
+DE FORMA INTERACTIVA
+
+ldapmodrdn -x -h 172.17.0.2 -D 'cn=Manager,dc=edt,dc=org' -w secret 'cn=Pau Pou,ou=usuaris,dc=edt,dc=org' 'cn=Pauet Pou'
+
+ldapmodrdn -v -x -h 172.17.0.2 -D 'cn=Manager,dc=edt,dc=org' -w secret 'cn=Pau Pou,ou=usuaris,dc=edt,dc=org' 'cn=Pauet Pou'
+
+
+
+ldapmodrdn --> Modifica el RDN
+
+ldapmodrdn -vx -h 172.17.0.2 -D 'cn=Manager,dc=edt,dc=org' -w secret 'cn=Pauet Pou,ou=usuaris,dc=edt,dc=org' 'cn=Packman Pou'
+
+
+
+-v modo Verbose
+
+ldap_initialize( ldap://172.17.0.2 )
+Renaming "cn=Pauet Pou,ou=usuaris,dc=edt,dc=org"
+	new rdn="cn=Packman Pou" (keep old rdn)
+Rename Result: Success (0)
+
+-----
+
+ldapwhoami -x -h -172.17.0.2
+
+ldapwhoami -x -h 172.17.0.2
+anonymous
+
+
+
+
+
+isx36579183@i11:/var/tmp/m06-Nuevo/keshi/ldap21/ldap21:base$ ldapsearch -x -LLL -h 172.17.0.2 -b 'dc=edt,dc=org' dn
+dn: dc=edt,dc=org
+
+dn: ou=clients,dc=edt,dc=org
+
+dn: ou=usuaris,dc=edt,dc=org
+
+dn: ou=maquines,dc=edt,dc=org
+
+dn: ou=productes,dc=edt,dc=org
+
+dn: cn=user01,ou=usuaris,dc=edt,dc=org
+
+dn: cn=user02,ou=usuaris,dc=edt,dc=org
+
+dn: cn=user03,ou=usuaris,dc=edt,dc=org
+
+dn: cn=user04,ou=usuaris,dc=edt,dc=org
+
+dn: cn=user05,ou=usuaris,dc=edt,dc=org
+
+dn: cn=user06,ou=usuaris,dc=edt,dc=org
+
+dn: cn=user07,ou=usuaris,dc=edt,dc=org
+
+dn: cn=user08,ou=usuaris,dc=edt,dc=org
+
+dn: cn=user09,ou=usuaris,dc=edt,dc=org
+
+dn: cn=user10,ou=usuaris,dc=edt,dc=org
+
+dn: cn=Jordi Mas,ou=usuaris,dc=edt,dc=org
+
+dn: cn=Marta Mas,ou=usuaris,dc=edt,dc=org
+
+dn: cn=Packman Pou,ou=usuaris,dc=edt,dc=org
+
+dn: cn=Admin System,ou=usuaris,dc=edt,dc=org
+
+dn: cn=Pererico Pou,ou=usuaris,dc=edt,dc=org
+
+
+
+
+slapcat | grep dn
+
+isx36579183@i11:/var/tmp/m06-Nuevo/keshi/ldap21/ldap21:base$ ldapwhoami -x -h 172.17.0.2 -D 'cn=Jordi Mas,ou=usuaris,dc=edt,dc=org' -w jordi
+
+
+
+------------
+
+database mdb
+suffix
+rootdn
+rootpw secret
+directory /var/lib/ldap
+index objectClass eq,press
+access to *
+	by self write 
+	by * ready
+
+ACL --> Posible configuración
+
+EL USUARIO PUEDE ESCRIBIR, * TODOS PUEDEN LEER
+
+ACCESO A * PUEDE TOCAR LAS COSAS, LOS OTROS PUEDEN LEER SOLO
+
+-----------------
+
+ldapsearch -x -LLL -h 172.17.0.2 -b 'dc=edt,dc=org' 'cn=user01'
+
+isx36579183@i11:/var/tmp/m06-Nuevo/keshi/ldap21/ldap21:base$ ldapsearch -x -LLL -h 172.17.0.2 -b 'dc=edt,dc=org' 'cn=user01'
+dn: cn=user01,ou=usuaris,dc=edt,dc=org
+objectClass: posixAccount
+objectClass: inetOrgPerson
+cn: user01
+cn: alumne01 de 1asix de todos los santos
+sn: alumne01
+homePhone: 555-222-0001
+mail: user01@edt.org
+description: alumne de 1asix
+ou: 1asix
+uid: user01
+uidNumber: 7001
+gidNumber: 610
+homeDirectory: /tmp/home/1asix/user01
+userPassword:: e1NIQX1vdmY4dGEvcmVZUC91MnpqMGFmcEh0OHlFMUE9
+
+
+
+
+-----------------
+
+isx36579183@i11:/var/tmp/m06-Nuevo/keshi/ldap21/ldap21:base$ ldapwhoami -x -h 172.17.0.2 -D 'cn=Jordi Mas,ou=usuaris,dc=edt,dc=org' -w jordi
+dn:cn=Jordi Mas,ou=usuaris,dc=edt,dc=org
+
+
+
+-----------------
+
+isx36579183@i11:/var/tmp/m06-Nuevo/keshi/ldap21/ldap21:base$ ldapsearch -x -LLL -h 172.17.0.2 -b 'dc=edt,dc=org' -D 'cn=Jordi Mas,ou=usuaris,dc=edt,dc=org' -W 'cn=user01'
+
+-----------------
+
+isx36579183@i11:/var/tmp/m06-Nuevo/keshi/ldap21/ldap21:base$ ldapsearch -x -LLL -h 172.17.0.2 -b 'dc=edt,dc=org' -D 'cn=Jordi Mas,ou=usuaris,dc=edt,dc=org' -W 'cn=user01'
+Enter LDAP Password: 
+dn: cn=user01,ou=usuaris,dc=edt,dc=org
+objectClass: posixAccount
+objectClass: inetOrgPerson
+cn: user01
+cn: alumne01 de 1asix de todos los santos
+sn: alumne01
+homePhone: 555-222-0001
+mail: user01@edt.org
+description: alumne de 1asix
+ou: 1asix
+uid: user01
+uidNumber: 7001
+gidNumber: 610
+homeDirectory: /tmp/home/1asix/user01
+userPassword:: e1NIQX1vdmY4dGEvcmVZUC91MnpqMGFmcEh0OHlFMUE9
+
+
+
+
+-----------------
+
+ACL --> Access Control List
+
+Jordi puede modificar las suyas pero no puede modificar las de otros
+
+-----------------
+
+isx36579183@i11:/var/tmp/m06-Nuevo/keshi/ldap21/ldap21:base$ ldapmodify -vx -h 172.17.0.2 -D 'cn=Jordi Mas,ou=usuaris,dc=edt,dc=org' -w jordi -f modify2.ldif
+
+Se harán como Jordi Mass
+
+-----------------
+
+isx36579183@i11:/var/tmp/m06-Nuevo/keshi/ldap21/ldap21:base$ ldapmodify -vx -h 172.17.0.2 -D 'cn=Jordi Mas,ou=usuaris,dc=edt,dc=org' -w jordi -f modify2.ldif
+ldap_initialize( ldap://172.17.0.2 )
+add mail:
+	patim@edt.org
+modifying entry "cn=Jordi Mas,ou=usuaris,dc=edt,dc=org"
+modify complete
+
+add homephone:
+	555-798-465
+modifying entry "cn=Marta Mas,ou=usuaris,dc=edt,dc=org"
+ldap_modify: Insufficient access (50)
+
+Jordi puede modificar su información pero no la de la Marca.
+
+-----------------
+
+
+isx36579183@i11:/var/tmp/m06-Nuevo/keshi/ldap21/ldap21:base$ ldapmodify -vx -h 172.17.0.2 -D 'cn=Marta Mas,ou=usuaris,dc=edt,dc=org' -w marta -f modify2.ldif
+ldap_initialize( ldap://172.17.0.2 )
+add mail:
+	patim@edt.org
+modifying entry "cn=Jordi Mas,ou=usuaris,dc=edt,dc=org"
+ldap_modify: Insufficient access (50)
+
+
+
+-----------------
+
+isx36579183@i11:/var/tmp/m06-Nuevo/keshi/ldap21/ldap21:base$ ldapmodify -vxc -h 172.17.0.2 -D 'cn=Marta Mas,ou=usuaris,dc=edt,dc=org' -w marta -f modify2.ldif
+
+-c continue a pesar de errores
+
+
+isx36579183@i11:/var/tmp/m06-Nuevo/keshi/ldap21/ldap21:base$ ldapmodify -vxc -h 172.17.0.2 -D 'cn=Marta Mas,ou=usuaris,dc=edt,dc=org' -w marta -f modify2.ldif
+ldap_initialize( ldap://172.17.0.2 )
+add mail:
+	patim@edt.org
+modifying entry "cn=Jordi Mas,ou=usuaris,dc=edt,dc=org"
+ldap_modify: Insufficient access (50)
+
+add homephone:
+	555-798-465
+modifying entry "cn=Marta Mas,ou=usuaris,dc=edt,dc=org"
+modify complete
+
+
+
+-----------------
+
+FICHERO DE CONFIGURACIÓN es el SLAPD.CONFG
+
+STARTUP.SH --> Para fabricar la configuración para la imagen
+
+Dockerfile --> Para fabricar la imagen
+
+slaptest --> Para fabricar LDAP
+
+
+
+-----------------
+
+man ldif
+
+LAS CONTRASEÑAS NO SE ENCRIPTAN --> SE PONEN EN HASH |SEGURIDAD Y HASH | FORMATO SSHA
+
+FORMATO SSHA Y MD5
+
+
+
+
+-----------------
+
+echo "bon dia" | md5sum
+
+echo "bon dia" | sha512sum
+78668505392618ece234f2bda5894198815834a5202e9965303273672a2e8da5609d22d1ed0eb76fee9d3059a488de9a3ae9042cc197513ded5120822b2b89ba  -
+
+Si me descargo la máquina de Debian, su SHA MD5 es su número. 
+
+CHECKSUM
+
+
+
+
+
+-----------------
+
+LDAPASSWD
+
+ldappasswd
+
+
+
+-----------------
+
+ldappasswd -x -v -h 172.17.0.2 -D 'cn=Manager,dc=edt,dc=org'  -w secret 'cn=user01,ou=usuaris,dc=edt,dc=org'
+
+Hacer un mecanismo automatizado.
+
+
+
+-----------------
+
+isx36579183@i11:/var/tmp/m06-Nuevo/keshi/ldap21/ldap21:base$ ldappasswd -x -v -h 172.17.0.2 -D 'cn=Manager,dc=edt,dc=org'  -w secret 'cn=user01,ou=usuaris,dc=edt,dc=org'
+ldap_initialize( ldap://172.17.0.2 )
+New password: qpcSeCUo
+Result: Success (0)
+
+
+Password automático
+
+
+
+-----------------
+
+gitlab del Julio: gitlab pingui
+
+deb at inf
+
+
+
+
+
+-----------------
+
+su -l
+apt-get install -y install gpm
+
+$ su -l
+# apt-get -y install gpm
+
+
+# apt-get install pwgen -y
+# n=$(pwgen -1 ); echo -e "$n\n$n" | passwd guest ; unset n 
+
+
+
+
+
+-----------------
+
+
+https://gitlab.com/pingui/deb-at-inf/-/tree/master/Debian11
+
+
+
+
+-----------------
+
+ldappasswd -x -v -h 172.17.0.2 -D 'cn=Manager,dc=edt,dc=org' -S -w secret 'cn=user01,ou=usuaris,dc=edt,dc=org'
+
+-S Añadir password de forma interactiva
+
+isx36579183@i11:/var/tmp/m06-Nuevo/keshi/ldap21/ldap21:base$ ldappasswd -x -v -h 172.17.0.2 -D 'cn=Manager,dc=edt,dc=org' -S -w secret 'cn=user01,ou=usuaris,dc=edt,dc=org'
+New password: 
+Re-enter new password: 
+ldap_initialize( ldap://172.17.0.2 )
+Result: Success (0)
+
+INTERACTIVA
+
+ldappasswd -x -v -h 172.17.0.2 -D 'cn=Manager,dc=edt,dc=org' -s jupiter -w secret 'cn=user01,ou=usuaris,dc=edt,dc=org'
+
+NO INTERACTIVA
+
+
+
+-----------------
+
+Cada usuario se puede tocar a si mismo sin aviso. El Jordi quiere tocar su password, quiere que sea jupiter.
+
+ldappasswd -x -v -h 172.17.0.2 -D 'cn=Jordi Mas,ou=usuaris,dc=edt,dc=org' -w jordi -s jupiter
+
+MANAGER NO REQUIERE OU USUARIS (Por el arbol)
+
+ldappasswd -x -v -h 172.17.0.2 -D 'cn=Jordi Mas,ou=usuaris,dc=edt,dc=org' -w jupiter -s jordi
+
+ldapwhoami -x -h 172.17.0.2 -D 'cn=Jordi Mas,ou=usuaris,dc=edt,dc=org' -w jupiter
+dn:cn=Jordi Mas,ou=usuaris,dc=edt,dc=org
+
+
+
+-----------------
+
+docker exec -it ldap.edt.org /bin/bash --> Entrar al docker que está en segundo plano
+
+slappasswd: jupiter
+
+root@ldap:/opt/docker# slappasswd
+New password: 
+Re-enter new password: 
+{SSHA}v+CWmEjI1jTeT4zse4iIWfhWArVarSSi
+root@ldap:/opt/docker# 
+
+
+slappasswd -h MD5
+New password: nuevo password
+
+
+
+
+
+
+-----------------
+
+
+# Exemple de modificar per passwd
+
+dn: cn=Anna Pou,ou=usuaris,dc=edt,dc=org
+changetype: add
+objectclass: posixAccount
+objectclass: inetOrgPerson
+cn: Anna Pou
+cn: Anita Pou
+sn: Pou
+homephone: 555-222-2222
+mail: anna@edt.org
+description: Watch out for this girl
+ou: Alumnes
+uid: anna
+uidNumber: 5002
+gidNumber: 600
+homeDirectory: /tmp/home/anna
+userPassword: {SSHA}v+CWmEjI1jTeT4zse4iIWfhWArVarSSi
+
+
+
+
+-----------------
+
+man slappasswd
+
+Tipos de encriptación de contraseña
+
+slappasswd -h {MD5}
+
+slappasswd -h {CRYPT}
+
+slappasswd -h {SHA}
+
+slappasswd -h {SSHA}
+
+
+-----------------
+
+isx36579183@i11:/var/tmp/m06-Nuevo/keshi/ldap21/ldap21:base$ ldapmodify -vx -h 172.17.0.2 -D 'cn=Manager,dc=edt,dc=org' -w secret -f modify3.ldif
+ldap_initialize( ldap://172.17.0.2 )
+add objectclass:
+	posixAccount
+	inetOrgPerson
+add cn:
+	Anna Pou
+	Anita Pou
+add sn:
+	Pou
+add homephone:
+	555-222-2222
+add mail:
+	anna@edt.org
+add description:
+	Watch out for this girl
+add ou:
+	Alumnes
+add uid:
+	anna
+add uidNumber:
+	5002
+add gidNumber:
+	600
+add homeDirectory:
+	/tmp/home/anna
+add userPassword:
+	{SSHA}B7ro4gAEDoW0WI6NtbQDuvQmQG5aUNKr
+adding new entry "cn=Anna Pou,ou=usuaris,dc=edt,dc=org"
+modify complete
+
+
+MODIFY, SOY MANAGER Y QUIERO AÑADIR UN DICHERO
+
+ENTRADA DE MANAGER
+
+cn=Manager,dc=edt,dc=org
+
+
+PASSWORD: -w JUPITER
+
+
+
+-----------------
+
+Listado para ver el DN, el teléfono y el mail de la marta mas
+
+isx36579183@i11:/var/tmp/m06-Nuevo/keshi/ldap21/ldap21:base$ ldapsearch -x -LLL -h 172.17.0.2 -b 'dc=edt,dc=org' 'cn=Marta Mas' dn homephone mail
+dn: cn=Marta Mas,ou=usuaris,dc=edt,dc=org
+homePhone: 555-222-2223
+homePhone: 555-798-465
+mail: marta@edt.org
+
+ldap
+
+isx36579183@i11:/var/tmp/m06-Nuevo/keshi/ldap21/ldap21:base$ ldap
+ldapadd   --> Añadir registros   
+ldapdelete   --> Borrar registros
+ldapmodify   --> Modificar registros
+ldappasswd   --> Cambiar la contraseña
+ldapurl      
+ldapcompare  --> Comprar
+ldapexop     
+ldapmodrdn   --> Modificar RDN
+ldapsearch   
+ldapwhoami   
+isx36579183@i11:/var/tmp/m06-Nuevo/keshi/ldap21/ldap21:base$ ldap
+
+
+
+-----------------
+
+ldapcompare
+
+isx36579183@i11:/var/tmp/m06-Nuevo/keshi/ldap21/ldap21:base$ ldapcompare -x -h 172.17.0.2 'cn=Marta Mas,ou=usuaris,dc=edt,dc=org' mail:marta@edt.org
+TRUE
+
+isx36579183@i11:/var/tmp/m06-Nuevo/keshi/ldap21/ldap21:base$ ldapcompare -x -h 172.17.0.2 'cn=Marta Mas,ou=usuaris,dc=edt,dc=org' mail:marteta@edt.org
+FALSE
+
+
+
+-----------------
+
+ldapsearch -x -b 'dc=edt,dc=org'
+
+oot@ldap:/opt/docker# ldapsearch -x
+# extended LDIF
+#
+# LDAPv3
+# base <> (default) with scope subtree
+# filter: (objectclass=*)
+# requesting: ALL
+#
+
+# search result
+search: 2
+result: 32 No such object
+
+# numResponses: 1
+root@ldap:/opt/docker# ldapsearch -x -b 'dc=edt,dc=org'
+# extended LDIF
+#
+# LDAPv3
+# base <dc=edt,dc=org> with scope subtree
+# filter: (objectclass=*)
+# requesting: ALL
+#
+
+# edt.org
+dn: dc=edt,dc=org
+dc: edt
+description: Escola del treball de Barcelona
+objectClass: dcObject
+objectClass: organization
+o: edt.org
+
+...
+
+-b "Base de búsqueda"
+
+
+
+-----------------
+
+isx36579183@i11:/var/tmp/m06-Nuevo/keshi/ldap21/ldap21:base$ ldapsearch -x
+ldap_sasl_bind(SIMPLE): Can't contact LDAP server (-1)
+
+
+
+
+-----------------
+
+
+
+
+
+-----------------
+
+
+
+
+
+-----------------
+
+
+
+
+
+-----------------
+
+
+
+
+
+-----------------
+
+-----------------
+
+
+-----------------
+
+-----------------
+
+-----------------
+-----------------
+
+
+
+
+
+
+
+
+
+
+
+

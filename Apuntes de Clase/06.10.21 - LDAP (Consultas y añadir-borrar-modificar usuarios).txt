@@ -1,0 +1,365 @@
+06.10.21
+
+Ldapsearch -x -LLL -h 172.17.0.2 -b 'dc=edt,dc=org' -s children | grep dn
+
+Ldapsearch -x -LLL -h 172.17.0.2 -b 'dc=edt,dc=org' -s one | grep dn
+
+
+A partir del nodo, todos los descendientes, no muestra el nodo.
+
+[O] --> BASE
+						|
+[OU] [OU] [OU] [OU] --> ONE   |			|
+			      |	   CHILDREN	|
+	[] [] [] [] [] [] --> |			|
+						|	SUBTREE = BASE + CHILDREN
+						
+						
+ldapsearch -x -LLL -h 172.17.0.2 -b 'dc=edt,dc=org' 'cn=* Mas' dn
+
+ldapsearch -x -LLL -h 172.17.0.2 -b 'ou=usuaris,dc=edt,dc=org' 'cn=* Mas' dn
+
+ldapsearch -x -LLL -h 172.17.0.2 -b 'ou=usuaris,dc=edt,dc=org' 'cn=* Mas' dn uidNumber gidNumber
+
+isx36579183@i11:/var/tmp/m06/ldap21$ ldapsearch -x -LLL -h 172.17.0.2 -b 'ou=usuaris,dc=edt,dc=org' '(&(cn=* Mas)(gidNumber=600))' dn uidNumber gidNumber
+dn: cn=Marta Mas,ou=usuaris,dc=edt,dc=org
+uidNumber: 5003
+gidNumber: 600
+
+
+
+-----
+
+cp organitzacio-edt.org.ldif edt.org.ldif
+
+
+cat usuaris-edt.org.ldif >> edt.org.ldif
+
+
+
+cat usuaris-mes-edt.org.ldif >> edt.org.ldif
+
+Hacer un espacio en
+
+
+
+
+ldapdelete -x "cn=Pau Pou,ou=usuaris,dc=edt,dc=org"
+
+ldapdelete -vx -h 172.17.0.2 "cn=Pau Pou,ou=usuaris,dc=edt,dc=org" --> -v verbose
+
+isx36579183@i11:/var/tmp/m06-Nuevo/ldap21$ ldapdelete -vx -h 172.17.0.2 -D 'cn=Manager,dc=edt,dc=org' -w secret "cn=Pau Pou,ou=usuaris,dc=edt,dc=org"
+ldap_initialize( ldap://172.17.0.2 )
+deleting entry "cn=Pau Pou,ou=usuaris,dc=edt,dc=org"
+isx36579183@i11:/var/tmp/m06-Nuevo/ldap21$ 
+
+
+man ldapdelete
+
+COMANDO LDAPDELETE
+
+ldapdelete -x -D (dn) manager -w passwd dn
+
+-W de forma interactiva
+
+ldapdelete -x -h 172.17.0.2 -D 'cn=Manager,dc=edt,dc=org' -W "cn=Jordi Mas,ou=usuaris,dc=edt,dc=org"
+
+isx36579183@i11:/var/tmp/m06-Nuevo/ldap21$ ldapdelete -vx -h 172.17.0.2 -D 'cn=Manager,dc=edt,dc=org' -w secret "cn=Pau Pou,ou=usuaris,dc=edt,dc=org"
+ldap_initialize( ldap://172.17.0.2 )
+deleting entry "cn=Pau Pou,ou=usuaris,dc=edt,dc=org"
+
+isx36579183@i11:/var/tmp/m06-Nuevo/ldap21$ man ldapdelete
+
+isx36579183@i11:/var/tmp/m06-Nuevo/ldap21$ ldapdelete -x -h 172.17.0.2 -D 'cn=Manager,dc=edt,dc=org' -W "cn=Jordi Mas,ou=usuaris,dc=edt,dc=org"
+Enter LDAP Password: 
+ldap_bind: Invalid credentials (49)
+
+isx36579183@i11:/var/tmp/m06-Nuevo/ldap21$ ldapdelete -x -h 172.17.0.2 -D 'cn=Manager,dc=edt,dc=org' -W "cn=Jordi Mas,ou=usuaris,dc=edt,dc=org"
+Enter LDAP Password: 
+
+isx36579183@i11:/var/tmp/m06-Nuevo/ldap21$ 
+
+-------
+
+ldapwhoami -h 172.17.0.2
+
+SASL/DIGEST-MD5 authentication started
+
+-x
+
+KERBEROS 
+
+CLAVE PUBLICA O CLAVE PRIVADA
+
+MD5
+
+ldapwhoami -x -h 172.17.0.2
+
+ldapwhoami -x -h 172.17.0.2 -D 'cn=Manager,dc=edt,dc=org' -w secret
+
+isx36579183@i11:/var/tmp/m06-Nuevo/ldap21$ ldapwhoami -x -h 172.17.0.2 -D 'cn=Manager,dc=edt,dc=org' -w secret
+dn:cn=Manager,dc=edt,dc=org
+
+Me muestra los que son managers
+
+ldapwhoami -x -h 172.17.0.2 -D "cn=Anna Pou,ou=usuaris,dc=edt,dc=org" -w anna
+
+jupiter password usuaris
+
+anna = anna 
+
+jordi = jordi
+
+-D --> Para referirme quien soy
+
+isx36579183@i11:/var/tmp/m06-Nuevo/ldap21$ ldapwhoami -x -h 172.17.0.2 -D "cn=Anna Pou,ou=usuaris,dc=edt,dc=org" -w anna
+dn:cn=Anna Pou,ou=usuaris,dc=edt,dc=org
+
+----------
+
+isx36579183@i11:/var/tmp/m06-Nuevo/ldap21$ vim eliminats.ldif
+isx36579183@i11:/var/tmp/m06-Nuevo/ldap21$ cat eliminats.ldif 
+dn: cn=Anna Pou,ou=usuaris,dc=edt,dc=org
+dn: cn=user03,ou=usuaris,dc=edt,dc=org
+dn: cn=user04,ou=usuaris,dc=edt,dc=org
+dn: cn=user05,ou=usuaris,dc=edt,dc=org
+
+-f --> File
+
+root ldap password = secret
+
+ldapdelete -x -h 172.17.0.2 -D 'cn=Manager,dc=edt,dc=org' -w secret -f eliminats.ldif
+
+isx36579183@i11:/var/tmp/m06-Nuevo/ldap21$ ldapdelete -c -vx -h 172.17.0.2 -D 'cn=Manager,dc=edt,dc=org' -w secret -f eliminats.ldif
+ldap_initialize( ldap://172.17.0.2 )
+deleting entry "#exemple de eliminats"
+ldap_delete: Invalid DN syntax (34)
+	additional info: invalid DN
+deleting entry "#
+
+
+ldapdelete -x -h 172.17.0.2 -D 'cn=Manager,dc=edt,dc=org' -w secret -f eliminats.ldif"
+ldap_delete: Invalid DN syntax (34)
+	additional info: invalid DN
+deleting entry "cn=Anna Pou,ou=usuaris,dc=edt,dc=org"
+deleting entry "cn=user03,ou=usuaris,dc=edt,dc=org"
+deleting entry "cn=user04,ou=usuaris,dc=edt,dc=org"
+deleting entry "cn=user05,ou=usuaris,dc=edt,dc=org"
+isx36579183@i11:/var/tmp/m06-Nuevo/ldap21$ 
+
+
+---
+
+nano afegir.ldif
+
+  GNU nano 5.4                                   afegir.ldif                                             
+dn: cn=Anna Pou,ou=usuaris,dc=edt,dc=org
+objectclass: posixAccount
+objectclass: inetOrgPerson
+cn: Anna Pou
+cn: Anita Pou
+sn: Pou
+homephone: 555-222-2222
+mail: anna@edt.org
+description: Watch out for this girl
+ou: Alumnes
+uid: anna
+uidNumber: 5002
+gidNumber: 600
+homeDirectory: /tmp/home/anna
+userPassword: {SSHA}Bm4B3Bu/fuH6Bby9lgxfFAwLYrK0RbOq
+
+dn: ou=usuaris,dc=edt,dc=org
+ou: usuaris
+description: Container per usuaris del sistema linux
+objectclass: organizationalunit
+
+dn: cn=Pau Pou,ou=usuaris,dc=edt,dc=org
+objectclass: posixAccount
+objectclass: inetOrgPerson
+cn: Pau Pou
+cn: Pauet Pou
+sn: Pou
+homephone: 555-222-2220
+mail: pau@edt.org
+description: Watch out for this guy
+ou: Profes
+uid: pau
+uidNumber: 5000
+gidNumber: 100
+homeDirectory: /tmp/home/pau
+userPassword: {SSHA}NDkipesNQqTFDgGJfyraLz/csZAIlk2/
+
+
+isx36579183@i11:/var/tmp/m06-Nuevo/ldap21$ ldapadd -x -h 172.17.0.2 -D 'cn=Manager,dc=edt,dc=org' -w secret -f afegir.ldif 
+adding new entry "cn=Anna Pou,ou=usuaris,dc=edt,dc=org"
+ldap_add: Already exists (68)
+
+isx36579183@i11:/var/tmp/m06-Nuevo/ldap21$ 
+
+--------------
+
+Al fallar 1 no puede procesar los otros | -c [Continua]
+
+man ldapadd
+
+ldapmodify
+
+
+
+
+Common Name es obligatorio, los objetos tienen atributos. Algunos son obligaotrios.
+
+
+dn: cn=Koman Al-Carrer,ou=usuaris,dc=edt,dc=org
+objectclass: posixAccount
+objectclass: inetOrgPerson
+cn: Kuman Al-Carrer
+cn: Koem
+sn: Kuman
+homephone: 505-222-2220
+mail: koman@edt.org
+description: Watch out for this guy
+ou: Profes
+uid: koman
+uidNumber: 7777
+gidNumber: 7777
+homeDirectory: /tmp/home/koeman
+
+isx36579183@i11:/var/tmp/m06-Nuevo/ldap21$ ldapadd -c -vx -h 172.17.0.2 -D 'cn=Manager,dc=edt,dc=org' -w secret -f afegir.ldif
+ldap_initialize( ldap://172.17.0.2 )
+add objectclass:
+	posixAccount
+	inetOrgPerson
+add cn:
+	Anna Pou
+	Anita Pou
+add sn:
+	Pou
+add homephone:
+	555-222-2222
+add mail:
+	anna@edt.org
+add description:
+	Watch out for this girl
+add ou:
+	Alumnes
+add uid:
+	anna
+add uidNumber:
+	5002
+add gidNumber:
+	600
+add homeDirectory:
+	/tmp/home/anna
+add userPassword:
+	{SSHA}Bm4B3Bu/fuH6Bby9lgxfFAwLYrK0RbOq
+adding new entry "cn=Anna Pou,ou=usuaris,dc=edt,dc=org"
+modify complete
+
+add ou:
+	usuaris
+add description:
+	Container per usuaris del sistema linux
+add objectclass:
+	organizationalunit
+adding new entry "ou=usuaris,dc=edt,dc=org"
+ldap_add: Already exists (68)
+
+add objectclass:
+	posixAccount
+	inetOrgPerson
+add cn:
+	Pau Pou
+	Pauet Pou
+add sn:
+	Pou
+add homephone:
+	555-222-2220
+add mail:
+	pau@edt.org
+add description:
+	Watch out for this guy
+add ou:
+	Profes
+add uid:
+	pau
+add uidNumber:
+	5000
+add gidNumber:
+	100
+add homeDirectory:
+	/tmp/home/pau
+add userPassword:
+	{SSHA}NDkipesNQqTFDgGJfyraLz/csZAIlk2/
+adding new entry "cn=Pau Pou,ou=usuaris,dc=edt,dc=org"
+modify complete
+
+add ou:
+	usuaris
+add description:
+	Container per usuaris del sistema linux
+add objectclass:
+	organizationalunit
+adding new entry "ou=usuaris,dc=edt,dc=org"
+ldap_add: Already exists (68)
+
+add objectclass:
+	posixAccount
+	inetOrgPerson
+add cn:
+	Kuman Al-Carrer
+	Koem
+add sn:
+	Kuman
+add homephone:
+	505-222-2220
+add mail:
+	koman@edt.org
+add description:
+	Watch out for this guy
+add ou:
+	Profes
+add uid:
+	koman
+add uidNumber:
+	7777
+add gidNumber:
+	7777
+add homeDirectory:
+	/tmp/home/koeman
+adding new entry "cn=Koman Al-Carrer,ou=usuaris,dc=edt,dc=org"
+modify complete
+
+---
+
+
+MODIFICACIÓN 
+
+ldapmodify
+
+dn 
+	changetype: delete --> ldapdelete
+	
+ldapadd - ldapdelete son versiones del comando ldapmodify
+
+ldapmodify delete --> ldapadd
+
+ldapmodify add --> ldapdelete
+
+Modificaciones se hacen 1 a 1
+
+Modificar un telefono es un replace. 
+
+dn: cn=Pau Pou,ou=usuaris,dc=edt,dc=org
+
+changetype: modify
+
+replace: mail
+
+mail: modme@example
+
+replace: homephone ...
+
+Son todas las modificaciones que se hacen en una entidad
+---------

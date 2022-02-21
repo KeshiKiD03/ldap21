@@ -1,0 +1,64 @@
+09.11.21 - CORRECIÓN EXAMEN
+
+1. -s one
+
+2. -s children
+
+3. 
+
+4.
+
+5.
+
+6.
+
+7.
+
+8.
+
+9.
+
+10.
+
+11.
+
+12.
+
+13.
+
+14. Aturar el servei: pkill slapd
+Insercio masiva: slapadd -F /etc/
+
+15. 
+
+16.
+
+17. ldapsearch
+
+18. dn: cn=nou soci,ou=happys
+
+19.
+
+20. 
+
+21.
+
+22.
+
+23.
+
+24.
+
+25.
+
+26.
+
+27.
+
+28.
+
+29.
+
+30.
+
+
